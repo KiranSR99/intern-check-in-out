@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -14,9 +14,13 @@ import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
+
 import { AddLogComponent } from './interns/add-log/add-log.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InternLogComponent } from './supervisor/log-details/intern-log/intern-log.component';
+
 
 
 @NgModule({
@@ -30,7 +34,6 @@ import { InternLogComponent } from './supervisor/log-details/intern-log/intern-l
     LoginComponent,
     LandingPageComponent,
     AddLogComponent
-
     InternLogComponent
   ],
   imports: [
@@ -38,7 +41,9 @@ import { InternLogComponent } from './supervisor/log-details/intern-log/intern-l
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     CommonModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
   ],

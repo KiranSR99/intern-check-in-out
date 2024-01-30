@@ -37,7 +37,7 @@ public class SupervisiorServiceImpl implements SupervisiorService {
 
     @Override
     public SupervisiorResponse getSupervisiorById(Integer id) {
-        Supervisior supervisior = supervisiorRepository.findById(id).get();
+        Supervisior supervisior = supervisiorRepository.getReferenceById(id);
         return new SupervisiorResponse(supervisior);
     }
 }

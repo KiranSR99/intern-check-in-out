@@ -1,0 +1,62 @@
+.side-navbar {
+  width: 280px;
+  min-height: 100vh;
+  padding: 10px 0 0 20px;
+  background-color: #6e3098 !important;
+  border-right: 1px solid #ffffff;
+}
+
+.menus {
+  font-size: 18px;
+}
+
+.menus li {
+  list-style: none;
+  line-height: 2.5;
+}
+
+.logo h3 {
+  text-transform: uppercase;
+  letter-spacing: 10px;
+  font-weight: 400;
+}
+
+.app-title h5 {
+  margin: 0;
+}
+
+.app-title {
+  height: 35px;
+}
+
+.menus li:hover {
+  cursor: pointer;
+  color: #f8b826;
+}
+
+.button {
+  position: fixed;
+  bottom: 10%;
+}
+
+hr.menu_segregate {
+  margin-left: -20px;
+}
+
+ul.menu-items {
+  list-style: unset;
+  padding-left: 0;
+}
+
+.dropdown {
+  margin-left: 10px;
+}
+
+.sub-menu-btn.active {
+  color: #f8b826;
+}
+
+.sub-menu-btn:not(.active):hover {
+  cursor: pointer;
+  color: #f8b826;
+}

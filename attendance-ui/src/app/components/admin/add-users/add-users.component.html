@@ -59,6 +59,20 @@
               </div>
             </div>
 
+
+            <div class="col-md-6 col-sm-12">
+              <label>Field</label>
+              <select formControlName="field" name="field" id="field" class="form-control" required>
+                <option value="" hidden>Select Field</option>
+                <option value="front-end">Front-end</option>
+                <option value="back-end">Back-end</option>
+              </select>
+              <div class="text-danger" *ngIf="userDetails.get('field')?.invalid && userDetails.get('field')?.touched">
+                <small>Please select a field.</small>
+              </div>
+            </div>
+
+
           </div>
           <hr class="mt-3 mb-3" />
 

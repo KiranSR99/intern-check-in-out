@@ -34,10 +34,10 @@ export class UserDetailsComponent {
   // }
 
   addUser() {
-    this.router.navigate(['']);
+    this.router.navigate(['app/user-mgnt/add-user']);
   }
 
-  editUserById(id: any) {
+  updateUserById(id: any) {
     this.router.navigate(['', id]);
   }
 }

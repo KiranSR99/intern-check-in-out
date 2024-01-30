@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
-import { HttpClientModule } from '@angular/common/http';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -14,15 +14,13 @@ import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-
-import { UserDetailsComponent } from './components/admin/user-details/user-details.component';
-import { AddUsersComponent } from './components/admin/add-users/add-users.component';
-import { UpdateUsersComponent } from './components/admin/update-users/update-users.component';
 import { AddLogComponent } from './interns/add-log/add-log.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InternLogComponent } from './supervisor/log-details/intern-log/intern-log.component';
-
-
+import { UserProfileComponent } from './common/user-profile/user-profile.component';
+import { AddUsersComponent } from './admin/add-users/add-users.component';
+import { UpdateUsersComponent } from './admin/update-users/update-users.component';
+import { UserDetailsComponent } from './admin/user-details/user-details.component';
 
 @NgModule({
   declarations: [
@@ -37,10 +35,10 @@ import { InternLogComponent } from './supervisor/log-details/intern-log/intern-l
     UserDetailsComponent,
     AddUsersComponent,
     UpdateUsersComponent,
-    AddLogComponent,
     InternLogComponent,
     AddLogComponent,
-    InternLogComponent
+    UserProfileComponent
+
 
   ],
   imports: [
@@ -48,7 +46,6 @@ import { InternLogComponent } from './supervisor/log-details/intern-log/intern-l
     FormsModule,
     AppRoutingModule,
     CommonModule,
-    HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),

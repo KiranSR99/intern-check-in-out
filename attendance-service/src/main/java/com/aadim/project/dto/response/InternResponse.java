@@ -20,6 +20,6 @@ public class InternResponse {
         this.fullName = intern.getFullName();
         this.phone = intern.getPhone();
         this.fieldType = intern.getFieldType().toString();
-        this.supervisiorId = intern.getSupervisior().getId();
+        this.supervisiorId = intern.getSupervisor().getId();
     }
 }

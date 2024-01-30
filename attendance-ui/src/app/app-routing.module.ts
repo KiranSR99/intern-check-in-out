@@ -4,9 +4,9 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BaseComponent } from './components/base/base.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { UserDetailsComponent } from './components/admin/user-details/user-details.component';
-import { AddUsersComponent } from './components/admin/add-users/add-users.component';
-import { UpdateUsersComponent } from './components/admin/update-users/update-users.component';
+import { AddUsersComponent } from './admin/add-users/add-users.component';
+import { UpdateUsersComponent } from './admin/update-users/update-users.component';
+import { UserDetailsComponent } from './admin/user-details/user-details.component';
 import { AddLogComponent } from './interns/add-log/add-log.component';
 
 const routes: Routes = [

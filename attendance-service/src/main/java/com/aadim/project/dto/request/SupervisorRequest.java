@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SupervisiorRequest {
+public class SupervisorRequest {
     private String fullName;
     private String phone;
 }

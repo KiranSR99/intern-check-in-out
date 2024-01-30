@@ -7,38 +7,39 @@ import { HttpHandlerService } from '../services/http-handler.service';
 @Component({
   selector: 'app-login-form',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit {
+  button: any;
+  myform!: FormGroup;
+  token: string = '';
 
-button: any;
-myform!: FormGroup;
-
-
-
-  constructor( private router: Router, private formBuilder: FormBuilder,private httpHandlerService: HttpHandlerService)  { }
-ngOnInit(): void {
-    this.myform=this.formBuilder.group({
-      username : ['', Validators.required],
-      password : ['', Validators.required]
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private httpHandlerService: HttpHandlerService
+  ) {}
+  ngOnInit(): void {
+    this.myform = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
     });
-}
-token : string = ''
-loginUser() {
-  this.httpHandlerService.loginUser(this.myform.value).subscribe(
-    (response: any) => {
-      this.token= response.data.token;
-      localStorage.setItem("token", this.token)
-      if (!this.token) {
-        alert('Invalid Credentials');
+  }
+
+  onLoginClick() {
+    this.httpHandlerService.loginUser(this.myform.value).subscribe({
+      next: (response: any) => {
+        this.token = response.data.token;
+        localStorage.setItem('token', this.token);
+        if (!this.token) {
+          alert('Invalid Credentials');
         } else {
-         this.router.navigate(['/login']);
-          }
-    },
-    (error: any) => {
-      console.log('error in backend');
-    }
-  );
-  
-}
+          this.router.navigate(['/login']);
+        }
+      },
+      error: (error: any) => {
+        console.log('error in backend');
+      },
+    });
+  }
 }

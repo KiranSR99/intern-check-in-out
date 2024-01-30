@@ -1,1 +1,19 @@
-<p>side-nav works!</p>
+<div id="bdSidebar" class="side-navbar d-flex flex-column flex-shrink-0 text-white offcanvas-md offcanvas-start">
+    <div class="text-light">
+        <div class="app-title d-flex align-items-center justify-content-start">
+            <h5>Menus</h5>
+        </div>
+        <div class="menus">
+            <hr class="menu_segregate">
+            <ul class="menu-items">
+                <ng-container *ngFor="let m of menus">
+                    <!-- <li class="sub-menu-btn" (click)="onClickMenu(m.url)"> -->
+                    <li class="sub-menu-btn" routerLinkActive="active" [routerLink]="[m.url]">
+                        <i [class]="m.icon"></i>
+                        <span class="ms-2">{{m.title}}</span>
+                    </li>
+                </ng-container>
+            </ul>
+        </div>
+    </div>
+</div>

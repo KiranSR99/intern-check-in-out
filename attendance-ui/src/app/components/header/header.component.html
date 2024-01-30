@@ -1,1 +1,25 @@
-<p>header works!</p>
+<div class="header">
+    <div class="flex-fill">
+        <div class="p-2 d-md-none d-flex text-white">
+            <a href="#" class="text-white" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar">
+                <i class="fa-solid fa-bars"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="user-profile mt-2 dropdown">
+        <a class="d-flex" href="javascript:void(0)" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <p class="mt-1 text-light fw-bold">Your Name Here</p>
+            <img src="../../../assets/images/cat.png" alt="User Profile" class="img-fluid mx-2">
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item">My Profile</a></li>
+            <li><a class="dropdown-item">Change Password</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item">Logout</a></li>
+        </ul>
+    </div>
+
+</div>

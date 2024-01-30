@@ -35,12 +35,17 @@ const routes: Routes = [
         path: 'log-mgnt',
         children: [
           {path: 'add-log', component: AddLogComponent},
+          {path: 'intern-log', component: InternLogComponent},
+          {
+            path: '**',
+            redirectTo: 'intern-log',
+            pathMatch: 'full',
+          },
         ],
       },
       {
         path: 'super-mgnt',
         children: [
-          {path: 'intern-log', component: InternLogComponent}
         ],
       },
       {

@@ -21,5 +21,4 @@ private final InternService internService;
     public ResponseEntity<GlobalApiResponse> saveIntern(@RequestBody InternRequest request) {
         return successResponse(internService.saveIntern(request));
     }
-
 }

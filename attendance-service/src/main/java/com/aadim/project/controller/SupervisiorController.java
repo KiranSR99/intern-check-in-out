@@ -33,7 +33,12 @@ public class SupervisiorController extends BaseController {
     }
 
     @GetMapping("/get/{id}")
-    public SupervisiorResponse getSupervisiorById(@PathVariable Integer id) {
-        return supervisiorService.getSupervisiorById(id);
+    public ResponseEntity<GlobalApiResponse> getSupervisiorById(@PathVariable Integer id) {
+        return successResponse(supervisiorService.getSupervisiorById(id));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<GlobalApiResponse> deleteSupervisiorById(@PathVariable Integer id) {
+        return successResponse(supervisiorService.deleteSupervisiorById(id));
     }
 }

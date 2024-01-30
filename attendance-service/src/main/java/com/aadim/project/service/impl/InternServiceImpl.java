@@ -2,6 +2,7 @@ package com.aadim.project.service.impl;
 
 import com.aadim.project.dto.request.InternRequest;
 import com.aadim.project.dto.response.InternResponse;
+import com.aadim.project.entity.Intern;
 import com.aadim.project.repository.InternRepository;
 import com.aadim.project.service.InternService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,12 @@ public class InternServiceImpl implements InternService {
     @Override
     public InternResponse saveIntern(InternRequest request) {
         log.info("Saving Intern");
+        Intern intern = new Intern();
+        intern.setFullName(request.getFullName());
+        intern.setPhone(request.getPhone());
+//        intern.setFieldType(request.getFieldType().toString());
 
-        return null;
+        Intern savedIntern = internRepository.save(intern);
+        return new InternResponse(savedIntern);
     }
 }

@@ -18,16 +18,4 @@ public class Login {
     private String email;
     private String password;
     private String role;
-
-    @OneToOne
-    @JoinColumn(name = "admin_id")
-    private Admin admin_id;
-
-    @OneToOne
-    @JoinColumn(name = "intern_id")
-    private Intern intern_id;
-
-    @OneToOne
-    @JoinColumn(name = "supervisior_id")
-    private Supervisior supervisior_id;
 }

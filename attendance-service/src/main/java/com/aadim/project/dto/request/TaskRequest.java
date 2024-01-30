@@ -1,22 +1,13 @@
-package com.aadim.project.entity;
+package com.aadim.project.dto.request;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="tasks")
-public class Task {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+public class TaskRequest {
     private String task;
     private String status;
     private String problem;

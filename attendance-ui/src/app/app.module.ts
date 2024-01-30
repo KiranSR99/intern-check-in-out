@@ -34,6 +34,7 @@ import { InternLogComponent } from './supervisor/log-details/intern-log/intern-l
     CommonModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+   
   ],
   
   providers: [],

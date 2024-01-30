@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+
 public class Intern extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

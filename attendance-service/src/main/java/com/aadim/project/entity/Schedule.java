@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,6 +21,6 @@ public class Schedule {
     private LocalDateTime checkIn;
     private LocalDateTime checkOut;
 
-    @OneToMany
-    private Intern internId;
+//    @OneToOne
+//    private Intern internId;
 }

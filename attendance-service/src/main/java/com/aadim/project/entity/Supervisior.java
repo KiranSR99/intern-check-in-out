@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class Supervisior extends User{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

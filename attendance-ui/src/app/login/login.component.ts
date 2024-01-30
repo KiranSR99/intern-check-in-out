@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
         if (!this.token) {
           alert('Invalid Credentials');
         } else {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/dashboard']);
         }
       },
       error: (error: any) => {

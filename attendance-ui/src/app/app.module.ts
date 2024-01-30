@@ -17,6 +17,11 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 
+import { AddLogComponent } from './interns/add-log/add-log.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InternLogComponent } from './supervisor/log-details/intern-log/intern-log.component';
+
+
 
 @NgModule({
   declarations: [
@@ -28,11 +33,13 @@ import { ReactiveFormsModule } from '@angular/forms';
     DashboardComponent,
     LoginComponent,
     LandingPageComponent,
-
-   
+    AddLogComponent
+    InternLogComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
     CommonModule,

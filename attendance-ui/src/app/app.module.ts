@@ -14,7 +14,13 @@ import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+
+import { UserDetailsComponent } from './components/admin/user-details/user-details.component';
+import { AddUsersComponent } from './components/admin/add-users/add-users.component';
+import { UpdateUsersComponent } from './components/admin/update-users/update-users.component';
+
 import { ReactiveFormsModule } from '@angular/forms';
+
 
 
 import { AddLogComponent } from './interns/add-log/add-log.component';
@@ -33,8 +39,16 @@ import { InternLogComponent } from './supervisor/log-details/intern-log/intern-l
     DashboardComponent,
     LoginComponent,
     LandingPageComponent,
+
+    UserDetailsComponent,
+    AddUsersComponent,
+    UpdateUsersComponent,
+    AddLogComponent,
+    InternLogComponent,
+
     AddLogComponent
-    InternLogComponent
+ InternLogComponent
+
   ],
   imports: [
     BrowserModule,
@@ -45,6 +59,7 @@ import { InternLogComponent } from './supervisor/log-details/intern-log/intern-l
     CommonModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     ToastrModule.forRoot(),
   ],
   

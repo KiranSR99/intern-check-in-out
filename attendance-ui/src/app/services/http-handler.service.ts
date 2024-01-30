@@ -9,6 +9,13 @@ import { Observable } from 'rxjs';
 })
 export class HttpHandlerService {
 
+  constructor(private http:HttpHandlerService) { }
+
+
+        
+  }
+
+
 constructor(private http: HttpClient) {}
 
   public apiUrl = `http://localhost:8899/api/v1`;
@@ -19,3 +26,4 @@ constructor(private http: HttpClient) {}
     return this.http.post<GlobalApiHandler<FormGroup>>(`${this.apiUrl}/login`, myform);
   }
 }
+

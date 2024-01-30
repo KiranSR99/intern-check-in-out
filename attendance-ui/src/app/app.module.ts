@@ -14,6 +14,10 @@ import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { UserDetailsComponent } from './components/admin/user-details/user-details.component';
+import { AddUsersComponent } from './components/admin/add-users/add-users.component';
+import { UpdateUsersComponent } from './components/admin/update-users/update-users.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,13 +28,17 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
     SideNavComponent,
     DashboardComponent,
     LoginComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    UserDetailsComponent,
+    AddUsersComponent,
+    UpdateUsersComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     ToastrModule.forRoot(),
   ],
   

@@ -1,4 +1,4 @@
 package com.aadim.project.controller;
 
-public class random {
+public class AuthController {
 }

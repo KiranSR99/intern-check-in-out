@@ -12,6 +12,6 @@ import java.time.LocalDateTime;
 public class GlobalApiResponse<T> {
     private LocalDateTime timestamp;
     private String message;
-    private T data;
+    private Object data;
     private String status;
 }

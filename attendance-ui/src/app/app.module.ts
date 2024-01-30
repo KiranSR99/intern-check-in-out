@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
-import { HttpClientModule } from '@angular/common/http';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -25,8 +25,6 @@ import { EditProfileComponent } from './common/edit-profile/edit-profile.compone
 import { ChangePasswordComponent } from './common/change-password/change-password.component';
 import { ForgotPasswordComponent } from './common/forgot-password/forgot-password.component';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,10 +38,8 @@ import { ForgotPasswordComponent } from './common/forgot-password/forgot-passwor
     UserDetailsComponent,
     AddUsersComponent,
     UpdateUsersComponent,
-    AddLogComponent,
     InternLogComponent,
     AddLogComponent,
-    InternLogComponent,
     UserProfileComponent,
     EditProfileComponent,
     ChangePasswordComponent,
@@ -55,7 +51,6 @@ import { ForgotPasswordComponent } from './common/forgot-password/forgot-passwor
     FormsModule,
     AppRoutingModule,
     CommonModule,
-    HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),

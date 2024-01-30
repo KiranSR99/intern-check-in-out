@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-users',
@@ -14,7 +14,6 @@ export class AddUsersComponent {
     { id: 1, name: 'Admin' },
     { id: 2, name: 'Supervisor' },
     { id: 3, name: "Intern" }
-
   ];
 
   constructor(
@@ -28,7 +27,8 @@ export class AddUsersComponent {
       username: ['', Validators.required],
       phoneNum: ['', Validators.required],
       password: ['', Validators.required],
-      roleId: ['', Validators.required]
+      roleId: ['', Validators.required],
+      field: ['', Validators.required]
     });
   }
 
@@ -44,5 +44,18 @@ export class AddUsersComponent {
     } else {
       this.userDetails.markAllAsTouched();
     }
+  }
+
+  onRoleChange(event: Event) {
+    const roleId = (event.target as HTMLSelectElement).value;
+    // Reset the field value when a new role is selected
+    if (roleId !== '3') { // If not Intern role
+      this.userDetails.patchValue({ field: '' });
+    }
+  }
+
+  showFieldInput(): boolean {
+    // Show the field input only when Intern role is selected
+    return this.userDetails.get('roleId')?.value === '3';
   }
 }

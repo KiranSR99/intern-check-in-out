@@ -2,7 +2,7 @@
   <div class="container">
     <div class="mb-5">
       <form [formGroup]="userDetails">
-        <div class="border p-5 bg-light border rounded">
+        <div class="border p-5 bg-light rounded">
           <h4 class="fw-semibold mb-3">Add user details</h4>
           <hr class="mt-1 mb-3" />
           <div class="row g-4">
@@ -50,10 +50,9 @@
 
             <div class="col-md-6 col-sm-12">
               <label>Role</label>
-              <select formControlName="roleId" name="roleId" id="roleId" class="form-control" required>
+              <select formControlName="roleId" name="roleId" id="roleId" class="form-control" (change)="onRoleChange($event)" required>
                 <option value="" hidden>Select Role</option>
                 <option *ngFor="let getRole of roles" [ngValue]="getRole.id">{{getRole.name}}</option>
-                
               </select>
               <div class="text-danger" *ngIf="userDetails.get('roleId')?.invalid && userDetails.get('roleId')?.touched">
                 <small>Please select a role.</small>

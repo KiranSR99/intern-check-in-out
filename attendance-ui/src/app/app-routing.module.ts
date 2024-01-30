@@ -7,6 +7,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AddUsersComponent } from './admin/add-users/add-users.component';
 import { UpdateUsersComponent } from './admin/update-users/update-users.component';
 import { UserDetailsComponent } from './admin/user-details/user-details.component';
+import { InternLogComponent } from './supervisor/log-details/intern-log/intern-log.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '', pathMatch: 'full' },
@@ -24,6 +25,12 @@ const routes: Routes = [
           { path: 'add-user', component: AddUsersComponent },
           { path: 'edit-user/:id', component: UpdateUsersComponent },
           { path: '**', redirectTo: 'user-list', pathMatch: 'full' },
+        ],
+      },
+      {
+        path: 'super-mgnt',
+        children: [
+          {path: 'intern-log', component: InternLogComponent}
         ],
       },
       {

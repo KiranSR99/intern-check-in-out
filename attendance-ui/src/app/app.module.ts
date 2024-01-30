@@ -21,6 +21,9 @@ import { UserProfileComponent } from './common/user-profile/user-profile.compone
 import { AddUsersComponent } from './admin/add-users/add-users.component';
 import { UpdateUsersComponent } from './admin/update-users/update-users.component';
 import { UserDetailsComponent } from './admin/user-details/user-details.component';
+import { EditProfileComponent } from './common/edit-profile/edit-profile.component';
+import { ChangePasswordComponent } from './common/change-password/change-password.component';
+import { ForgotPasswordComponent } from './common/forgot-password/forgot-password.component';
 
 
 
@@ -41,7 +44,10 @@ import { UserDetailsComponent } from './admin/user-details/user-details.componen
     InternLogComponent,
     AddLogComponent,
     InternLogComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    EditProfileComponent,
+    ChangePasswordComponent,
+    ForgotPasswordComponent
 
   ],
   imports: [

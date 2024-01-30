@@ -53,6 +53,7 @@
               <select formControlName="roleId" name="roleId" id="roleId" class="form-control" required>
                 <option value="" hidden>Select Role</option>
                 <option *ngFor="let getRole of roles" [ngValue]="getRole.id">{{getRole.name}}</option>
+                
               </select>
               <div class="text-danger" *ngIf="userDetails.get('roleId')?.invalid && userDetails.get('roleId')?.touched">
                 <small>Please select a role.</small>

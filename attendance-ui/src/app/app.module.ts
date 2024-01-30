@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
-import { HttpClientModule } from '@angular/common/http';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -22,8 +22,6 @@ import { AddUsersComponent } from './admin/add-users/add-users.component';
 import { UpdateUsersComponent } from './admin/update-users/update-users.component';
 import { UserDetailsComponent } from './admin/user-details/user-details.component';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,11 +35,10 @@ import { UserDetailsComponent } from './admin/user-details/user-details.componen
     UserDetailsComponent,
     AddUsersComponent,
     UpdateUsersComponent,
-    AddLogComponent,
     InternLogComponent,
     AddLogComponent,
-    InternLogComponent,
     UserProfileComponent
+
 
   ],
   imports: [
@@ -49,7 +46,6 @@ import { UserDetailsComponent } from './admin/user-details/user-details.componen
     FormsModule,
     AppRoutingModule,
     CommonModule,
-    HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),

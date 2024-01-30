@@ -20,6 +20,4 @@ public class Schedule {
     private LocalDateTime checkIn;
     private LocalDateTime checkOut;
 
-    @OneToMany
-    private Intern internId;
 }

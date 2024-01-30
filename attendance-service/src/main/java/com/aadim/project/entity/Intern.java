@@ -10,16 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Intern extends User {
+public class Intern {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "supervisior_id")
-    private Supervisior supervisior;
-
-    private String field;
 
 
 }

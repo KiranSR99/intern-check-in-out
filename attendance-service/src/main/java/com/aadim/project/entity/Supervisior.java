@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Supervisior extends User{
+public class Supervisior {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

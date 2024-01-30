@@ -14,7 +14,7 @@ import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { InternLogComponent } from './supervisor/log-details/intern-log/intern-log.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     SideNavComponent,
     DashboardComponent,
     LoginComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    InternLogComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +34,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     CommonModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    FontAwesomeModule,
+   
   ],
   
   providers: [],

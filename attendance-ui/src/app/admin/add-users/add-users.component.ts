@@ -38,7 +38,6 @@ export class AddUsersComponent {
 
   onSubmit() {
     if (this.userDetails.valid) {
-      // Perform form submission logic here
       this.toastr.success("User added successfully");
       this.router.navigate(['/']);
     } else {
@@ -55,7 +54,11 @@ export class AddUsersComponent {
   }
 
   showFieldInput(): boolean {
+    const roleId = this.userDetails.get('roleId')?.value;
+    console.log('Selected Role ID:', roleId);
     // Show the field input only when Intern role is selected
-    return this.userDetails.get('roleId')?.value === '3';
+    return roleId === 3; 
   }
+  
+  
 }

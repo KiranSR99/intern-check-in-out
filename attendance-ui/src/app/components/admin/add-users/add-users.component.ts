@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'; 
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-users',
@@ -9,11 +9,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./add-users.component.scss']
 })
 export class AddUsersComponent {
-  userDetails: FormGroup; 
+  userDetails: FormGroup;
   roles: any[] = [
     { id: 1, name: 'Admin' },
-    { id: 2, name: 'User' },
-   
+    { id: 2, name: 'Supervisor' },
+    { id: 3, name: "Intern" }
+
   ];
 
   constructor(

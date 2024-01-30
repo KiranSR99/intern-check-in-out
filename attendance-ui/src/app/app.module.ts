@@ -34,7 +34,6 @@ import { InternLogComponent } from './supervisor/log-details/intern-log/intern-l
     DashboardComponent,
     LoginComponent,
     LandingPageComponent,
-
     UserDetailsComponent,
     AddUsersComponent,
     UpdateUsersComponent,

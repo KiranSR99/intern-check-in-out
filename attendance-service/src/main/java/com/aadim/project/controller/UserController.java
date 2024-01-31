@@ -21,7 +21,7 @@ public class UserController extends BaseController {
     private final UserService userService;
 
     @PostMapping("/saveUser")
-    public ResponseEntity<GlobalApiResponse<>> saveUser(@RequestBody UserRequest request){
+    public ResponseEntity<GlobalApiResponse> saveUser(@RequestBody UserRequest request){
         return successResponse(userService.saveUser(request), "User saved successfully");
     }
 

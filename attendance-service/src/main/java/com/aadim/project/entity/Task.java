@@ -26,7 +26,7 @@ public class Task {
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User userId;
+    private User user;
 
     private Boolean isActive = true;
 }

@@ -9,4 +9,10 @@ public interface LeaveService {
     LeaveResponse createLeave(LeaveRequest leave);
 
     List<LeaveResponse> getAllLeaves();
+
+    LeaveResponse getLeaveById(Integer id);
+
+    LeaveResponse setLeaveStatus(Integer id);
+
+    String deleteLeave(Integer id);
 }

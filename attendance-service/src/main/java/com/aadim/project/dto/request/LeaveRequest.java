@@ -5,10 +5,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class LeaveRequest {
-    private Intern internId;
+    private Integer internId;
+    private Integer noOfDays;
+    private String startDate;
+    private String endDate;
     private String reason;
+    private String name;
+    private String position;
+    private String phone;
 }

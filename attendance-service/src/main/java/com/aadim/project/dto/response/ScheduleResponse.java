@@ -20,6 +20,6 @@ public class ScheduleResponse {
         this.id = schedule.getId();
         this.checkInTime = schedule.getCheckInTime();
         this.checkOutTime = schedule.getCheckOutTime();
-//        this.internId = time.getIntern();
+        this.internId = schedule.getIntern().getId();
     }
 }

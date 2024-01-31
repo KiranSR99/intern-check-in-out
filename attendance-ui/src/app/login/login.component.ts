@@ -11,7 +11,7 @@ import { HttpHandlerService } from '../services/http-handler.service';
 })
 export class LoginComponent implements OnInit {
   button: any;
-  myform!: FormGroup;
+  loginDetail!: FormGroup;
   token: string = '';
 
   constructor(
@@ -20,14 +20,14 @@ export class LoginComponent implements OnInit {
     private httpHandlerService: HttpHandlerService
   ) {}
   ngOnInit(): void {
-    this.myform = this.formBuilder.group({
+    this.loginDetail = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
 
-  onLoginClick() {
-    this.httpHandlerService.loginUser(this.myform.value).subscribe({
+  onLoginClick(loginDetail: any) {
+    this.httpHandlerService.loginUser(this.loginDetail.value).subscribe({
       next: (response: any) => {
         this.token = response.data.token;
         localStorage.setItem('token', this.token);

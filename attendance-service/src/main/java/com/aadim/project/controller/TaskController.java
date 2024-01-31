@@ -22,5 +22,4 @@ public class TaskController extends BaseController {
         return successResponse(taskService.saveTask(request), "Task saved succesfully");
     }
 
-
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { HttpHandlerService } from '../../services/http-handler.service';
 
 @Component({
   selector: 'app-add-users',
@@ -19,16 +20,16 @@ export class AddUsersComponent {
   constructor(
     private toastr: ToastrService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private http: HttpHandlerService
   ) {
     this.userDetails = this.fb.group({
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      username: ['', Validators.required],
-      phoneNum: ['', Validators.required],
+      phone: ['', Validators.required],
       password: ['', Validators.required],
-      roleId: ['', Validators.required],
-      field: ['', Validators.required]
+      role: ['', Validators.required],
+      fieldType: ['', Validators.required]
     });
   }
 
@@ -36,10 +37,15 @@ export class AddUsersComponent {
     this.router.navigate(['/']);
   }
 
-  onSubmit() {
+  onSubmit(data:any) {
+    this.http.addUser(data).subscribe({
+      next: (response: any)=>{
+        console.log("user added successfully")
+      }
+    })
     if (this.userDetails.valid) {
       this.toastr.success("User added successfully");
-      this.router.navigate(['/']);
+      this.router.navigate(['/app/user-mgnt/user-list']);
     } else {
       this.userDetails.markAllAsTouched();
     }
@@ -56,7 +62,6 @@ export class AddUsersComponent {
   showFieldInput(): boolean {
     const roleId = this.userDetails.get('roleId')?.value;
     console.log('Selected Role ID:', roleId);
-    // Show the field input only when Intern role is selected
     return roleId === 3; 
   }
   

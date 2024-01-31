@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { GlobalApiHandler } from '../models/global-api-handler.model';
 import { Observable } from 'rxjs';
+import { UserList } from '../models/UserList.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpHandlerService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   public apiUrl = `http://localhost:8899/api/v1`;
 
@@ -20,5 +21,13 @@ export class HttpHandlerService {
     );
   }
 
-}
+  addUser(data: any): Observable<GlobalApiHandler<UserList>> {
+    return this.http.post<GlobalApiHandler<UserList>>(`${this.apiUrl}/user/save`, data);
+  }
+  
+  getAllUsers(): Observable<GlobalApiHandler<UserList>> {
+    return this.http.get<GlobalApiHandler<UserList>>(`${this.apiUrl}/user/getAllUser`,)
 
+  }
+
+}

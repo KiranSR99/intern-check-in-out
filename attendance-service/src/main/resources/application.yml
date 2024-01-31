@@ -3,7 +3,9 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/cico
     username: postgres
-    password: 1234
+
+    password: root
+
 
     driver-class-name: org.postgresql.Driver
   jpa:

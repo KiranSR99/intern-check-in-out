@@ -25,8 +25,9 @@ public class Schedule {
     public void prePersist() {
         this.checkInTime = LocalDate.from(LocalDate.now());
     }
-    @ManyToMany(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "intern_id")
-    private List<Intern> intern;
+    private Intern intern;
 
 }

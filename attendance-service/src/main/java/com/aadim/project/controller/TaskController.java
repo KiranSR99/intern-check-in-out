@@ -21,11 +21,6 @@ public class TaskController extends BaseController {
         return successResponse(taskService.saveAllTasks(request), "Tasks saved successfully");
     }
 
-    @PostMapping("/check")
-    public String saveAllTasks(@RequestBody String name){
-        return name;
-    }
-
     @GetMapping("/getAllTasks")
     public ResponseEntity<GlobalApiResponse> getAllTasks() {
         return successResponse(taskService.getAllTasks(), "Tasks fetched successfully");

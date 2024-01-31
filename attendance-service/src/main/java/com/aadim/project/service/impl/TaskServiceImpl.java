@@ -2,7 +2,9 @@ package com.aadim.project.service.impl;
 
 import com.aadim.project.dto.request.TaskRequest;
 import com.aadim.project.dto.response.TaskResponse;
+import com.aadim.project.entity.Intern;
 import com.aadim.project.entity.Task;
+import com.aadim.project.repository.InternRepository;
 import com.aadim.project.repository.TaskRepository;
 import com.aadim.project.service.TaskService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,15 +25,7 @@ public class TaskServiceImpl implements TaskService {
 
     private final ModelMapper modelMapper;
 
-//    @Override
-//    public TaskResponse saveTask(List<TaskRequest> taskRequests) {
-//        log.info("Task save request received");
-//
-//        List<TaskRequest> savedTask =  taskRepository.saveAll(taskRequests);
-//        log.info("Task saved");
-//
-//        return new TaskResponse(savedTask);
-//    }
+    private final InternRepository internRepository;
 
     @Override
     public TaskResponse saveTask(TaskRequest taskRequest) {
@@ -38,16 +33,26 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskResponse> saveAllTasks(List<TaskRequest> taskRequests) {
+    public List<TaskResponse> saveAllTasks(TaskRequest taskRequest) {
         log.info("Task save request received");
-        List<Task> tasks = taskRequests.stream()
-                .map(taskRequest -> modelMapper.map(taskRequest, Task.class))
-                .collect(Collectors.toList());
-
+        List<Task> tasks = taskRequest.getTasks();
         List<Task> savedTasks = taskRepository.saveAll(tasks);
-
         return savedTasks.stream()
-                .map(savedTask -> modelMapper.map(savedTask, TaskResponse.class))
+                .map(task -> modelMapper.map(task, TaskResponse.class))
+                .collect(Collectors.toList());
+}
+
+
+
+    @Override
+    public List<TaskResponse> getAllTasks() {
+        log.info("Task fetch request received");
+        List<Task> tasks = taskRepository.findAll();
+
+        return tasks.stream()
+                .map(task -> modelMapper.map(task,TaskResponse.class))
                 .collect(Collectors.toList());
     }
+
+
 }

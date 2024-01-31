@@ -6,10 +6,9 @@ import com.aadim.project.dto.request.TaskRequest;
 import com.aadim.project.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/task")
@@ -17,9 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class TaskController extends BaseController {
     private final TaskService taskService;
 
-    @PostMapping("/saveTask")
-    private ResponseEntity<GlobalApiResponse> saveTask(@RequestBody TaskRequest request){
-        return successResponse(taskService.saveTask(request), "Task saved succesfully");
+    @PostMapping("/saveTasks")
+    public ResponseEntity<GlobalApiResponse> saveAllTasks(@RequestBody TaskRequest request) {
+        return successResponse(taskService.saveAllTasks(request), "Tasks saved successfully");
+    }
+
+    @GetMapping("/getAllTasks")
+    public ResponseEntity<GlobalApiResponse> getAllTasks() {
+        return successResponse(taskService.getAllTasks(), "Tasks fetched successfully");
     }
 
 }

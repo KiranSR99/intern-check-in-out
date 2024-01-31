@@ -3,13 +3,13 @@ package com.aadim.project.controller;
 import com.aadim.project.controller.Base.BaseController;
 import com.aadim.project.dto.GlobalApiResponse;
 import com.aadim.project.dto.request.ScheduleRequest;
+import com.aadim.project.dto.request.ScheduleUpdateRequest;
+import com.aadim.project.dto.response.ScheduleResponse;
 import com.aadim.project.service.ScheduleService;
+import com.aadim.project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/schedule")
@@ -20,6 +20,16 @@ public class ScheduleController extends BaseController {
     @PostMapping("/checkIn")
     public ResponseEntity<GlobalApiResponse> saveCheckIn(@RequestBody ScheduleRequest request){
         return successResponse(scheduleService.saveCheckIn(request), "Checked in successfully");
+    }
+
+    @PutMapping("/checkOut")
+    public ResponseEntity<GlobalApiResponse> saveCheckOut(@RequestBody ScheduleUpdateRequest request){
+        return successResponse(scheduleService.updateCheckOut(request), "Checked out successfully");
+    }
+
+    @GetMapping("/fetchAll")
+    public ResponseEntity<GlobalApiResponse> fetchAll(){
+        return successResponse(scheduleService.fetchAll(), "Data fetched successfully");
     }
 
 }

@@ -6,19 +6,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ScheduleResponse {
     private Integer id;
-    private LocalDate checkInTime;
-    private LocalDate checkOutTime;
+    private String checkInTime;
+    private LocalDateTime checkOutTime;
     private Integer internId;
 
     public ScheduleResponse(Schedule schedule){
         this.id = schedule.getId();
-        this.checkInTime = schedule.getCheckInTime();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        this.checkInTime = schedule.getCheckInTime().format(formatter);
         this.checkOutTime = schedule.getCheckOutTime();
         this.internId = schedule.getIntern().getId();
     }

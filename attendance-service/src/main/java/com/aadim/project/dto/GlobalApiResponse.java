@@ -14,4 +14,5 @@ public class GlobalApiResponse<T> {
     private String message;
     private T data;
     private String status;
+
 }

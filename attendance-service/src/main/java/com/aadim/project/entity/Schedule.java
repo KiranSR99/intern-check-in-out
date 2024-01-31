@@ -21,11 +21,11 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private LocalDate checkInTime;
-    private LocalDate checkOutTime;
+    private LocalDateTime checkInTime;
+    private LocalDateTime checkOutTime;
     @PrePersist
     public void prePersist() {
-        this.checkInTime = LocalDate.from(LocalDate.now());
+        this.checkInTime = LocalDateTime.now();
     }
 
 //    @Column(name = "is_present")

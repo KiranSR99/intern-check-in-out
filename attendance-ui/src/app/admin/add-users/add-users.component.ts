@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { HttpHandlerService } from '../../services/http-handler.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-add-users',
@@ -11,24 +12,24 @@ import { ToastrService } from 'ngx-toastr';
 export class AddUsersComponent {
   userDetails: FormGroup;
   roles: any[] = [
-    { id: 1, name: 'Admin' },
-    { id: 2, name: 'Supervisor' },
-    { id: 3, name: "Intern" }
+    { id: 'ADMIN', name: 'Admin' },
+    { id: 'SUPERVISOR', name: 'Supervisor' },
+    { id: 'INTERN', name: 'Intern' }
   ];
 
   constructor(
-    private toastr: ToastrService,
+    private toast: ToastService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private http: HttpHandlerService
   ) {
     this.userDetails = this.fb.group({
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      username: ['', Validators.required],
-      phoneNum: ['', Validators.required],
+      phone: ['', Validators.required],
       password: ['', Validators.required],
-      roleId: ['', Validators.required],
-      field: ['', Validators.required]
+      role: ['', Validators.required],
+      fieldType: ['']
     });
   }
 
@@ -38,8 +39,17 @@ export class AddUsersComponent {
 
   onSubmit() {
     if (this.userDetails.valid) {
-      this.toastr.success("User added successfully");
-      this.router.navigate(['/']);
+      this.http.addUser(this.userDetails.value).subscribe({
+        next: (response: any) => {
+          console.log('User added successfully');
+          this.toast.showSuccess('User added successfully');
+          this.router.navigate(['/app/user-mgnt/user-list']);
+        },
+        error: (err) => {
+          console.error('Error adding user:', err);
+          this.toast.showError('Error adding user');
+        }
+      });
     } else {
       this.userDetails.markAllAsTouched();
     }
@@ -47,18 +57,13 @@ export class AddUsersComponent {
 
   onRoleChange(event: Event) {
     const roleId = (event.target as HTMLSelectElement).value;
-    // Reset the field value when a new role is selected
-    if (roleId !== '3') { // If not Intern role
-      this.userDetails.patchValue({ field: '' });
+    if (roleId !== 'INTERN') {
+      this.userDetails.patchValue({ fieldType: '' });
     }
   }
 
   showFieldInput(): boolean {
-    const roleId = this.userDetails.get('roleId')?.value;
-    console.log('Selected Role ID:', roleId);
-    // Show the field input only when Intern role is selected
-    return roleId === 3; 
+    const roleId = this.userDetails.get('role')?.value;
+    return roleId == 'INTERN';
   }
-  
-  
 }

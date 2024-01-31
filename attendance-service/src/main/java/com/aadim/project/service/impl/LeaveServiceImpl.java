@@ -26,6 +26,7 @@ public class LeaveServiceImpl implements LeaveService {
         leave.setInternId(leave.getInternId());
         leave.setReason(leave.getReason());
         leave.setStatus("Pending");
+        leave.setActive(true);
         Leave savedLeave = leaveRepository.save(leave);
         log.info("Leave record created successfully");
         return new LeaveResponse(savedLeave);
@@ -34,12 +35,32 @@ public class LeaveServiceImpl implements LeaveService {
     @Override
     public List<LeaveResponse> getAllLeaves() {
         List<LeaveResponse> leaveResponseList = new ArrayList<>();
-        List<Leave> leaveList = leaveRepository.findAll();
+        List<Leave> leaveList = leaveRepository.findAllByIsActive();
 
         for (Leave leave : leaveList) {
             leaveResponseList.add(new LeaveResponse(leave));
         }
         log.info("Returning all leave records");
         return leaveResponseList;
+    }
+
+    @Override
+    public LeaveResponse getLeaveById(Integer id) {
+        return new LeaveResponse(leaveRepository.getReferenceById(id));
+    }
+
+    @Override
+    public LeaveResponse setLeaveStatus(Integer id) {
+        Leave leave = leaveRepository.getReferenceById(id);
+        leave.setStatus("Approved");
+        log.info("Leave status Approved successfully");
+        return new LeaveResponse(leaveRepository.save(leave));
+    }
+
+    @Override
+    public String deleteLeave(Integer id) {
+        Leave leave = leaveRepository.getReferenceById(id);
+        leave.setActive(false);
+        return "Leave deleted successfully";
     }
 }

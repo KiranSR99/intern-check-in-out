@@ -29,18 +29,18 @@ public class LeaveController extends BaseController {
     @GetMapping("/get/{id}")
     public ResponseEntity<GlobalApiResponse> getLeaveById(@PathVariable Integer id) {
 
-        return null;
+        return successResponse(leaveService.getLeaveById(id));
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<GlobalApiResponse> updateLeave(@PathVariable Integer id) {
 
-        return null;
+        return successResponse(leaveService.setLeaveStatus(id));
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<GlobalApiResponse> deleteLeave(@PathVariable Integer id) {
 
-        return null;
+        return successResponse(leaveService.deleteLeave(id));
     }
 }

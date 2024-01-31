@@ -3,6 +3,7 @@ package com.aadim.project.controller;
 import com.aadim.project.controller.Base.BaseController;
 import com.aadim.project.dto.GlobalApiResponse;
 import com.aadim.project.dto.request.UserRequest;
+import com.aadim.project.dto.request.UserUpdateRequest;
 import com.aadim.project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,5 +27,15 @@ public class UserController extends BaseController {
     @GetMapping("/getAll")
     public ResponseEntity<GlobalApiResponse> getAllUser(){
         return successResponse(userService.getAllUser(), "User fetched successfully");
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<GlobalApiResponse> updateUser (@RequestBody UserUpdateRequest request) {
+        return successResponse(userService.updateUser(request) , "User Updated Successfully.");
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<GlobalApiResponse> deleteUser (@PathVariable Integer id) {
+        return successResponse(userService.deleteUser(id));
     }
 }

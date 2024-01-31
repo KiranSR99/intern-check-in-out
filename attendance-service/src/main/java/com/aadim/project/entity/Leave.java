@@ -16,9 +16,12 @@ public class Leave {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "intern_id", referencedColumnName = "id")
     private Intern internId;
 
     private String reason;
 
     private String status;
+
+    private boolean isActive;
 }

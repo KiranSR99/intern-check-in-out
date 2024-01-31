@@ -1,17 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+// login.component.ts
 
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { Router } from '@angular/router';
 import { HttpHandlerService } from '../services/http-handler.service';
 
 @Component({
-  selector: 'app-login-form',
+  selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  styleUrls: ['./login.component.scss'],
 })
+
+export class LoginComponent {
+  loginDetail: FormGroup;
+
+  constructor(private fb: FormBuilder, private httpHandlerService: HttpHandlerService, private router: Router) {
+    this.loginDetail = this.fb.group({
+      email: ['', [Validators.required]],
+
 export class LoginComponent implements OnInit {
   button: any;
-  myform!: FormGroup;
+  loginDetail!: FormGroup;
   token: string = '';
 
   constructor(
@@ -20,14 +30,31 @@ export class LoginComponent implements OnInit {
     private httpHandlerService: HttpHandlerService
   ) {}
   ngOnInit(): void {
-    this.myform = this.formBuilder.group({
+    this.loginDetail = this.formBuilder.group({
       username: ['', Validators.required],
+
       password: ['', Validators.required],
     });
   }
+  token: string = '';
 
-  onLoginClick() {
-    this.httpHandlerService.loginUser(this.myform.value).subscribe({
+
+ 
+    login() {
+      this.httpHandlerService.loginUser(this.loginDetail.value).subscribe(
+        (response: any) => {
+          this.token = response.data.token;
+          localStorage.setItem("token", this.token);
+          localStorage.setItem("roleDetails", JSON.stringify(response.data.role));
+          localStorage.setItem("userId", response.data.userId);
+          this.router.navigate(['/dashboard']);
+        },
+        (error: any) => {
+          console.log('Error in backend', error);
+       
+
+  onLoginClick(loginDetail: any) {
+    this.httpHandlerService.loginUser(this.loginDetail.value).subscribe({
       next: (response: any) => {
         this.token = response.data.token;
         localStorage.setItem('token', this.token);
@@ -35,11 +62,8 @@ export class LoginComponent implements OnInit {
           alert('Invalid Credentials');
         } else {
           this.router.navigate(['/login']);
+
         }
-      },
-      error: (error: any) => {
-        console.log('error in backend');
-      },
-    });
-  }
+      );
+    }
 }

@@ -29,6 +29,11 @@ public class UserController extends BaseController {
         return successResponse(userService.getAllUser(), "User fetched successfully");
     }
 
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<GlobalApiResponse> getUserById (@PathVariable Integer id) {
+        return successResponse(userService.getUserById(id), "User with id " + id + "fetched successfully." );
+    }
+
     @PutMapping("/update")
     public ResponseEntity<GlobalApiResponse> updateUser (@RequestBody UserUpdateRequest request) {
         return successResponse(userService.updateUser(request) , "User Updated Successfully.");

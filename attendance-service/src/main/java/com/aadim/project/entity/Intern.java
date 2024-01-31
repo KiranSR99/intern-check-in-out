@@ -19,11 +19,10 @@ public class Intern {
     private String phone;
     @Enumerated
     private FieldType fieldType;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id")
-    private Supervisor supervisor;
 
-//    @OneToMany(mappedBy = "intern", cascade = CascadeType.ALL)
-//    private List<Schedule> schedule;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
+    private Boolean isActive = true;
 }

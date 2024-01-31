@@ -94,8 +94,29 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse getUserById(Integer id) {
         User user = userRepository.getReferenceById(id);
+        if(!user.isActive()) {
+            throw new RuntimeException("User not available");
+        }
+        UserResponse userResponse = new UserResponse();
+        userResponse.setEmail(user.getEmail());
+        userResponse.setRole(user.getRole());
+        userResponse.setUserId(user.getId());
+        if(user.getRole().toString().equals("ADMIN")) {
+            Admin admin = adminRepository.findAdminByUserId(id);
+            userResponse.setPhone(admin.getPhone());
+            userResponse.setFullName(admin.getFullName());
+        } else if (user.getRole().toString().equals("SUPERVISOR")) {
+            Supervisor supervisor = supervisorRepository.findSupervisorByUserId(id);
+            userResponse.setFullName(supervisor.getFullName());
+            userResponse.setPhone(supervisor.getPhone());
+        } else if (user.getRole().toString().equals("INTERN")) {
+            Intern intern = internRepository.findInternByUserId(id);
+            userResponse.setPhone(intern.getPhone());
+            userResponse.setFullName(intern.getFullName());
+            userResponse.setFieldType(intern.getFieldType());
+        }
 
-        return null;
+        return userResponse;
     }
 
 

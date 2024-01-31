@@ -13,18 +13,18 @@ public class UserResponse {
     private String fullName;
     private String email;
     private String phone;
-    private String role;
+    private Role role;
     private FieldType fieldType;
 
-    public UserResponse(Admin admin1, Login login1) {
+    public UserResponse(Admin admin1, User user) {
         this.userId = admin1.getId();
         this.fullName = admin1.getFullName();
-        this.email = login1.getEmail();
+        this.email = user.getEmail();
         this.phone = admin1.getPhone();
-        this.role = login1.getRole();
+        this.role = user.getRole();
     }
 
-    public UserResponse(Supervisor supervisor1, Login login1) {
+    public UserResponse(Supervisor supervisor1, User login1) {
         this.userId = supervisor1.getId();
         this.fullName = supervisor1.getFullName();
         this.email = login1.getEmail();
@@ -33,7 +33,7 @@ public class UserResponse {
     }
 
 
-    public UserResponse(Intern intern1, Login login1) {
+    public UserResponse(Intern intern1, User login1) {
         this.userId = intern1.getId();
         this.fullName = intern1.getFullName();
         this.email = login1.getEmail();

@@ -11,15 +11,26 @@ import { UserDetailsComponent } from './admin/user-details/user-details.componen
 import { AddLogComponent } from './interns/add-log/add-log.component';
 
 import { InternLogComponent } from './supervisor/log-details/intern-log/intern-log.component';
+import { authGuard } from './guards/auth.guard';
+import { negateAuthGuard } from './guards/negate-auth.guard';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '', pathMatch: 'full' },
-  { path: '', component: LandingPageComponent },
-  { path: 'login', component: LoginComponent },
+  { 
+    path: '', 
+    component: LandingPageComponent, 
+    canActivate: [negateAuthGuard] 
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [negateAuthGuard]
+   },
   {
     path: 'app',
     component: BaseComponent,
+    canActivate: [authGuard],
     children: [
       { path: 'dashboard', component: DashboardComponent },
       {

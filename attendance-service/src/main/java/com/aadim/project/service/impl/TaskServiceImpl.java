@@ -22,32 +22,28 @@ public class TaskServiceImpl implements TaskService {
 
     private final ModelMapper modelMapper;
 
-//    @Override
-//    public TaskResponse saveTask(List<TaskRequest> taskRequests) {
-//        log.info("Task save request received");
-//
-//        List<TaskRequest> savedTask =  taskRepository.saveAll(taskRequests);
-//        log.info("Task saved");
-//
-//        return new TaskResponse(savedTask);
-//    }
-
     @Override
     public TaskResponse saveTask(TaskRequest taskRequest) {
         return null;
     }
 
     @Override
-    public List<TaskResponse> saveAllTasks(List<TaskRequest> taskRequests) {
-        log.info("Task save request received");
-        List<Task> tasks = taskRequests.stream()
-                .map(taskRequest -> modelMapper.map(taskRequest, Task.class))
-                .collect(Collectors.toList());
-
+    public List<TaskResponse> saveAllTasks(TaskRequest taskRequest) {
+        List<Task> tasks = taskRequest.getTasks();
         List<Task> savedTasks = taskRepository.saveAll(tasks);
-
         return savedTasks.stream()
-                .map(savedTask -> modelMapper.map(savedTask, TaskResponse.class))
+                .map(task -> modelMapper.map(task, TaskResponse.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<TaskResponse> getAllTasks() {
+        List<Task> tasks = taskRepository.findAll();
+
+        return tasks.stream()
+                .map(task -> modelMapper.map(task,TaskResponse.class))
+                .collect(Collectors.toList());
+    }
+
+
 }

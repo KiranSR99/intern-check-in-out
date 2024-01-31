@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from '../services/http-handler.service';
 import { ToastrService } from 'ngx-toastr';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private httpHandlerService: HttpHandlerService,
-    private toast: ToastrService
+    private toast: ToastService
   ) {}
   
   ngOnInit(): void {
@@ -32,7 +33,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginClick(loginDetail: any){
-    this.httpHandlerService.loginUser(this.loginDetail.value).subscribe(
+    this.httpHandlerService.loginUser(loginDetail).subscribe(
       (response: any) => {
         this.token = response.data.token;
         localStorage.setItem("token", this.token);
@@ -44,7 +45,7 @@ export class LoginComponent implements OnInit {
       },
       (error: any) => {
         console.log('Error in backend', error);
-        this.toast.error("Invalid Credentials");
+        this.toast.showError("Invalid Credentials");
       }
     );
   }

@@ -4,7 +4,7 @@
             <div class="border p-5 bg-light  rounded">
                 <div class="row g-4">
                     <div class="col-sm-6">
-                        <h4 class="fw-semibold mb-3">Log Details</h4>
+                        <h4 class="fw-semibold mb-3 text-warning">Log Details</h4>
                     </div>
                     <div class="col">
                         <button class="btn btn-primary float-end" id="add" (click)="addmultiLogDetails()"><i
@@ -18,7 +18,7 @@
                     <div class="col-md-6">
                         <label for="text">Task</label>
                         <input type="text" class="form-control" name="task" id="task" formControlName="task"
-                            placeholder="Enter your given task" />
+                            placeholder="Enter your given task" required/>
                         <span class="text-danger"
                             *ngIf="logDetails.get('task')?.invalid && logDetails.get('task')?.touched">Task is
                             required!</span>
@@ -30,7 +30,7 @@
                     <div class="col-md-6">
                         <label for="text">Status</label>
                         <input type="text" class="form-control" name="status" id="status" formControlName="status"
-                            placeholder="Enter your current status" />
+                            placeholder="Enter your current status" required/>
                         <span class="text-danger"
                             *ngIf="logDetails.get('status')?.invalid && logDetails.get('status')?.touched">status
                             is
@@ -44,7 +44,7 @@
                     <div class="col-md-6">
                         <label for="text">Time taken</label>
                         <input type="email" class="form-control" name="timetaken" id="timetaken"
-                            formControlName="timetaken" placeholder="Enter the time taken" />
+                            formControlName="timetaken" placeholder="Enter the time taken" required/>
                         <span class="text-danger"
                             *ngIf="logDetails.get('timetaken')?.invalid && logDetails.get('timetaken')?.touched">Time
                             taken is
@@ -60,7 +60,7 @@
                     <div class="col-md-6">
                         <label for="text">Problem</label>
                         <input type="text" class="form-control" name="problem" id="problem" formControlName="problem"
-                            placeholder="Enter the problem occured" />
+                            placeholder="Enter the problem occured" required/>
                         <span class="text-danger"
                             *ngIf="logDetails.get('problem')?.invalid && logDetails.get('problem')?.touched">Problem
                             is required!</span>
@@ -89,7 +89,7 @@
                             <div class="col-md-6">
                                 <label for="text">Task</label>
                                 <input type="text" class="form-control" name="task" id="task" formControlName="task"
-                                    placeholder="Enter your given task" />
+                                    placeholder="Enter your given task" required/>
                                 <span class="text-danger"
                                     *ngIf="control.get('task')?.invalid && control.get('task')?.touched">Task is
                                     required!</span>
@@ -101,7 +101,7 @@
                             <div class="col-md-6">
                                 <label for="text">Status</label>
                                 <input type="text" class="form-control" name="status" id="status" formControlName="status"
-                                    placeholder="Enter your current status" />
+                                    placeholder="Enter your current status"  required/>
                                 <span class="text-danger"
                                     *ngIf="control.get('status')?.invalid && control.get('status')?.touched">status
                                     is
@@ -116,7 +116,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="text">Time taken</label>
                                 <input type="email" class="form-control" name="timetaken" id="timetaken"
-                                    formControlName="timetaken" placeholder="Enter the time taken" />
+                                    formControlName="timetaken" placeholder="Enter the time taken" required/>
                                 <span class="text-danger"
                                     *ngIf="control.get('timetaken')?.invalid && control.get('timetaken')?.touched">Time
                                     taken is
@@ -132,7 +132,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="text">Problem</label>
                                 <input type="text" class="form-control" name="problem" id="problem"
-                                    formControlName="problem" placeholder="Enter the problem occured" />
+                                    formControlName="problem" placeholder="Enter the problem occured" required/>
                                 <span class="text-danger"
                                     *ngIf="control.get('problem')?.invalid && control.get('problem')?.touched">Problem
                                     is required!</span>
@@ -151,7 +151,7 @@
                     <button class="btn btn-danger float-start" (click)="cancel()">Cancel</button>
                 </div>
                 <div class="col-md-6">
-                    <button class="btn btn-success btn-block float-end" (click)="onClickSaveLog()">Submit</button>
+                    <button class="btn btn-success btn-block float-end" (click)="onClickSaveLog(logDetails.value)">Submit</button>
                 </div>
             </div>
     </div>

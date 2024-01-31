@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { GlobalApiHandler } from '../models/global-api-handler.model';
 import { Observable } from 'rxjs';
+import { LogsDetails } from '../models/logs.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,11 @@ export class HttpHandlerService {
       loginDetail
     );
   }
+
+  saveLog(user: any): Observable<GlobalApiHandler<LogsDetails>>{
+    return this.http.post<GlobalApiHandler<LogsDetails>>(`${this.apiUrl}/task/saveTask`,user);
+  }
+
 
 }
 

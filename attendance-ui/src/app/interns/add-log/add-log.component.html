@@ -101,13 +101,9 @@
 
                             <div class="col-md-6">
                                 <label for="text">Status</label>
-<<<<<<< HEAD
                                 <input type="text" class="form-control" name="status" id="status" formControlName="status"
                                     placeholder="Enter your current status"  required/>
-=======
-                                <input type="text" class="form-control" name="status" id="status"
-                                    formControlName="status" placeholder="Enter your current status" />
->>>>>>> 260abcd42833e3d7ce21211d6369bd49a9ba343e
+
                                 <span class="text-danger"
                                     *ngIf="control.get('status')?.invalid && control.get('status')?.touched">status
                                     is
@@ -150,7 +146,7 @@
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
+
             
             <hr class="mt-3 mb-3" />
             <div class="row g-4">
@@ -159,19 +155,7 @@
                 </div>
                 <div class="col-md-6">
                     <button class="btn btn-success btn-block float-end" (click)="onClickSaveLog(logDetails.value)">Submit</button>
-=======
-
-                <hr class="mt-3 mb-3" />
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <button class="btn btn-danger float-start" (click)="cancel()">Cancel</button>
-                    </div>
-                    <div class="col-md-6">
-                        <button class="btn btn-success btn-block float-end" (click)="onClickSaveLog()">Submit</button>
-                    </div>
->>>>>>> 260abcd42833e3d7ce21211d6369bd49a9ba343e
                 </div>
             </div>
-        </form>
+       
     </div>
-</div>

@@ -8,6 +8,7 @@ import com.aadim.project.repository.*;
 import com.aadim.project.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService {
     public UserResponse saveUser(UserRequest request) {
         User user = new User();
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
+        user.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
         user.setRole(request.getRole());
         userRepository.save(user);
 
@@ -61,8 +62,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponse> getAllUser() {
         List<UserResponse> userResponses = new ArrayList<>();
-        List<User> users = userRepository.findAll();
-
+        List<User> users = userRepository.findActiveUsers();
 
         for( User user : users) {
             UserResponse userResponse = new UserResponse();
@@ -91,10 +91,67 @@ public class UserServiceImpl implements UserService {
         return userResponses;
     }
 
+    @Override
+    public UserResponse getUserById(Integer id) {
+        User user = userRepository.getReferenceById(id);
 
-    public UserResponse updateUser (UserUpdateRequest request) {
-        User user = userRepository.getReferenceById(request.getId());
         return null;
+    }
+
+
+    @Override
+    public UserResponse updateUser(UserUpdateRequest request) {
+        User user = userRepository.getReferenceById(request.getId());
+        Role role = user.getRole();
+        if(role.toString().equals("ADMIN") ) {
+            Admin admin = adminRepository.findAdminByUserId(request.getId());
+            admin.setFullName(request.getFullName());
+            admin.setPhone(request.getPhone());
+            adminRepository.save(admin);
+            return new UserResponse(admin, user);
+        } else if (role.toString().equals("SUPERVISOR")) {
+            Supervisor supervisor = supervisorRepository.findSupervisorByUserId(request.getId());
+            supervisor.setFullName(request.getFullName());
+            supervisor.setPhone(request.getPhone());
+            supervisorRepository.save(supervisor);
+            return new UserResponse(supervisor, user);
+        } else if(role.toString().equals("INTERN")) {
+            Intern intern = internRepository.findInternByUserId(request.getId());
+            intern.setFullName(request.getFullName());
+            intern.setPhone(request.getPhone());
+            intern.setFieldType(request.getFieldType());
+            internRepository.save(intern);
+            return new UserResponse(intern, user);
+        }
+        return null;
+    }
+
+
+    @Override
+    public String deleteUser(Integer id) {
+        if(!userRepository.existsById(id)) {
+            return "User doesnt exist.";
+        }
+        User user = userRepository.getReferenceById(id);
+        if(!user.isActive()) {
+            return "User is not active.";
+        }
+        user.setActive(false);
+        Role role = user.getRole();
+        if(role.toString().equals("ADMIN")) {
+            Admin admin = adminRepository.findAdminByUserId(user.getId());
+            admin.setIsActive(false);
+            adminRepository.save(admin);
+        } else if (role.toString().equals("SUPERVISOR")) {
+            Supervisor supervisor = supervisorRepository.findSupervisorByUserId(user.getId());
+            supervisor.setIsActive(false);
+            supervisorRepository.save(supervisor);
+        } else if (role.toString().equals("INTERN")) {
+            Intern intern = internRepository.findInternByUserId(user.getId());
+            intern.setIsActive(false);
+            internRepository.save(intern);
+        }
+        return "User with id " + id + " deleted successfully.";
     }
 
 }

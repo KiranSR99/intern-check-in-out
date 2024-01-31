@@ -24,6 +24,7 @@ import { UserDetailsComponent } from './admin/user-details/user-details.componen
 import { EditProfileComponent } from './common/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './common/change-password/change-password.component';
 import { ForgotPasswordComponent } from './common/forgot-password/forgot-password.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -48,8 +49,10 @@ import { ForgotPasswordComponent } from './common/forgot-password/forgot-passwor
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     FormsModule,
     AppRoutingModule,
+    HttpClientModule,
     CommonModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,

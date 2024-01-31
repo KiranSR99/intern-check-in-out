@@ -26,8 +26,12 @@ export class HttpHandlerService {
   }
 
   getAllUsers(): Observable<GlobalApiHandler<UserList>> {
-    return this.http.get<GlobalApiHandler<UserList>>(`${this.apiUrl}/user/getAllUser`,)
+    return this.http.get<GlobalApiHandler<UserList>>(`${this.apiUrl}/users/getAllUser`,)
 
   }
 
+  deleteID(id: number): Observable<GlobalApiHandler<any>> {
+    return this.http.delete<GlobalApiHandler<any>>(`${this.apiUrl}/user/delete/${id}`)            
+
+}
 }

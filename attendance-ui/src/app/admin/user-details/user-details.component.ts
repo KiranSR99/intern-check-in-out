@@ -22,7 +22,6 @@ export class UserDetailsComponent {
     
    
   }
-
   fetchUserDetails() {
     this.httpHandler.getAllUsers().subscribe(
       (data: any) => {
@@ -33,6 +32,25 @@ export class UserDetailsComponent {
       }
     );
   }
+
+  deleteID(id: number) {
+    if (confirm('Do you want to delete data?')) {
+      this.httpHandler.deleteID(id).subscribe({
+        next: (response: any)  => {
+          this.toastr.success('Data Deleted Successfully');
+          console.log('Data Deleted successfully:', response);
+          // Update the UI or fetch updated data here
+          this.fetchUserDetails(); 
+        },
+        error: (error: any) => {
+          this.toastr.error(error.error.data);
+          console.log('Error deleting data:', error.error.data);
+        }
+      });
+    }
+  }
+
+
 
   addUser() {
     this.router.navigate(['app/user-mgnt/add-user']);

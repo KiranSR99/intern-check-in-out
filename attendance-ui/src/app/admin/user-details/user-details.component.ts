@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { HttpHandlerService } from '../../services/http-handler.service';
 // import { HttpHandlerService } from '../../../services/http-handler.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class UserDetailsComponent {
   userDetailsData: any[] = []; 
 
   constructor(
-    // private httpHandlerService: HttpHandlerService,
+    private httpHandler: HttpHandlerService,
     private toastr: ToastrService,
     private router: Router
   ) { }
@@ -22,16 +23,16 @@ export class UserDetailsComponent {
    
   }
 
-  // fetchUserDetails() {
-  //   // this.httpHandlerService.getUserDetails().subscribe(
-  //   //   (data: any[]) => {
-  //   //     this.userDetailsData = data;
-  //   //   },
-  //   //   (error) => {
-  //   //     console.error('Error fetching user details:', error);
-  //   //   }
-  //   // );
-  // }
+  fetchUserDetails() {
+    this.httpHandler.getAllUsers().subscribe(
+      (data: any) => {
+        this.userDetailsData = data;
+      },
+      (error:any) => {
+        console.error('Error fetching user details:', error);
+      }
+    );
+  }
 
   addUser() {
     this.router.navigate(['app/user-mgnt/add-user']);

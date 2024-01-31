@@ -1,45 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+// login.component.ts
 
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { Router } from '@angular/router';
 import { HttpHandlerService } from '../services/http-handler.service';
 
 @Component({
-  selector: 'app-login-form',
+  selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
-  button: any;
-  myform!: FormGroup;
-  token: string = '';
+export class LoginComponent {
+  loginDetail: FormGroup;
 
-  constructor(
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private httpHandlerService: HttpHandlerService
-  ) {}
-  ngOnInit(): void {
-    this.myform = this.formBuilder.group({
-      username: ['', Validators.required],
+  constructor(private fb: FormBuilder, private httpHandlerService: HttpHandlerService, private router: Router) {
+    this.loginDetail = this.fb.group({
+      email: ['', [Validators.required]],
       password: ['', Validators.required],
     });
   }
+  token: string = '';
 
-  onLoginClick() {
-    this.httpHandlerService.loginUser(this.myform.value).subscribe({
-      next: (response: any) => {
-        this.token = response.data.token;
-        localStorage.setItem('token', this.token);
-        if (!this.token) {
-          alert('Invalid Credentials');
-        } else {
+ 
+    login() {
+      this.httpHandlerService.loginUser(this.loginDetail.value).subscribe(
+        (response: any) => {
+          this.token = response.data.token;
+          localStorage.setItem("token", this.token);
+          localStorage.setItem("roleDetails", JSON.stringify(response.data.role));
+          localStorage.setItem("userId", response.data.userId);
           this.router.navigate(['/dashboard']);
+        },
+        (error: any) => {
+          console.log('Error in backend', error);
+       
         }
-      },
-      error: (error: any) => {
-        console.log('error in backend');
-      },
-    });
-  }
+      );
+    }
 }

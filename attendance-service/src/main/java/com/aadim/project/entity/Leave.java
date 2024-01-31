@@ -15,8 +15,8 @@ public class Leave {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-//    @OneToMany
-//    private Intern id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Intern internId;
 
     private String reason;
 

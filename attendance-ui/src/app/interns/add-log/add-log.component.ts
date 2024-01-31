@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from '../../services/http-handler.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-add-log',
@@ -18,8 +19,9 @@ export class AddLogComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private httpHandlerService: HttpHandlerService,
+    private http: HttpHandlerService,
     private router: Router,
+    private toast: ToastService,
     private location: Location){}
 
   ngOnInit(): void {
@@ -39,27 +41,23 @@ export class AddLogComponent {
   get multiLogDetails() {
     return (this.logDetails.get('multiLogDetails') as FormArray);
   }
-  
 
   onClickSaveLog(user: any){
-    console.log(this.logDetails.value);
-    console.log(this.multiLogDetails.value);
-    this.httpHandlerService.saveLog(user).subscribe(
-      (response: any) => {
-        console.log(response);
-       // this.toastr.success("Log Add Sucessfully");
-        this.onInitLogDetails();
-       // this.router.navigate(['/app/event-mgnt/view-event']);
-        this.logDetails.reset();
-      },
-      (error) => {
-        console.error(error);
-      },
-      () => {
-        console.log('completed!!')
-      }
-    );
-      this.location.back();
+    if (this.logDetails.valid) {
+      this.http.saveLog(this.logDetails.value).subscribe({
+        next: (response: any) => {
+          console.log('User added successfully');
+          this.toast.showSuccess('User added successfully');
+          this.router.navigate(['/app/log-mgnt/intern-log']);
+        },
+        error: (err) => {
+          console.error('Error adding user:', err);
+          this.toast.showError('Error adding logs');
+        }
+      });
+    } else {
+      this.logDetails.markAllAsTouched();
+    }
   }
 
   addmultiLogDetails() {

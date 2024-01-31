@@ -13,9 +13,11 @@ export class HttpHandlerService {
 
   public apiUrl = `http://localhost:8899/api/v1`;
 
-
-  loginUser(myform: any): Observable<GlobalApiHandler<FormGroup>> {
-    return this.http.post<GlobalApiHandler<FormGroup>>(`${this.apiUrl}/login`, myform);
+  loginUser(loginDetail: any): Observable<GlobalApiHandler<FormGroup>> {
+    return this.http.post<GlobalApiHandler<FormGroup>>(
+      `${this.apiUrl}/login`,
+      loginDetail
+    );
   }
 
 }

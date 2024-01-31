@@ -15,16 +15,19 @@ import { UserProfileComponent } from './common/user-profile/user-profile.compone
 import { EditProfileComponent } from './common/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './common/change-password/change-password.component';
 import { ForgotPasswordComponent } from './common/forgot-password/forgot-password.component';
+import { authGuard } from './guards/auth.guard';
+import { negateAuthGuard } from './guards/negate-auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '', pathMatch: 'full' },
-  { path: '', component: LandingPageComponent },
-  { path: 'login', component: LoginComponent },
+  { path: '', component: LandingPageComponent, canActivate: [negateAuthGuard] },
+  { path: 'login', component: LoginComponent, canActivate: [negateAuthGuard] },
   { path: 'change-password', component: ChangePasswordComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   {
     path: 'app',
     component: BaseComponent,
+    canActivate: [authGuard],
     children: [
       { path: 'dashboard', component: DashboardComponent },
       {

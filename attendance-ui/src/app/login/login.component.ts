@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
+import { Router } from '@angular/router';
 import { HttpHandlerService } from '../services/http-handler.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-login-form',
+  selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  styleUrls: ['./login.component.scss'],
 })
+
+
 export class LoginComponent implements OnInit {
   button: any;
   loginDetail!: FormGroup;
@@ -17,29 +20,32 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private httpHandlerService: HttpHandlerService
+    private httpHandlerService: HttpHandlerService,
+    private toast: ToastrService
   ) {}
+  
   ngOnInit(): void {
     this.loginDetail = this.formBuilder.group({
-      username: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
 
-  onLoginClick(loginDetail: any) {
-    this.httpHandlerService.loginUser(this.loginDetail.value).subscribe({
-      next: (response: any) => {
+  onLoginClick(loginDetail: any){
+    this.httpHandlerService.loginUser(this.loginDetail.value).subscribe(
+      (response: any) => {
         this.token = response.data.token;
-        localStorage.setItem('token', this.token);
-        if (!this.token) {
-          alert('Invalid Credentials');
-        } else {
-          this.router.navigate(['/login']);
-        }
+        localStorage.setItem("token", this.token);
+        localStorage.setItem("roleDetails", JSON.stringify(response.data.role));
+        localStorage.setItem("userId", response.data.userId);
+        this.router.navigate(['/app/dashboard']);
+        console.log("Login successful.");
+        
       },
-      error: (error: any) => {
-        console.log('error in backend');
-      },
-    });
+      (error: any) => {
+        console.log('Error in backend', error);
+        this.toast.error("Invalid Credentials");
+      }
+    );
   }
 }

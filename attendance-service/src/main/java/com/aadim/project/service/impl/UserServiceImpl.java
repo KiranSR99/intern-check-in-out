@@ -61,12 +61,31 @@ public class UserServiceImpl implements UserService {
         List<UserResponse> userResponses = new ArrayList<>();
         List<User> users = userRepository.findAll();
 
+
         for( User user : users) {
-            user.getEmail();
-            user.getUsername();
+            UserResponse userResponse = new UserResponse();
+            userResponse.setEmail(user.getEmail());
+            userResponse.setRole(user.getRole());
+            userResponse.setUserId(user.getId());
+            Intern intern = internRepository.findInternByUserId(user.getId());
+            if(intern != null) {
+                userResponse.setFullName(intern.getFullName());
+                userResponse.setPhone(intern.getPhone());
+            }
+            Supervisor supervisor = supervisorRepository.findSupervisorByUserId(user.getId());
+            if(supervisor != null) {
+                userResponse.setFullName(supervisor.getFullName());
+                userResponse.setPhone(supervisor.getPhone());
+            }
+            Admin admin = adminRepository.findAdminByUserId(user.getId());
+            if(admin != null) {
+                userResponse.setFullName(admin.getFullName());
+                userResponse.setPhone(admin.getPhone());
+            }
+            userResponses.add(userResponse);
         }
 
-        return null;
+        return userResponses;
     }
 
 

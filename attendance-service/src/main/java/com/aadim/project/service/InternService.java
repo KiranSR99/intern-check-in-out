@@ -6,5 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface InternService {
 
+    InternResponse saveUser(InternRequest request);
+
     InternResponse saveIntern(InternRequest request);
 }

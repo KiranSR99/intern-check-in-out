@@ -54,7 +54,7 @@ export class AddUsersComponent {
   onRoleChange(event: Event) {
     const roleId = (event.target as HTMLSelectElement).value;
     // Reset the field value when a new role is selected
-    if (roleId !== '3') { // If not Intern role
+    if (roleId !== '3') { 
       this.userDetails.patchValue({ fieldType: '' });
     }
   }

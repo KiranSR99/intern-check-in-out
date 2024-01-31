@@ -52,6 +52,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
+    HttpClientModule,
     CommonModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,

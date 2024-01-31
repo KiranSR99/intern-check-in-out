@@ -28,10 +28,10 @@
 
             <div class="col-md-6 col-sm-12">
               <label>Phone</label>
-              <input type="text" formControlName="phoneNum" name="phone" id="phone" class="form-control"
+              <input type="text" formControlName="phone" name="phone" id="phone" class="form-control"
                 placeholder="Enter phone number" required />
               <div class="text-danger"
-                *ngIf="userDetails.get('phoneNum')?.invalid && userDetails.get('phoneNum')?.touched">
+                *ngIf="userDetails.get('phone')?.invalid && userDetails.get('phone')?.touched">
                 <small>Please enter phone number.</small>
               </div>
             </div>
@@ -50,11 +50,11 @@
 
             <div class="col-md-6 col-sm-12">
               <label>Role</label>
-              <select formControlName="roleId" name="roleId" id="roleId" class="form-control" (change)="onRoleChange($event)" required>
+              <select formControlName="role" name="role" id="role" class="form-control" (change)="onRoleChange($event)" required>
                 <option value="" hidden>Select Role</option>
                 <option *ngFor="let getRole of roles" [ngValue]="getRole.id">{{getRole.name}}</option>
               </select>
-              <div class="text-danger" *ngIf="userDetails.get('roleId')?.invalid && userDetails.get('roleId')?.touched">
+              <div class="text-danger" *ngIf="userDetails.get('role')?.invalid && userDetails.get('role')?.touched">
                 <small>Please select a role.</small>
               </div>
             </div>
@@ -62,12 +62,12 @@
 
             <div class="col-md-6 col-sm-12" *ngIf="showFieldInput()">
               <label>Field</label>
-              <select formControlName="field" name="field" id="field" class="form-control" required>
+              <select formControlName="fieldType" name="field" id="field" class="form-control" required>
                 <option value="" hidden>Select Field</option>
                 <option value="front-end">Front-end</option>
                 <option value="back-end">Back-end</option>
               </select>
-              <div class="text-danger" *ngIf="userDetails.get('field')?.invalid && userDetails.get('field')?.touched">
+              <div class="text-danger" *ngIf="userDetails.get('fieldType')?.invalid && userDetails.get('fieldType')?.touched">
                 <small>Please select a field.</small>
               </div>
             </div>
@@ -83,14 +83,9 @@
               <button class="btn btn-outline-danger btn-sm" type="button" (click)="cancel()">Cancel</button>
             </div>
             <div class="col-sm-6 text-end"> 
-              <button class="btn btn-outline-success btn-sm mx-3" type="button" (click)="onSubmit()">Submit</button>
-
-              <button class="btn btn-outline-danger btn-sm " type="button" (click)="cancel()">Cancel</button>
+              <button class="btn btn-outline-success btn-sm mx-3" type="button" (click)="onSubmit(userDetails.value)">Submit</button>
             </div>
-            <div class="col-sm-6">
-
-              <button class="btn btn-outline-success btn-sm mx" type="button" (click)="onSubmit()">Submit</button>
-        </div>
+           
           </div>
           
 

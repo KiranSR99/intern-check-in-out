@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Builder
 @Data
@@ -21,4 +23,10 @@ public class Task {
     private String status;
     private String problem;
     private String timeTaken;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User userId;
+
+    private Boolean isActive = true;
 }

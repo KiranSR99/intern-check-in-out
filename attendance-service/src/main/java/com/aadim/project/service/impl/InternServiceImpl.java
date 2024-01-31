@@ -16,6 +16,10 @@ public class InternServiceImpl implements InternService {
     private final InternRepository internRepository;
 
 
+    @Override
+    public InternResponse saveUser(InternRequest request) {
+        return null;
+    }
 
     @Override
     public InternResponse saveIntern(InternRequest request) {

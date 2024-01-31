@@ -1,19 +1,19 @@
 <div class="wrapper">
     <div class="mb-5">
         <form [formGroup]="logDetails">
-            <div class="border p-5 bg-light border rounded">
+            <div class="border p-5 bg-light  rounded">
                 <div class="row g-4">
                     <div class="col-sm-6">
                         <h4 class="fw-semibold mb-3">Log Details</h4>
                     </div>
                     <div class="col">
-                        <button class="btn btn-outline-primary float-end" id="add" (click)="addmultiLogDetails()"><i
+                        <button class="btn btn-primary float-end" id="add" (click)="addmultiLogDetails()"><i
                             class="fa fa-plus"></i>Add More</button>
                     </div>
                 </div>
                 
                 <hr class="mt-1 mb-3" />
-
+                <p><b>1. Enter your Log</b></p>
                 <div class="row g-4">
                     <div class="col-md-6">
                         <label for="text">Task</label>
@@ -80,8 +80,8 @@
                                 <p><b>{{i+2}}. Enter Your Multiple Logs</b></p>
                             </div>
                             <div class="col-sm-6">
-                                <button class="btn btn-outline-danger float-end" *ngIf="i>=0"
-                                    (click)="onDeleteButtonClick(i)"> <i class="fa fa-trash"></i>Delete</button>
+                                <button class="btn btn-danger float-end" *ngIf="i>=0"
+                                    (click)="onDeleteButtonClick(i)"> <i class="fa fa-trash"></i></button>
                             </div>
                         </div>
     
@@ -113,7 +113,7 @@
     
                             </div>
     
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <label for="text">Time taken</label>
                                 <input type="email" class="form-control" name="timetaken" id="timetaken"
                                     formControlName="timetaken" placeholder="Enter the time taken" />
@@ -129,7 +129,7 @@
                             </div>
     
     
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <label for="text">Problem</label>
                                 <input type="text" class="form-control" name="problem" id="problem"
                                     formControlName="problem" placeholder="Enter the problem occured" />
@@ -144,9 +144,19 @@
                         </div>
                     </div>
                 </div>
+            
             <hr class="mt-3 mb-3" />
-            <button class="btn btn-outline-danger float-start" (click)="cancel()">Cancel</button>
-            <button class="btn btn-outline-success float-end" (click)="onClickSaveLog()">Submit</button>
-
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <button class="btn btn-danger float-start" (click)="cancel()">Cancel</button>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-success btn-block float-end" (click)="onClickSaveLog()">Submit</button>
+                </div>
+            </div>
+    </div>
+    </form>
+    </div>
+    </div>
 
 

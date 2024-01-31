@@ -24,8 +24,8 @@ export class SideNavComponent {
     {
       title: 'Log Management',
       roleAccess: [RoleEnum.INTERN],
-      url: '/app/log-mgnt/log-list',
-      icon: 'fa-solid fa-calendar-days',
+      url: '/app/log-mgnt',
+      icon: 'fa-solid fa-list-check',
     },
   );
 

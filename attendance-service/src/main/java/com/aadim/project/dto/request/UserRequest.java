@@ -1,5 +1,6 @@
 package com.aadim.project.dto.request;
 
+import com.aadim.project.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,6 @@ public class UserRequest {
     private String email;
     private String password;
     private String phone;
-    private String role;
+    private Role role;
     private String fieldType;
 }

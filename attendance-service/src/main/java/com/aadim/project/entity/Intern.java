@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,8 +19,10 @@ public class Intern {
     private String phone;
     @Enumerated
     private FieldType fieldType;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id")
-    private Supervisor supervisor;
 
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    private Boolean isActive = true;
 }

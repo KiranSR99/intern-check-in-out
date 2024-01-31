@@ -17,6 +17,10 @@ public class Supervisor {
     private String fullName;
     private String phone;
 
-    private Boolean isActive;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    private Boolean isActive = true;
 
 }

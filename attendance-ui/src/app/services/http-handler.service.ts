@@ -22,9 +22,9 @@ export class HttpHandlerService {
   }
 
   addUser(data: any): Observable<GlobalApiHandler<UserList>> {
-    return this.http.post<GlobalApiHandler<UserList>>(`${this.apiUrl}/user/save`, data);
+    return this.http.post<GlobalApiHandler<UserList>>(`${this.apiUrl}/users/saveUser`, data);
   }
-  
+
   getAllUsers(): Observable<GlobalApiHandler<UserList>> {
     return this.http.get<GlobalApiHandler<UserList>>(`${this.apiUrl}/user/getAllUser`,)
 

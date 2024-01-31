@@ -50,11 +50,11 @@
 
             <div class="col-md-6 col-sm-12">
               <label>Role</label>
-              <select formControlName="roleId" name="roleId" id="roleId" class="form-control" (change)="onRoleChange($event)" required>
+              <select formControlName="role" name="role" id="role" class="form-control" (change)="onRoleChange($event)" required>
                 <option value="" hidden>Select Role</option>
                 <option *ngFor="let getRole of roles" [ngValue]="getRole.id">{{getRole.name}}</option>
               </select>
-              <div class="text-danger" *ngIf="userDetails.get('roleId')?.invalid && userDetails.get('roleId')?.touched">
+              <div class="text-danger" *ngIf="userDetails.get('role')?.invalid && userDetails.get('role')?.touched">
                 <small>Please select a role.</small>
               </div>
             </div>

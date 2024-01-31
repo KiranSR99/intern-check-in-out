@@ -19,5 +19,6 @@ public class LeaveResponse {
         this.id = leave.getId();
         this.internId = leave.getInternId();
         this.reason = leave.getReason();
+        this.status = leave.getStatus();
     }
 }

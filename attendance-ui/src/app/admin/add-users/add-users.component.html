@@ -64,8 +64,8 @@
               <label>Field</label>
               <select formControlName="fieldType" name="fieldType" id="fieldType" class="form-control" required>
                 <option value="" hidden>Select Field</option>
-                <option value="front-end">Front-end</option>
-                <option value="back-end">Back-end</option>
+                <option value="FRONTEND">Frontend</option>
+                <option value="BACKEND">Backend</option>
               </select>
               <div class="text-danger"
                 *ngIf="userDetails.get('fieldType')?.invalid && userDetails.get('fieldType')?.touched">
@@ -80,9 +80,9 @@
             <div class="col-sm-6">
             <button class="btn btn-outline-danger btn-sm" type="button" (click)="cancel()">Cancel</button>
             </div>
-            <div class="col-sm-6 text-end">
-              <button class="btn btn-outline-success btn-sm mx-3" type="button"
-                (click)="onSubmit(userDetails.value)">Submit</button>
+            <div class="col-sm-6 text-end"> 
+              <button class="btn btn-outline-success btn-sm mx-3" type="button" (click)="onSubmit()">Submit</button>
+
             </div>
 
           </div>

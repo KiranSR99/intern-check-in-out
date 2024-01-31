@@ -11,16 +11,33 @@ import { HttpHandlerService } from '../services/http-handler.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
+
 export class LoginComponent {
   loginDetail: FormGroup;
 
   constructor(private fb: FormBuilder, private httpHandlerService: HttpHandlerService, private router: Router) {
     this.loginDetail = this.fb.group({
       email: ['', [Validators.required]],
+
+export class LoginComponent implements OnInit {
+  button: any;
+  loginDetail!: FormGroup;
+  token: string = '';
+
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private httpHandlerService: HttpHandlerService
+  ) {}
+  ngOnInit(): void {
+    this.loginDetail = this.formBuilder.group({
+      username: ['', Validators.required],
+
       password: ['', Validators.required],
     });
   }
   token: string = '';
+
 
  
     login() {
@@ -35,6 +52,17 @@ export class LoginComponent {
         (error: any) => {
           console.log('Error in backend', error);
        
+
+  onLoginClick(loginDetail: any) {
+    this.httpHandlerService.loginUser(this.loginDetail.value).subscribe({
+      next: (response: any) => {
+        this.token = response.data.token;
+        localStorage.setItem('token', this.token);
+        if (!this.token) {
+          alert('Invalid Credentials');
+        } else {
+          this.router.navigate(['/login']);
+
         }
       );
     }

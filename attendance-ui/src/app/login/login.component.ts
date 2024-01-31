@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginClick(loginDetail: any){
-    this.httpHandlerService.loginUser(this.loginDetail.value).subscribe(
+    this.httpHandlerService.loginUser(loginDetail).subscribe(
       (response: any) => {
         this.token = response.data.token;
         localStorage.setItem("token", this.token);

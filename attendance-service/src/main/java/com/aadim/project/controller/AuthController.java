@@ -4,6 +4,8 @@ import com.aadim.project.controller.Base.BaseController;
 import com.aadim.project.dto.GlobalApiResponse;
 import com.aadim.project.dto.auth.LoginRequest;
 import com.aadim.project.dto.auth.LoginResponse;
+import com.aadim.project.entity.User;
+import com.aadim.project.repository.UserRepository;
 import com.aadim.project.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,9 @@ public class AuthController extends BaseController {
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @PostMapping
     public ResponseEntity<GlobalApiResponse> authenticateAndGetToken(@RequestBody LoginRequest request) {
         Authentication authentication = authenticationManager.authenticate(
@@ -34,9 +39,15 @@ public class AuthController extends BaseController {
             LoginResponse response = new LoginResponse();
             String token = jwtService.generateToken(request.getEmail());
             response.setToken(token);
+            if (authentication.getPrincipal() instanceof User) {
+                User user = (User) authentication.getPrincipal();
+                Integer userId = userRepository.findUserIdByEmail(user.getUsername());
+                response.setUserId(userId);
+                response.setRole(user.getRole().toString());
+            }
             return successResponse(response);
         } else {
-            throw new UsernameNotFoundException("invalid user request..!!");
+            throw new UsernameNotFoundException("Invalid user request");
         }
     }
 

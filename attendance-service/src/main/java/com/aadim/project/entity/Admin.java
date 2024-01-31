@@ -16,4 +16,8 @@ public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    private String fullName;
+    private String phone;
+    private Boolean isActive;
 }

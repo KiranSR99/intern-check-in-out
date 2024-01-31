@@ -21,7 +21,6 @@ public class TaskServiceImpl implements TaskService {
         task.setProblem(taskRequest.getProblem());
         task.setStatus(taskRequest.getStatus());
         task.setTimeTaken(taskRequest.getTimeTaken());
-
         Task savedTask = taskRepository.save(task);
 
         return new TaskResponse(savedTask);

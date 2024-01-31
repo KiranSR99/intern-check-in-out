@@ -37,8 +37,8 @@ public class SupervisiorController extends BaseController {
         return successResponse(supervisiorService.getSupervisiorById(id));
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<GlobalApiResponse> deleteSupervisiorById(@PathVariable Integer id) {
-        return successResponse(supervisiorService.deleteSupervisiorById(id));
-    }
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<GlobalApiResponse> deleteSupervisiorById(@PathVariable Integer id) {
+//        return successResponse(supervisiorService.deleteSupervisiorById(id));
+//    }
 }

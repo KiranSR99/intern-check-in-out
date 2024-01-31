@@ -1,6 +1,7 @@
 package com.aadim.project.service.impl;
 
 import com.aadim.project.dto.request.UserRequest;
+import com.aadim.project.dto.request.UserUpdateRequest;
 import com.aadim.project.dto.response.UserResponse;
 import com.aadim.project.entity.*;
 import com.aadim.project.repository.*;
@@ -90,5 +91,10 @@ public class UserServiceImpl implements UserService {
         return userResponses;
     }
 
+
+    public UserResponse updateUser (UserUpdateRequest request) {
+        User user = userRepository.getReferenceById(request.getId());
+        return null;
+    }
 
 }

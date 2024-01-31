@@ -19,12 +19,13 @@ export class UserDetailsComponent {
   ) { }
 
   ngOnInit(): void {
-    
-   
+    this.fetchUserDetails();
   }
+  
   fetchUserDetails() {
     this.httpHandler.getAllUsers().subscribe(
       (data: any) => {
+        console.log("Data fetched successfully")
         this.userDetailsData = data;
       },
       (error:any) => {
@@ -39,7 +40,7 @@ export class UserDetailsComponent {
         next: (response: any)  => {
           this.toastr.success('Data Deleted Successfully');
           console.log('Data Deleted successfully:', response);
-          // Update the UI or fetch updated data here
+
           this.fetchUserDetails(); 
         },
         error: (error: any) => {

@@ -33,7 +33,7 @@ export class HttpHandlerService {
   }
 
   getAllUsers(): Observable<GlobalApiHandler<UserList>> {
-    return this.http.get<GlobalApiHandler<UserList>>(`${this.apiUrl}/users/getAllUser`,)
+    return this.http.get<GlobalApiHandler<UserList>>(`${this.apiUrl}/users/getAll`,)
 
   }
 

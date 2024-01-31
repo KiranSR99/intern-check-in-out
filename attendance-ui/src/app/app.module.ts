@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
-import { HttpClientModule } from '@angular/common/http';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -21,8 +21,9 @@ import { UserProfileComponent } from './common/user-profile/user-profile.compone
 import { AddUsersComponent } from './admin/add-users/add-users.component';
 import { UpdateUsersComponent } from './admin/update-users/update-users.component';
 import { UserDetailsComponent } from './admin/user-details/user-details.component';
-
-
+import { EditProfileComponent } from './common/edit-profile/edit-profile.component';
+import { ChangePasswordComponent } from './common/change-password/change-password.component';
+import { ForgotPasswordComponent } from './common/forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -37,11 +38,12 @@ import { UserDetailsComponent } from './admin/user-details/user-details.componen
     UserDetailsComponent,
     AddUsersComponent,
     UpdateUsersComponent,
-    AddLogComponent,
     InternLogComponent,
     AddLogComponent,
-    InternLogComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    EditProfileComponent,
+    ChangePasswordComponent,
+    ForgotPasswordComponent
 
   ],
   imports: [
@@ -49,7 +51,6 @@ import { UserDetailsComponent } from './admin/user-details/user-details.componen
     FormsModule,
     AppRoutingModule,
     CommonModule,
-    HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),

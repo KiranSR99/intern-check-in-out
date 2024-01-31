@@ -5,10 +5,10 @@ import com.aadim.project.dto.response.UserResponse;
 import com.aadim.project.entity.Admin;
 import com.aadim.project.entity.Intern;
 import com.aadim.project.entity.Login;
-import com.aadim.project.entity.Supervisior;
+import com.aadim.project.entity.Supervisor;
 import com.aadim.project.repository.AdminRepository;
 import com.aadim.project.repository.InternRepository;
-import com.aadim.project.repository.SupervisiorRepository;
+import com.aadim.project.repository.SupervisorRepository;
 import com.aadim.project.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     private final AdminRepository adminRepository;
     private final InternRepository internRepository;
-    private final SupervisiorRepository supervisiorRepository;
+    private final SupervisorRepository supervisorRepository;
     @Override
     @Transactional
     public UserResponse saveUser(UserRequest request) {
@@ -35,9 +35,9 @@ public class UserServiceImpl implements UserService {
             admin.setFullName(request.getFullName());
             admin.setPhone(request.getPhone());
         } else if (Objects.equals(request.getRole(), "SUPERVISIOR")) {
-            Supervisior supervisior = new Supervisior();
-            supervisior.setFullName(request.getFullName());
-            supervisior.setPhone(request.getPhone());
+            Supervisor supervisor = new Supervisor();
+            supervisor.setFullName(request.getFullName());
+            supervisor.setPhone(request.getPhone());
         } else if (Objects.equals(request.getRole(), "INTERN")) {
             Intern intern = new Intern();
             intern.setFullName(request.getFullName());

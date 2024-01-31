@@ -1,9 +1,7 @@
 package com.aadim.project.entity;
 
-import com.aadim.project.dto.request.InternRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +19,6 @@ public class Intern {
     private FieldType fieldType;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
-    private Supervisior supervisior;
+    private Supervisor supervisor;
 
 }

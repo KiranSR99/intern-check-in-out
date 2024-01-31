@@ -8,5 +8,7 @@ import java.util.List;
 public interface TaskService {
     TaskResponse saveTask(TaskRequest taskRequest);
 
-    List<TaskResponse> saveAllTasks(List<TaskRequest>  taskRequest);
+    List<TaskResponse> saveAllTasks(TaskRequest  taskRequest);
+
+    List<TaskResponse> getAllTasks();
 }

@@ -13,7 +13,6 @@ import com.aadim.project.repository.SupervisorRepository;
 import com.aadim.project.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -32,7 +31,7 @@ public class UserServiceImpl implements UserService {
     public UserResponse saveUser(UserRequest request) {
         Login login = new Login();
         login.setEmail(request.getEmail());
-        login.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
+        login.setPassword(request.getPassword());
         login.setRole(request.getRole());
         loginRepository.save(login);
 
@@ -40,17 +39,20 @@ public class UserServiceImpl implements UserService {
             Admin admin = new Admin();
             admin.setFullName(request.getFullName());
             admin.setPhone(request.getPhone());
-            adminRepository.save(admin);
+            Admin admin1 = adminRepository.save(admin);
+            return new UserResponse(admin1, login);
         } else if (Objects.equals(request.getRole(), "SUPERVISIOR")) {
             Supervisor supervisor = new Supervisor();
             supervisor.setFullName(request.getFullName());
             supervisor.setPhone(request.getPhone());
-            supervisorRepository.save(supervisor);
+            Supervisor supervisor1 = supervisorRepository.save(supervisor);
+            return new UserResponse(supervisor1, login);
         } else if (Objects.equals(request.getRole(), "INTERN")) {
             Intern intern = new Intern();
             intern.setFullName(request.getFullName());
             intern.setPhone(request.getPhone());
-            internRepository.save(intern);
+            Intern intern1= internRepository.save(intern);
+            return new UserResponse(intern1, login);
         }
         return new UserResponse();
     }

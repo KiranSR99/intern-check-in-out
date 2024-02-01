@@ -1,5 +1,6 @@
 package com.aadim.project.dto.request;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,5 +14,6 @@ import java.time.LocalDateTime;
 public class ScheduleRequest {
     private LocalDateTime checkInTime;
     private LocalDateTime checkOutTime;
-    private Integer internId;
+    private Integer userId;
+
 }

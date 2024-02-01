@@ -68,7 +68,7 @@ export class EditLogComponent {
   editLog(id: number) {
     this.http.getLogById(id).subscribe(
       (response: any) => {
-        console.log('Individual Data fetched successfully:', response);
+        console.log('Individual log fetched successfully:', response);
         this.populateForm(response.data);
       },
       (error: any) => {
@@ -106,10 +106,10 @@ export class EditLogComponent {
 
   onClickUpdateLog(data: any){
     console.log(data.value);
-    this.http.updateLog(data).subscribe(
+    this.http.updateLog(this.logDetails.value).subscribe(
       (response: any) => {
         console.log("Data is updated successfully");
-        this.toastr.showSuccess("LOg Update Sucessfully");
+        this.toastr.showSuccess("Log Update Sucessfully");
         //this.router.navigate(['/app/event-mgnt/view-event']);
         this.onInitLogDetails();
         this.logDetails.reset();

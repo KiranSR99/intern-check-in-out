@@ -27,7 +27,7 @@ export class HttpHandlerService {
   }
 
   getLogById(id: number): Observable<GlobalApiHandler<LogsDetails>>{
-    return this.http.get<GlobalApiHandler<LogsDetails>>(`${this.apiUrl}/task/getTaskById/${id}`);
+    return this.http.get<GlobalApiHandler<LogsDetails>>(`${this.apiUrl}/task/getTaskById/`+id);
   }
 
   updateLog(data: any): Observable<GlobalApiHandler<LogsDetails>>{

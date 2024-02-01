@@ -41,7 +41,6 @@ export class AddUsersComponent {
     if (this.userDetails.valid) {
       this.http.addUser(this.userDetails.value).subscribe({
         next: (response: any) => {
-          console.log('User added successfully');
           this.toast.showSuccess('User added successfully');
           this.router.navigate(['/app/user-mgnt/user-list']);
         },
@@ -58,9 +57,10 @@ export class AddUsersComponent {
   onRoleChange(event: Event) {
     const roleId = (event.target as HTMLSelectElement).value;
     if (roleId !== 'INTERN') {
-      this.userDetails.patchValue({ fieldType: '' });
+      this.userDetails.patchValue({ fieldType: null });
     }
   }
+  
 
   showFieldInput(): boolean {
     const roleId = this.userDetails.get('role')?.value;

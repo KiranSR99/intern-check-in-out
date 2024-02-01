@@ -41,4 +41,8 @@ export class HttpHandlerService {
     return this.http.delete<GlobalApiHandler<any>>(`${this.apiUrl}/user/delete/${id}`)            
 
 }
+
+updateUser(data: any): Observable<GlobalApiHandler<any>>{
+  return this.http.put<GlobalApiHandler<any>>(`${this.apiUrl}/user/update`,data);
+}
 }

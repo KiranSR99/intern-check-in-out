@@ -12,8 +12,10 @@ export class InternLogComponent implements OnInit {
   isCheckedIn: boolean = false;
   intern : any;
   searchText: any;
-  data: any;
+  
   id: any;
+  userId: any;
+
 
 constructor( private http : HttpHandlerService, private route: Router){}
 
@@ -22,7 +24,8 @@ constructor( private http : HttpHandlerService, private route: Router){}
   ngOnInit(): void {
     this.showInternLog();
     this.showInternName(this.id);
-      this.userRole = localStorage.getItem('role');
+    this.userId = localStorage.getItem('userId');
+    this.userRole = localStorage.getItem('role');
       if(this.userRole){
         this.userRole = JSON.parse(this.userRole);
       }      

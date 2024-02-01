@@ -10,6 +10,9 @@ import { UserList } from '../models/UserList.model';
   providedIn: 'root'
 })
 export class HttpHandlerService {
+  saveCheckOut(request: any) {
+    throw new Error('Method not implemented.');
+  }
 
   constructor(private http: HttpClient) { }
 
@@ -55,6 +58,10 @@ updateUser(data: any): Observable<GlobalApiHandler<any>>{
 
   getUserById(id: number): Observable<GlobalApiHandler<UserList>> {
   return this.http.get<GlobalApiHandler<UserList>>(`${this.apiUrl}/users/getById/${id}`);
+}
+
+saveCheckIn(request: any): Observable<GlobalApiHandler<any>> {
+  return this.http.post<GlobalApiHandler<any>>(`${this.apiUrl}/schedule/checkIn`, request);
 }
 
 }

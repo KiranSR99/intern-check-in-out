@@ -19,12 +19,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InternLogComponent } from './supervisor/log-details/intern-log/intern-log.component';
 import { UserProfileComponent } from './common/user-profile/user-profile.component';
 import { AddUsersComponent } from './admin/add-users/add-users.component';
+import { UpdateUsersComponent } from './admin/update-users/update-users.component';
 import { UserDetailsComponent } from './admin/user-details/user-details.component';
 import { EditProfileComponent } from './common/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './common/change-password/change-password.component';
 import { ForgotPasswordComponent } from './common/forgot-password/forgot-password.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { SearchFilterPipe } from './pipe/search-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,10 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     UserProfileComponent,
     EditProfileComponent,
     ChangePasswordComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    SearchFilterPipe,
+    UpdateUsersComponent
+
 
   ],
   imports: [

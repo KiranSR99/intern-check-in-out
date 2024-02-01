@@ -22,4 +22,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("select u from User u WHERE u.isActive = true and u.role =:role")
     List<User> findActiveUsersByRole(Role role);
+
+    @Query("select u from User u where u.email =:email")
+    User getUserByEmail(String email);
 }

@@ -2,6 +2,7 @@ package com.aadim.project.controller;
 
 import com.aadim.project.controller.Base.BaseController;
 import com.aadim.project.dto.GlobalApiResponse;
+import com.aadim.project.dto.request.PasswordRequest;
 import com.aadim.project.dto.request.UserRequest;
 import com.aadim.project.dto.request.UserUpdateRequest;
 import com.aadim.project.entity.Role;
@@ -58,5 +59,10 @@ public class UserController extends BaseController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<GlobalApiResponse> deleteUser (@PathVariable Integer id) {
         return successResponse(userService.deleteUser(id));
+    }
+
+    @PutMapping("/changePassword")
+    public ResponseEntity<GlobalApiResponse> changePassword (@RequestBody PasswordRequest request) {
+        return successResponse(userService.changePassword(request), "Password Reset Successful");
     }
 }

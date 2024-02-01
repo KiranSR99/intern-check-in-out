@@ -14,7 +14,7 @@ export class InternLogComponent implements OnInit {
   searchText: any;
   id: any;
   userId: any;
-
+  internLogs: any;
 
 constructor( private http : HttpHandlerService, private route: Router){}
 

@@ -18,6 +18,7 @@ import { LeaveRequestComponent } from './interns/leave-request/leave-request.com
 import { UpdateUsersComponent } from './admin/update-users/update-users.component';
 import { CreateLeaveRequestComponent } from './interns/create-leave-request/create-leave-request.component';
 import { EditLogComponent } from './interns/edit-log/edit-log.component';
+import { EnterOtpComponent } from './enter-otp/enter-otp.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '', pathMatch: 'full' },
@@ -25,6 +26,9 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [negateAuthGuard] },
   { path: 'change-password', component: ChangePasswordComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
+  {
+    path: 'enter-otp',
+    component: EnterOtpComponent},
   {
     path: 'app',
     component: BaseComponent,

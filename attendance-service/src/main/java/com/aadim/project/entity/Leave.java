@@ -19,6 +19,10 @@ public class Leave {
     @JoinColumn(name = "intern_id")
     private Intern internId;
 
+    private Integer noOfDays;
+    private String startDate;
+    private String endDate;
+
     private String reason;
 
     private String status;

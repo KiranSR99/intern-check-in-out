@@ -1,1 +1,72 @@
-<p>create-leave-request works!</p>
+<div class="wrapper">
+    <div class="container">
+        <div class="mb-5">
+            <form [formGroup]="leaveDetail">
+                <div class="border p-5 bg-light rounded">
+                    <h4 class="text-warning fw-semibold mb-3">Creating Leave Request</h4>
+                    <hr class="mt-1 mb-3" />
+                    <div class="row g-4">
+
+                        <div class="col-md-6 col-sm-12">
+                            <label>No Of Days</label>
+                            <input type="text" formControlName="noOfDays" name="noOfDays" id="noOfDays"
+                                class="form-control" placeholder="Enter no of days" required />
+                            <div class="text-danger"
+                                *ngIf="leaveDetail.get('noOfDays')?.invalid && leaveDetail.get('noOfDays')?.touched">
+                                <small>Please enter no of days.</small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-sm-12">
+                            <label>Start Date</label>
+                            <input type="date" formControlName="startDate" name="startDate" id="startDate"
+                                class="form-control" placeholder="Enter start date" required />
+                            <div class="text-danger"
+                                *ngIf="leaveDetail.get('startDate')?.invalid && leaveDetail.get('startDate')?.touched">
+                                <small>Please enter start date.</small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-sm-12">
+                            <label>End Date</label>
+                            <input type="date" formControlName="endDate" name="endDate" id="endDate"
+                                class="form-control" placeholder="Enter end date" required />
+                            <div class="text-danger"
+                                *ngIf="leaveDetail.get('endDate')?.invalid && leaveDetail.get('endDate')?.touched">
+                                <small>Please enter end date.</small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-sm-12">
+                            <label>Reason</label>
+                            <input type="text" formControlName="reason" class="form-control" placeholder="Enter reason"
+                                required />
+                            <div class="text-danger"
+                                *ngIf="leaveDetail.get('reason')?.invalid && leaveDetail.get('reason')?.touched">
+                                <small>Please enter reason.</small>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <hr class="mt-3 mb-3" />
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <button class="btn btn-outline-danger btn-sm" type="button"
+                                (click)="cancel()">Cancel</button>
+                        </div>
+                        <div class="col-sm-6 text-end">
+                            <button class="btn btn-outline-success btn-sm mx-3" type="button"
+                                (click)="onRequestClick()">Send Request</button>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

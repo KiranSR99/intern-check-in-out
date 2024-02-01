@@ -4,15 +4,17 @@
         <a class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
             <h4 class="text-warning">Intern Log History</h4>
         </a>
-        
+
         <div class="buttons" *ngIf="userRole === 'INTERN'">
             <button *ngIf="!isCheckedIn" class="btn btn-success mx-2" (click)="onCheckInClick()">Check-in</button>
-            <button *ngIf="isCheckedIn" class="btn btn-warning mx-2" (click)="onClickAddTask()"><i class="fa-solid fa-plus"></i> Add Task</button>
+            <button *ngIf="isCheckedIn" class="btn btn-warning mx-2" (click)="onClickAddTask()"><i
+                    class="fa-solid fa-plus"></i> Add Task</button>
             <button *ngIf="isCheckedIn" class="btn btn-danger" (click)="onCheckOutClick()">Check-out</button>
         </div>
         <div *ngIf="userRole === 'ADMIN' || userRole === 'SUPERVISOR'">
-            <input type="search" class="form-control" [(ngModel)]="searchText" placeholder="Search..." aria-label="Search">
-          </div>
+            <input type="search" class="form-control" [(ngModel)]="searchText" placeholder="Search..."
+                aria-label="Search">
+        </div>
     </div>
     <hr>
 
@@ -25,6 +27,7 @@
                         <td>S.N</td>
                         <td>Full Name</td>
                         <td>Check-in</td>
+                        <td>Field</td>
                         <td>S.N</td>
                         <td>Task</td>
                         <td>Status</td>
@@ -34,18 +37,26 @@
                         <td>Action</td>
                     </tr>
                 </thead>
-                <tbody *ngFor="let response of intern| searchFilter:searchText; let i = index ">
+                <tbody *ngFor="let data of intern |searchFilter:searchText; let i = index ">
                     <tr>
                         <td>{{i+1}}</td>
-                        <td>{{response.fullName}}</td>
-                        <td>{{response.checkIn}}</td>
+                        <td>{{data.fullName}}</td>
+                        <td>{{data.checkIn}}</td>
+                        <td>{{data.field}}</td>
                         <td></td>
-                        <td>{{response.task}}</td>
-                        <td>{{response.status}}</td>
-                        <td>{{response.timeTaken}}</td>
-                        <td>{{response.problem}}</td>
-                        <td></td>
-                        <td></td>
+                        <td>{{data.task}}</td>
+                        <td>{{data.status}}</td>
+                        <td>{{data.timeTaken}}</td>
+                        <td>{{data.problem}}</td>
+                        <td>{{data.checkOut}}</td>
+                        <td>
+                            <button class="btn btn-outline-warning" (click)="onViewClick()" style="margin:8px"><i
+                                    class="fa fa-eye"></i></button>
+
+                            <button type="edit" class="btn btn-outline-primary" (click)="onEditClick(this.userId)"
+                                style="margin:8px"><i class="fa fa-edit"></i></button>
+
+                        </td>
                     </tr>
                 </tbody>
             </table>

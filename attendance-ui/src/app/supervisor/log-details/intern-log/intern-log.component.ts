@@ -12,18 +12,24 @@ export class InternLogComponent implements OnInit {
   isCheckedIn: boolean = false;
   intern : any;
   searchText: any;
-  data: any;
   id: any;
+  userId: any;
+  internLogs: any;
 
 constructor( private http : HttpHandlerService, private route: Router){}
+
+ 
 
   ngOnInit(): void {
     this.showInternLog();
     this.showInternName(this.id);
-      this.userRole = localStorage.getItem('role');
+    this.userId = localStorage.getItem('userId');
+    this.userRole = localStorage.getItem('role');
       if(this.userRole){
         this.userRole = JSON.parse(this.userRole);
-      }      
+      } 
+     
+      
   }
 
   showInternLog(){
@@ -42,6 +48,8 @@ constructor( private http : HttpHandlerService, private route: Router){}
     this.http.getUserById(id).subscribe(
       (result: any)=>{
         this.intern = result.data.fullName;
+        console.log("Fetch data successfully", result);
+        
       },
       (error: any)=>{
         console.error("Error fetching data", error);
@@ -51,6 +59,17 @@ constructor( private http : HttpHandlerService, private route: Router){}
 
   onCheckInClick(){
     this.isCheckedIn = true;
+
+    this.http.checkIn(this.userId).subscribe(
+      (result: any)=>{
+        console.log("Check in successfully", result);
+      },
+      (error: any)=>{
+        console.error("Error", error);
+      }
+     
+      
+    );
   }
 
   onCheckOutClick(){
@@ -61,4 +80,13 @@ constructor( private http : HttpHandlerService, private route: Router){}
     this.route.navigate(['app/log-mgnt/add-log']);
   }
 
+  onViewClick(){
+
+  }
+
+  onEditClick(id: number){
+    this.route.navigate(['app/log-mgnt/edit-log/', id]);
+  }
+
+  onDeleteClick(){}
 }

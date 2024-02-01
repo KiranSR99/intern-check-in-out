@@ -67,6 +67,7 @@ forgotPassword(email: any): Observable<any>{
 checkOtp(data: any): Observable<GlobalApiHandler<any>>{
   return this.http.post<GlobalApiHandler<any>>(`${this.apiUrl}/forgot-password/validate-otp`, data);
 }
+
 updatePassword(data: any){
   return this.http.put<any>(`${this.apiUrl}/forgot-password/update-password` , data)
 }

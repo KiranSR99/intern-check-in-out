@@ -2,6 +2,7 @@ package com.aadim.project.service.impl;
 
 import com.aadim.project.dto.request.TaskReq;
 import com.aadim.project.dto.request.TaskRequest;
+import com.aadim.project.dto.request.TaskUpdateRequest;
 import com.aadim.project.dto.response.TaskResponse;
 import com.aadim.project.entity.Task;
 import com.aadim.project.entity.User;
@@ -30,11 +31,6 @@ public class TaskServiceImpl implements TaskService {
     private final InternRepository internRepository;
 
     private final UserRepository userRepository;
-
-    @Override
-    public TaskResponse saveTask(TaskRequest taskRequest) {
-        return null;
-    }
 
     @Override
     public List<TaskResponse> saveAllTasks(TaskRequest taskRequest) {
@@ -112,4 +108,18 @@ public class TaskServiceImpl implements TaskService {
 
         return taskResponse;
     }
+
+    @Override
+    public TaskResponse updateTask(TaskUpdateRequest updateRequest) {
+        Task task = taskRepository.getReferenceById(updateRequest.getId());
+
+        task.setStatus(updateRequest.getStatus());
+        task.setTask(updateRequest.getTask());
+        task.setProblem(updateRequest.getProblem());
+        task.setTimeTaken(updateRequest.getTimeTaken());
+
+        Task savedTask = taskRepository.save(task);
+        return new TaskResponse(savedTask);
+    }
+
 }

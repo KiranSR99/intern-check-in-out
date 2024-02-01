@@ -8,6 +8,7 @@ import com.aadim.project.repository.*;
 import com.aadim.project.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final AdminRepository adminRepository;
@@ -118,6 +120,48 @@ public class UserServiceImpl implements UserService {
 
         return userResponse;
     }
+
+
+//    To-Do  next
+    @Override
+    public List<UserResponse> getAllUsersByRole(Role role) {
+        log.warn(String.valueOf(role));
+        List<UserResponse> userResponses = new ArrayList<>();
+        List<User> users = userRepository.findActiveUsersByRole(role);
+        for (User user: users) {
+            UserResponse userResponse = new UserResponse();
+            userResponse.setUserId(user.getId());
+            userResponse.setEmail(user.getEmail());
+            userResponse.setRole(user.getRole());
+            if (role.toString().equals("INTERN")) {
+                Intern intern = internRepository.findInternByUserId(user.getId());
+                if (intern != null) {
+                    userResponse.setFullName(intern.getFullName());
+                    userResponse.setPhone(intern.getPhone());
+                    userResponse.setFieldType(intern.getFieldType());
+                }
+            } else if (role.toString().equals("SUPERVISOR")) {
+                Supervisor supervisor = supervisorRepository.findSupervisorByUserId(user.getId());
+                if (supervisor != null) {
+                    userResponse.setFullName(supervisor.getFullName());
+                    userResponse.setPhone(supervisor.getPhone());
+                }
+            } else if (role.toString().equals("ADMIN")) {
+                Admin admin = adminRepository.findAdminByUserId(user.getId());
+                if (admin != null) {
+                    userResponse.setFullName(admin.getFullName());
+                    userResponse.setPhone(admin.getPhone());
+                }
+//            else {
+//                throw new RuntimeException("Role " + role + "not found.");
+//                }
+            }
+            userResponses.add(userResponse);
+        }
+        return userResponses;
+    }
+
+
 
 
     @Override

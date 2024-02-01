@@ -31,13 +31,13 @@
                         <td>Action</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody *ngFor="let data of intern ; let i = index">
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{i+1}}</td>
+                        <td>{{data.task}}</td>
+                        <td>{{data.status}}</td>
+                        <td>{{data.timeTaken}}</td>
+                        <td>{{data.problem}}</td>
                         <td></td>
                         <td></td>
                     </tr>

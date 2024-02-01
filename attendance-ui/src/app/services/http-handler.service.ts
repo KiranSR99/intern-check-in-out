@@ -41,4 +41,8 @@ export class HttpHandlerService {
     return this.http.delete<GlobalApiHandler<any>>(`${this.apiUrl}/user/delete/${id}`)            
 
 }
+
+getAllLog(): Observable<any>{
+  return this.http.get<any>(`${this.apiUrl}/task/getAllTasks`)
+}
 }

@@ -25,6 +25,8 @@ import { ChangePasswordComponent } from './common/change-password/change-passwor
 import { ForgotPasswordComponent } from './common/forgot-password/forgot-password.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { LeaveRequestComponent } from './interns/leave-request/leave-request.component';
+import { CreateLeaveRequestComponent } from './interns/create-leave-request/create-leave-request.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     UserProfileComponent,
     EditProfileComponent,
     ChangePasswordComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    LeaveRequestComponent,
+    CreateLeaveRequestComponent
 
   ],
   imports: [

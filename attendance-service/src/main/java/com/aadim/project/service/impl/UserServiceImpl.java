@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
             admin.setUser(user);
             Admin admin1 = adminRepository.save(admin);
             return new UserResponse(admin1, user);
-        } else if (Objects.equals(request.getRole().toString(), "SUPERVISIOR")) {
+        } else if (Objects.equals(request.getRole().toString(), "SUPERVISOR")) {
             Supervisor supervisor = new Supervisor();
             supervisor.setFullName(request.getFullName());
             supervisor.setPhone(request.getPhone());
@@ -55,6 +55,10 @@ public class UserServiceImpl implements UserService {
             intern.setPhone(request.getPhone());
             intern.setFieldType(request.getFieldType());
             intern.setUser(user);
+            Supervisor primarySupervisor = supervisorRepository.findSupervisorById(request.getPrimarySupervisor());
+            intern.setPrimarySupervisor(primarySupervisor);
+            Supervisor secondarySupervisor = supervisorRepository.findSupervisorById(request.getSecondarySupervisor());
+            intern.setSecondarySupervisor(secondarySupervisor);
             Intern intern1= internRepository.save(intern);
             return new UserResponse(intern1, user);
         }
@@ -167,6 +171,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse updateUser(UserUpdateRequest request) {
         User user = userRepository.getReferenceById(request.getId());
+        if(!user.isActive()) {
+            throw new RuntimeException("User not available");
+        }
         Role role = user.getRole();
         if(role.toString().equals("ADMIN") ) {
             Admin admin = adminRepository.findAdminByUserId(request.getId());

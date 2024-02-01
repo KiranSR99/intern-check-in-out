@@ -7,6 +7,7 @@ spring:
     username: bishal
     password: 1111
 
+
     driver-class-name: org.postgresql.Driver
   jpa:
     show_sql: true

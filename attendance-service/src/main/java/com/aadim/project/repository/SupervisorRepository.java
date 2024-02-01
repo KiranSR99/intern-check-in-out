@@ -10,4 +10,6 @@ public interface SupervisorRepository extends JpaRepository<Supervisor, Integer>
 
     @Query("SELECT s FROM Supervisor s WHERE s.user.id =:id")
     Supervisor findSupervisorByUserId(Integer id);
+
+    Supervisor findSupervisorById(Integer primarySupervisor);
 }

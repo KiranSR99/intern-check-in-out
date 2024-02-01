@@ -23,7 +23,7 @@ export class EditLogComponent {
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private toast: ToastService
+    private toastr: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -104,8 +104,21 @@ export class EditLogComponent {
     });
   }
 
-  onClickUpdateLog(){
-
+  onClickUpdateLog(data: any){
+    console.log(data.value);
+    this.http.updateLog(data).subscribe(
+      (response: any) => {
+        console.log("Data is updated successfully");
+        this.toastr.showSuccess("LOg Update Sucessfully");
+        //this.router.navigate(['/app/event-mgnt/view-event']);
+        this.onInitLogDetails();
+        this.logDetails.reset();
+      },
+      (error: any) => {
+        console.log("error");
+      }
+    );
+      this.location.back();
   }
 
   onDeleteButtonClick(i: number) {

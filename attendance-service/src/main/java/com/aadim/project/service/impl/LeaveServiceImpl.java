@@ -4,10 +4,12 @@ import com.aadim.project.dto.request.LeaveRequest;
 import com.aadim.project.dto.response.LeaveResponse;
 import com.aadim.project.entity.Intern;
 import com.aadim.project.entity.Leave;
+import com.aadim.project.entity.Supervisor;
 import com.aadim.project.repository.InternRepository;
 import com.aadim.project.repository.LeaveRepository;
 import com.aadim.project.service.LeaveService;
 import jakarta.mail.MessagingException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,34 +31,48 @@ public class LeaveServiceImpl implements LeaveService {
     @Autowired
     private MailServiceImpl mailServiceImpl;
     @Override
-    public LeaveResponse createLeave(LeaveRequest leaveRequest) {
+    public String createLeave(LeaveRequest leaveRequest) {
         log.info("Creating leave record for intern");
+
         Leave leave = new Leave();
         Intern intern = internRepository.findInternByUserId(leaveRequest.getInternId());
+        if(intern == null){
+            log.error("Intern not found");
+            throw new RuntimeException("Intern not found");
+        }
         leave.setInternId(intern);
+        leave.setNoOfDays(leaveRequest.getNoOfDays());
+        leave.setStartDate(leaveRequest.getStartDate());
+        leave.setEndDate(leaveRequest.getEndDate());
         leave.setReason(leaveRequest.getReason());
         leave.setStatus("Pending");
         leave.setActive(true);
-        Leave savedLeave = leaveRepository.save(leave);
+
+        String primarySupervisorEmail = intern.getPrimarySupervisor().getUser().getEmail();
+        String secondarySupervisorEmail = intern.getSecondarySupervisor().getUser().getEmail();
 
         try{
             mailServiceImpl.sendHtmlMail(
-                    "supervisor@yopmail.com",
+                    primarySupervisorEmail,
                     "Leave Request",
-                    leaveRequest
+                    leaveRequest,
+                    intern
             );
             mailServiceImpl.sendHtmlMail(
-                    "supervisor2@yopmail.com",
+                    secondarySupervisorEmail,
                     "Leave Request",
-                    leaveRequest
+                    leaveRequest,
+                    intern
             );
         }catch (MessagingException e){
             log.error("Error while sending mail");
         }
 
+        leaveRepository.save(leave);
+
         log.info("Leave record created successfully");
 
-        return new LeaveResponse(savedLeave);
+        return "Leave record created successfully";
     }
 
     @Override
@@ -73,7 +89,16 @@ public class LeaveServiceImpl implements LeaveService {
 
     @Override
     public LeaveResponse getLeaveById(Integer id) {
-        return new LeaveResponse(leaveRepository.getReferenceById(id));
+        log.info("Returning leave record by id");
+        if(!leaveRepository.existsById(id)){
+            log.error("Leave record not found");
+            throw new EntityNotFoundException("Leave record not found");
+        }
+        Leave leave = leaveRepository.findLeaveById(id);
+        if(leave == null){
+            throw new NullPointerException("Leave record not found");
+        }
+        return new LeaveResponse();
     }
 
     @Override
@@ -88,6 +113,20 @@ public class LeaveServiceImpl implements LeaveService {
     public String deleteLeave(Integer id) {
         Leave leave = leaveRepository.getReferenceById(id);
         leave.setActive(false);
+        leaveRepository.save(leave);
         return "Leave deleted successfully";
     }
+
+    @Override
+    public List<LeaveResponse> getInternLeaves(Integer id) {
+        List<LeaveResponse> leaveResponseList = new ArrayList<>();
+        List<Leave> leaveList = leaveRepository.findLeaveByInternId(id);
+
+        for (Leave leave : leaveList) {
+            leaveResponseList.add(new LeaveResponse(leave));
+        }
+        log.info("Returning all leave records");
+        return leaveResponseList;
+    }
+
 }

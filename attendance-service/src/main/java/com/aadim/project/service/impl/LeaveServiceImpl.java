@@ -4,7 +4,6 @@ import com.aadim.project.dto.request.LeaveRequest;
 import com.aadim.project.dto.response.LeaveResponse;
 import com.aadim.project.entity.Intern;
 import com.aadim.project.entity.Leave;
-import com.aadim.project.entity.Supervisor;
 import com.aadim.project.repository.InternRepository;
 import com.aadim.project.repository.LeaveRepository;
 import com.aadim.project.service.LeaveService;
@@ -52,6 +51,7 @@ public class LeaveServiceImpl implements LeaveService {
         String secondarySupervisorEmail = intern.getSecondarySupervisor().getUser().getEmail();
 
         try{
+            log.info("Sending mail to primary and secondary supervisor");
             mailServiceImpl.sendHtmlMail(
                     primarySupervisorEmail,
                     "Leave Request",
@@ -103,6 +103,7 @@ public class LeaveServiceImpl implements LeaveService {
 
     @Override
     public LeaveResponse setLeaveStatus(Integer id) {
+        log.info("Setting leave status to Approved");
         Leave leave = leaveRepository.getReferenceById(id);
         leave.setStatus("Approved");
         log.info("Leave status Approved successfully");
@@ -114,6 +115,7 @@ public class LeaveServiceImpl implements LeaveService {
         Leave leave = leaveRepository.getReferenceById(id);
         leave.setActive(false);
         leaveRepository.save(leave);
+        log.info("Leave deleted successfully");
         return "Leave deleted successfully";
     }
 

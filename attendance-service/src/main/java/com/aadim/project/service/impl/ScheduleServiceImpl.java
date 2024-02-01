@@ -2,7 +2,7 @@ package com.aadim.project.service.impl;
 
 import com.aadim.project.dto.request.ScheduleRequest;
 import com.aadim.project.dto.request.ScheduleUpdateRequest;
-import com.aadim.project.dto.response.ScheduleDetailResponse;
+//import com.aadim.project.dto.response.ScheduleDetailResponse;
 import com.aadim.project.dto.response.ScheduleResponse;
 import com.aadim.project.entity.Intern;
 import com.aadim.project.entity.Schedule;
@@ -53,9 +53,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleDetailResponse> fetchAll(){
+    public List<ScheduleResponse> fetchAll(){
         List<Schedule> schedules = scheduleRepository.findAll();
-        return schedules.stream().map(ScheduleDetailResponse::new).collect(Collectors.toList());
+        return schedules.stream().map(ScheduleResponse::new).collect(Collectors.toList());
     }
 
 

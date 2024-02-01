@@ -2,7 +2,6 @@ package com.aadim.project.service.impl;
 
 import com.aadim.project.dto.request.TaskRequest;
 import com.aadim.project.dto.response.TaskResponse;
-import com.aadim.project.entity.Intern;
 import com.aadim.project.entity.Task;
 import com.aadim.project.repository.InternRepository;
 import com.aadim.project.repository.TaskRepository;

@@ -47,9 +47,10 @@ export class HttpHandlerService {
     );
   }
 
-  getAllLog(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/task/getAllTasks`);
-  }
+
+getAllLog(): Observable<any>{
+  return this.http.get<any>(`${this.apiUrl}/task/getAllTasks`)
+}
 
   updateUser(data: any): Observable<GlobalApiHandler<any>> {
     return this.http.put<GlobalApiHandler<any>>(
@@ -69,3 +70,6 @@ export class HttpHandlerService {
     return this.http.post(`${this.apiUrl}/leave/create`,data);
   }
 }
+
+
+

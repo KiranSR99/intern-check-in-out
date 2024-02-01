@@ -247,7 +247,7 @@ public class UserServiceImpl implements UserService {
         if(userRepository.existsByEmail(request.getEmail())) {
             User user = userRepository.getUserByEmail(request.getEmail());
             if (user.isActive()) {
-                user.setPassword(request.getNewPassword());
+                user.setPassword(new BCryptPasswordEncoder().encode(request.getNewPassword()));
                 return "Password updated successfully";
             }
             else return "User is inActive. Couldn't change password.";

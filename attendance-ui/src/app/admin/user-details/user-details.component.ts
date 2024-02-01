@@ -24,7 +24,7 @@ export class UserDetailsComponent {
   fetchUserDetails() {
     this.httpHandler.getAllUsers().subscribe(
       (data: any) => {
-        console.log("Data fetched successfully")
+        console.log("Data fetched successfully");
         this.userDetailsData = data.data;
       },
       (error:any) => {
@@ -56,7 +56,7 @@ export class UserDetailsComponent {
     this.router.navigate(['app/user-mgnt/add-user']);
   }
 
-  updateUserById(id: any) {
-    this.router.navigate(['', id]);
+  onUpdateClick(userId: any) {
+    this.router.navigate(['/app/user-mgnt/update-user/', userId]);
   }
 }

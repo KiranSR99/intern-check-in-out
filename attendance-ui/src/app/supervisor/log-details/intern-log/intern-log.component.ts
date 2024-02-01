@@ -11,13 +11,15 @@ export class InternLogComponent implements OnInit {
   userRole: any;
   isCheckedIn: boolean = false;
   intern : any;
-  searchText: string = '';
+  searchText: string ='';
   data: any;
+  id: any;
 
 constructor( private http : HttpHandlerService, private route: Router){}
 
   ngOnInit(): void {
     this.showInternLog();
+    this.showInternName(this.id);
       this.userRole = localStorage.getItem('role');
       if(this.userRole){
         this.userRole = JSON.parse(this.userRole);
@@ -29,6 +31,17 @@ constructor( private http : HttpHandlerService, private route: Router){}
       (result: any)=>{
         this.intern = result.data;
         console.log("fetch data successfully",result);
+      },
+      (error: any)=>{
+        console.error("Error fetching data", error);
+      }
+    );
+  }
+
+  showInternName(id : any){
+    this.http.getUserById(id).subscribe(
+      (result: any)=>{
+        this.intern = result.data.fullName;
       },
       (error: any)=>{
         console.error("Error fetching data", error);

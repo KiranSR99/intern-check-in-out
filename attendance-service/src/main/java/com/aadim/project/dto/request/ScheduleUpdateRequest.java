@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ScheduleUpdateRequest {
-    private Integer id;
+    private Integer userId;
     private LocalDateTime checkInTime;
     private LocalDateTime checkOutTime;
 }

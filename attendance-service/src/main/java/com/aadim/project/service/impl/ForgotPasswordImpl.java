@@ -31,12 +31,15 @@ public class ForgotPasswordImpl implements ForgotPasswordService {
     private MailServiceImpl mailService;
     @Override
     public String sendOtp(ForgotPasswordRequest forgotPasswordRequest) {
+        log.info("Checking if email exists");
         User user = userRepository.findByEmail(forgotPasswordRequest.getEmail()).orElseThrow(() -> new RuntimeException("User not found"));
         if(!user.getEmail().equals(forgotPasswordRequest.getEmail())){
+            log.error("Email not found");
             throw new RuntimeException("Email not found");
         }
 
         int otp = (int) (Math.random() * (1000000 - 100000 + 1) + 100000);
+        log.info("OTP generated successfully");
         Otp otpEntity = new Otp();
         otpEntity.setEmail(forgotPasswordRequest.getEmail());
         otpEntity.setOtp(otp);
@@ -56,18 +59,23 @@ public class ForgotPasswordImpl implements ForgotPasswordService {
 
     @Override
     public String validateOtp(ForgotPasswordRequest forgotPasswordRequest) {
+        log.info("Validating OTP");
         Otp otp = otpRepository.findByEmail(forgotPasswordRequest.getEmail());
         if(otp == null){
+            log.error("OTP not found. Please enter a new OTP");
             throw new RuntimeException("OTP not found. Please enter a new OTP");
         }
         if(!otp.getOtp().equals(forgotPasswordRequest.getOtp())){
+            log.error("Invalid OTP");
             throw new RuntimeException("Invalid OTP");
         }
+        log.info("OTP validated successfully");
         return "OTP validated successfully";
     }
 
     @Override
     public String updatePassword(ForgotPasswordRequest forgotPasswordRequest) {
+        log.info("Updating password");
         return userService.changePasswordByEmail(forgotPasswordRequest);
     }
 

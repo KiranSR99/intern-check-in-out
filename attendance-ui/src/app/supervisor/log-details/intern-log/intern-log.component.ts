@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpHandlerService } from '../../../services/http-handler.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-intern-log',
@@ -10,8 +11,10 @@ export class InternLogComponent implements OnInit {
   userRole: any;
   isCheckedIn: boolean = false;
   intern : any;
+  searchText: string = '';
+  data: any;
 
-constructor( private http : HttpHandlerService){}
+constructor( private http : HttpHandlerService, private route: Router){}
 
   ngOnInit(): void {
     this.showInternLog();
@@ -39,6 +42,10 @@ constructor( private http : HttpHandlerService){}
 
   onCheckOutClick(){
     this.isCheckedIn = false;
+  }
+
+  onClickAddTask(){
+    this.route.navigate(['app/log-mgnt/add-log']);
   }
 
 }

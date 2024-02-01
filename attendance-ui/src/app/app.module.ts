@@ -26,6 +26,8 @@ import { ChangePasswordComponent } from './common/change-password/change-passwor
 import { ForgotPasswordComponent } from './common/forgot-password/forgot-password.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { LeaveRequestComponent } from './interns/leave-request/leave-request.component';
+import { CreateLeaveRequestComponent } from './interns/create-leave-request/create-leave-request.component';
 import { SearchFilterPipe } from './pipe/search-filter.pipe';
 import { EditLogComponent } from './interns/edit-log/edit-log.component';
 
@@ -48,9 +50,10 @@ import { EditLogComponent } from './interns/edit-log/edit-log.component';
     ChangePasswordComponent,
     ForgotPasswordComponent,
     EditLogComponent,
+    LeaveRequestComponent,
+    CreateLeaveRequestComponent,
     SearchFilterPipe,
     UpdateUsersComponent
-
 
   ],
   imports: [

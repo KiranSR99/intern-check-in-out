@@ -64,7 +64,9 @@ updateUser(data: any): Observable<GlobalApiHandler<any>>{
   return this.http.get<GlobalApiHandler<UserList>>(`${this.apiUrl}/users/getById/${id}`);
 }
 
-
+// checkIn(): Observable<any>{
+//   return this.http.post(`${this.apiUrl}/schedule/checkIn`,)
+// }
 
 }
 

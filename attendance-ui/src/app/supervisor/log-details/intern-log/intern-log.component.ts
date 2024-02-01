@@ -44,6 +44,8 @@ constructor( private http : HttpHandlerService, private route: Router){}
     this.http.getUserById(id).subscribe(
       (result: any)=>{
         this.intern = result.data.fullName;
+        console.log("Fetch data successfully", result);
+        
       },
       (error: any)=>{
         console.error("Error fetching data", error);
@@ -53,6 +55,16 @@ constructor( private http : HttpHandlerService, private route: Router){}
 
   onCheckInClick(){
     this.isCheckedIn = true;
+    // this.http.checkIn().subscribe(
+    //   (result: any)=>{
+    //     console.log("Check in successfully", result);
+    //   },
+    //   (error: any)=>{
+    //     console.error("Error", error);
+    //   }
+     
+      
+    // );
   }
 
   onCheckOutClick(){

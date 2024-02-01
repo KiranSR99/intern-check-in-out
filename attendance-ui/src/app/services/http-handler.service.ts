@@ -28,6 +28,14 @@ export class HttpHandlerService {
     );
   }
 
+  getLogById(id: number): Observable<GlobalApiHandler<LogsDetails>>{
+    return this.http.get<GlobalApiHandler<LogsDetails>>(`${this.apiUrl}/task/getTaskById/`+id);
+  }
+
+  updateLog(data: any): Observable<GlobalApiHandler<LogsDetails>>{
+    return this.http.put<GlobalApiHandler<LogsDetails>>(`${this.apiUrl}/task/updateTask`, data);
+  }
+  
   addUser(data: any): Observable<GlobalApiHandler<UserList>> {
     return this.http.post<GlobalApiHandler<UserList>>(
       `${this.apiUrl}/users/saveUser`,

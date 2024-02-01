@@ -1,5 +1,6 @@
 package com.aadim.project.dto.response;
 
+import com.aadim.project.entity.Intern;
 import com.aadim.project.entity.Task;
 import com.aadim.project.entity.User;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,6 @@ public class TaskResponse {
         this.status = savedTask.getStatus();
         this.problem = savedTask.getProblem();
         this.timeTaken = savedTask.getTimeTaken();
-        this.userId = savedTask.getUserId();
+        this.userId = savedTask.getUser();
     }
 }

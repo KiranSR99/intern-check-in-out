@@ -19,20 +19,39 @@ export class UserDetailsComponent {
   ) { }
 
   ngOnInit(): void {
-    
-   
+    this.fetchUserDetails();
   }
-
+  
   fetchUserDetails() {
     this.httpHandler.getAllUsers().subscribe(
       (data: any) => {
-        this.userDetailsData = data;
+        console.log("Data fetched successfully")
+        this.userDetailsData = data.data;
       },
       (error:any) => {
         console.error('Error fetching user details:', error);
       }
     );
   }
+
+  deleteID(id: number) {
+    if (confirm('Do you want to delete data?')) {
+      this.httpHandler.deleteID(id).subscribe({
+        next: (response: any)  => {
+          this.toastr.success('Data Deleted Successfully');
+          console.log('Data Deleted successfully:', response);
+
+          this.fetchUserDetails(); 
+        },
+        error: (error: any) => {
+          this.toastr.error(error.error.data);
+          console.log('Error deleting data:', error.error.data);
+        }
+      });
+    }
+  }
+
+
 
   addUser() {
     this.router.navigate(['app/user-mgnt/add-user']);

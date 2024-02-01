@@ -27,4 +27,9 @@ public class ScheduleController extends BaseController {
         return successResponse(scheduleService.updateCheckOut(request), "Checked out successfully");
     }
 
+    @GetMapping("/fetchAll")
+    public ResponseEntity<GlobalApiResponse> fetchAll(){
+        return successResponse(scheduleService.fetchAll(), "Data fetched successfully");
+    }
+
 }

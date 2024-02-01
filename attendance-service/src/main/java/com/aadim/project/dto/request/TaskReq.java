@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ScheduleUpdateRequest {
+public class TaskReq {
+    private String task;
+    private String status;
+    private String problem;
+    private String timeTaken;
     private Integer userId;
-    private LocalDateTime checkInTime;
-    private LocalDateTime checkOutTime;
 }

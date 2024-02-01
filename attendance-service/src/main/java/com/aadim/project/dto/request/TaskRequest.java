@@ -12,5 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskRequest {
-    private List<Task> tasks;
+    private List<TaskReq> tasks;
 }

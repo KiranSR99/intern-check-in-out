@@ -7,8 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ForgotPasswordRequest {
-    private Integer otp;
-    private String email;
-    private String newPassword;
+public class TaskUpdateRequest {
+    private Integer id;
+    private String task;
+    private String problem;
+    private String timeTaken;
+    private String status;
 }

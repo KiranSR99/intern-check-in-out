@@ -120,12 +120,12 @@ public class LeaveServiceImpl implements LeaveService {
     @Override
     public List<LeaveResponse> getInternLeaves(Integer id) {
         List<LeaveResponse> leaveResponseList = new ArrayList<>();
-        List<Leave> leaveList = leaveRepository.findLeaveByInternId(id);
+        List<Leave> leaveList = leaveRepository.findLeaveByInternId(internRepository.findInternByUserId(id).getId());
 
         for (Leave leave : leaveList) {
             leaveResponseList.add(new LeaveResponse(leave));
         }
-        log.info("Returning all leave records");
+        log.info("Returning all leave records of intern: "+ id);
         return leaveResponseList;
     }
 

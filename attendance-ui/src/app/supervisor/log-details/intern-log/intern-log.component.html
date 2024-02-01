@@ -41,12 +41,28 @@
                         <td>{{data.fullName}}</td>
                         <td>{{data.checkIn}}</td>
                         <td>{{data.field}}</td>
+                        <td></td>
                         <td>{{data.task}}</td>
                         <td>{{data.status}}</td>
                         <td>{{data.timeTaken}}</td>
                         <td>{{data.problem}}</td>
                         <td>{{data.checkOut}}</td>
-                        <td></td>
+                        <td>
+                            <div class="row ">
+                                <div class="col-sm-4">
+                                  <button class="btn btn-outline-warning" (click)="onViewClick()" ><i
+                                    class="fa fa-eye"></i></button>
+                                </div>
+                                <div class="col-sm-4">
+                                  <button type="edit" class="btn btn-outline-primary" (click)="onEditClick(data.id)"><i
+                                    class="fa fa-edit"></i></button>
+                                </div>
+                                <div class="col-sm-4">   
+                              <button type="delete" class="btn btn-outline-danger"  (click)="onDeleteClick()"><i
+                                class="fa fa-trash"></i></button>
+                                </div>
+                              </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>

@@ -29,9 +29,9 @@
   
             <div class="col-md-6">
               <label>Phone</label>
-              <input type="text" formControlName="phoneNum" name="contact" id="contact" class="form-control" placeholder="Enter your phone number" required/>
+              <input type="text" formControlName="phone" name="phone" id="phone" class="form-control" placeholder="Enter your phone number" required/>
               <div class="text-danger"
-                   *ngIf="userDetails.get('contactNum').invalid && userDetails.get('phoneNum').touched">
+                   *ngIf="userDetails.get('phone').invalid && userDetails.get('phone').touched">
                 <small>Please enter phone number.</small>
               </div>
             </div>

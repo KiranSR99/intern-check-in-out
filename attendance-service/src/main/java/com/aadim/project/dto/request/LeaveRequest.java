@@ -16,7 +16,4 @@ public class LeaveRequest {
     private String startDate;
     private String endDate;
     private String reason;
-    private String name;
-    private String position;
-    private String phone;
 }

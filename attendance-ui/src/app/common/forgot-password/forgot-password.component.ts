@@ -21,20 +21,25 @@ export class ForgotPasswordComponent implements OnInit{
     })
   }
   forgotPassword(email: any) {
-    
-    this.http.forgotPassword(email).subscribe({
-      next: (response: any) => {
+
+    console.log(email)
+   
+    this.http.forgotPassword(email).subscribe(
+       (response: any) => {
         this.emailDeatil.reset();
         this.toast.success("Otp sent in your email");
-        this.router.navigate(['/login']);
-        console.log("email: ",email.email);
+        this.router.navigate(['/enter-otp']);
+        console.log("email: ", email.email);
+        console.log("response: ", response);
         localStorage.setItem("email", email.email);
       },
-      error: (error: any) => {
+      (error: any) => {
         console.log(error);
         this.toast.error(error.error.message);
       }
-    });
+    );
   }
+  
+  
   
 }

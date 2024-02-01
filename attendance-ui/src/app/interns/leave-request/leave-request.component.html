@@ -4,4 +4,25 @@
         <button class="btn btn-sm btn-success" (click)="onComposeNewClick(userId)"><i class="fa-solid fa-plus"></i> Compose New</button>
     </div>
     <hr>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center">
+            <thead class="table-primary">
+                <tr>
+                    <th>S.N</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of responseData; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ data.reason }}</td>
+                    <td>
+                        <button class="btn btn-success">{{ data.status }}</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

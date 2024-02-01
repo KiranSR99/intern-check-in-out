@@ -30,6 +30,7 @@ import { LeaveRequestComponent } from './interns/leave-request/leave-request.com
 import { CreateLeaveRequestComponent } from './interns/create-leave-request/create-leave-request.component';
 import { SearchFilterPipe } from './pipe/search-filter.pipe';
 import { EditLogComponent } from './interns/edit-log/edit-log.component';
+import { EnterOtpComponent } from './enter-otp/enter-otp.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { EditLogComponent } from './interns/edit-log/edit-log.component';
     LeaveRequestComponent,
     CreateLeaveRequestComponent,
     SearchFilterPipe,
-    UpdateUsersComponent
+    UpdateUsersComponent,
+    EnterOtpComponent
 
   ],
   imports: [

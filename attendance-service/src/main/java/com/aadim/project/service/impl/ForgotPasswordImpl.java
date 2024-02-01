@@ -31,7 +31,7 @@ public class ForgotPasswordImpl implements ForgotPasswordService {
     private MailServiceImpl mailService;
     @Override
     public String sendOtp(ForgotPasswordRequest forgotPasswordRequest) {
-        User user = userRepository.findById(forgotPasswordRequest.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findByEmail(forgotPasswordRequest.getEmail()).orElseThrow(() -> new RuntimeException("User not found"));
         if(!user.getEmail().equals(forgotPasswordRequest.getEmail())){
             throw new RuntimeException("Email not found");
         }
@@ -60,7 +60,7 @@ public class ForgotPasswordImpl implements ForgotPasswordService {
         if(otp == null){
             throw new RuntimeException("OTP not found. Please enter a new OTP");
         }
-        if(otp.getOtp() != forgotPasswordRequest.getOtp()){
+        if(!otp.getOtp().equals(forgotPasswordRequest.getOtp())){
             throw new RuntimeException("Invalid OTP");
         }
         return "OTP validated successfully";
@@ -68,7 +68,7 @@ public class ForgotPasswordImpl implements ForgotPasswordService {
 
     @Override
     public String updatePassword(ForgotPasswordRequest forgotPasswordRequest) {
-        return null;
+        return userService.changePasswordByEmail(forgotPasswordRequest);
     }
 
 

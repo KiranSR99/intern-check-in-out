@@ -53,19 +53,19 @@ public class MailServiceImpl implements MailService {
 
         String sub = "Password Verification Code";
         String content = "Hello "+toEmail+" Your Verification code is :" + verificationCode;
-        sendHtmlMail(toEmail, sub, content);
+        sendOtpMail(toEmail, sub, content);
     }
 
     @Async
     @Override
-    public void sendHtmlMail(String to, String sub, String content) throws MessagingException {
+    public void sendOtpMail(String to, String sub, String content) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message,true,"UTF-8");
         helper.setTo(to);
         helper.setSubject(sub);
         Context context = new Context();
         context.setVariable("content", content);
-        String htmlContent = templateEngine.process("email-template.html",
+        String htmlContent = templateEngine.process("email-otp-template.html",
                 context);
         helper.setText(htmlContent,true);
         javaMailSender.send(message);

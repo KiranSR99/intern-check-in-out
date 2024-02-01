@@ -1,5 +1,6 @@
 package com.aadim.project.service;
 
+import com.aadim.project.dto.request.ForgotPasswordRequest;
 import com.aadim.project.dto.request.PasswordRequest;
 import com.aadim.project.dto.request.UserRequest;
 import com.aadim.project.dto.request.UserUpdateRequest;
@@ -25,4 +26,6 @@ public interface UserService {
     String deleteUser(Integer id);
 
     String changePassword(PasswordRequest request);
+
+    String changePasswordByEmail (ForgotPasswordRequest request);
 }

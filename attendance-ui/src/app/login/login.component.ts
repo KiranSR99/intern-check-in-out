@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Router } from '@angular/router';
 import { HttpHandlerService } from '../services/http-handler.service';
-import { ToastrService } from 'ngx-toastr';
 import { ToastService } from '../services/toast.service';
 
 @Component({
@@ -37,7 +36,7 @@ export class LoginComponent implements OnInit {
       (response: any) => {
         this.token = response.data.token;
         localStorage.setItem("token", this.token);
-        localStorage.setItem("roleDetails", JSON.stringify(response.data.role));
+        localStorage.setItem("role", JSON.stringify(response.data.role));
         localStorage.setItem("userId", response.data.userId);
         this.router.navigate(['/app/dashboard']);
         console.log("Login successful.");

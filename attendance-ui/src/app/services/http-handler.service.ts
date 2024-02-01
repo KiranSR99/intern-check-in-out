@@ -7,11 +7,10 @@ import { LogsDetails } from '../models/logs.model';
 import { UserList } from '../models/UserList.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HttpHandlerService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public apiUrl = `http://localhost:8899/api/v1`;
 
@@ -22,8 +21,11 @@ export class HttpHandlerService {
     );
   }
 
-  saveLog(user: any): Observable<GlobalApiHandler<LogsDetails>>{
-    return this.http.post<GlobalApiHandler<LogsDetails>>(`${this.apiUrl}/task/saveTasks`,user);
+  saveLog(user: any): Observable<GlobalApiHandler<LogsDetails>> {
+    return this.http.post<GlobalApiHandler<LogsDetails>>(
+      `${this.apiUrl}/task/saveTasks`,
+      user
+    );
   }
 
   getLogById(id: number): Observable<GlobalApiHandler<LogsDetails>>{
@@ -32,40 +34,47 @@ export class HttpHandlerService {
 
   updateLog(data: any): Observable<GlobalApiHandler<LogsDetails>>{
     return this.http.put<GlobalApiHandler<LogsDetails>>(`${this.apiUrl}/task/updateTask`, data);
-
   }
-
+  
   addUser(data: any): Observable<GlobalApiHandler<UserList>> {
-    return this.http.post<GlobalApiHandler<UserList>>(`${this.apiUrl}/users/saveUser`, data);
+    return this.http.post<GlobalApiHandler<UserList>>(
+      `${this.apiUrl}/users/saveUser`,
+      data
+    );
   }
 
   getAllUsers(): Observable<GlobalApiHandler<UserList>> {
-    return this.http.get<GlobalApiHandler<UserList>>(`${this.apiUrl}/users/getAll`,)
-
+    return this.http.get<GlobalApiHandler<UserList>>(
+      `${this.apiUrl}/users/getAll`
+    );
   }
 
   deleteID(id: number): Observable<GlobalApiHandler<any>> {
-    return this.http.delete<GlobalApiHandler<any>>(`${this.apiUrl}/users/delete/${id}`)            
+    return this.http.delete<GlobalApiHandler<any>>(
+      `${this.apiUrl}/users/delete/${id}`
+    );
+  }
 
-}
-  
+
 getAllLog(): Observable<any>{
   return this.http.get<any>(`${this.apiUrl}/task/getAllTasks`)
 }
-  
-updateUser(data: any): Observable<GlobalApiHandler<any>>{
-  return this.http.put<GlobalApiHandler<any>>(`${this.apiUrl}/users/update`,data);
-}
 
+  updateUser(data: any): Observable<GlobalApiHandler<any>> {
+    return this.http.put<GlobalApiHandler<any>>(
+      `${this.apiUrl}/users/update`,
+      data
+    );
+  }
 
   getUserById(id: number): Observable<GlobalApiHandler<UserList>> {
-  return this.http.get<GlobalApiHandler<UserList>>(`${this.apiUrl}/users/getById/${id}`);
+    return this.http.get<GlobalApiHandler<UserList>>(
+      `${this.apiUrl}/users/getById/${id}`
+    );
+  }
+
+  //To send leave request
+  sendLeaveRequest(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/leave/create`,data);
+  }
 }
-
-// checkIn(): Observable<any>{
-//   return this.http.post(`${this.apiUrl}/schedule/checkIn`,)
-// }
-
-}
-
-

@@ -58,29 +58,33 @@ export class AddUsersComponent {
 
   onRoleChange(event: Event) {
     const roleId = (event.target as HTMLSelectElement).value;
+
     if (roleId === 'INTERN') {
+      this.userDetails.get('fieldType')?.enable();
       this.userDetails.get('primarySupervisor')?.enable();
       this.userDetails.get('secondarySupervisor')?.enable();
     } else {
-      // this.userDetails.get('primarySupervisor')?.disable();
-      // this.userDetails.get('secondarySupervisor')?.disable();
+      this.userDetails.get('fieldType')?.reset();
+      this.userDetails.get('fieldType')?.disable();
+      this.userDetails.get('primarySupervisor')?.reset();
+      this.userDetails.get('primarySupervisor')?.disable();
+      this.userDetails.get('secondarySupervisor')?.reset();
+      this.userDetails.get('secondarySupervisor')?.disable();
     }
   }
-  
-  
 
   showFieldInput(): boolean {
     const roleId = this.userDetails.get('role')?.value;
-    return roleId == 'INTERN';
+    return roleId === 'INTERN';
   }
 
   showPrimarySupervisor(): boolean {
     const roleId = this.userDetails.get('role')?.value;
-    return roleId == 'INTERN';
+    return roleId === 'INTERN';
   }
 
   showSecondarySupervisor(): boolean {
     const roleId = this.userDetails.get('role')?.value;
-    return roleId == 'INTERN';
+    return roleId === 'INTERN';
   }
 }

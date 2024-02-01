@@ -16,6 +16,7 @@ import { authGuard } from './guards/auth.guard';
 import { negateAuthGuard } from './guards/negate-auth.guard';
 import { LeaveRequestComponent } from './interns/leave-request/leave-request.component';
 import { UpdateUsersComponent } from './admin/update-users/update-users.component';
+import { CreateLeaveRequestComponent } from './interns/create-leave-request/create-leave-request.component';
 import { EditLogComponent } from './interns/edit-log/edit-log.component';
 
 const routes: Routes = [
@@ -48,6 +49,7 @@ const routes: Routes = [
           { path: 'intern-log', component: InternLogComponent },
           {path: 'edit-log', component: EditLogComponent},
           { path: 'leave-request', component: LeaveRequestComponent },
+          { path: 'create-new/:id', component: CreateLeaveRequestComponent },
           {
             path: '**',
             redirectTo: 'intern-log',

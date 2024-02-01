@@ -14,4 +14,8 @@ public interface LeaveRepository extends JpaRepository<Leave, Integer> {
     @Query(nativeQuery = true,
             value = "SELECT * FROM leaves WHERE  is_active= true AND id = :id")
     Leave findLeaveById(Integer id);
+
+    @Query(nativeQuery = true,
+            value = "SELECT * FROM leaves WHERE  is_active= true AND intern_id = :id")
+    List<Leave> findLeaveByInternId(Integer id);
 }

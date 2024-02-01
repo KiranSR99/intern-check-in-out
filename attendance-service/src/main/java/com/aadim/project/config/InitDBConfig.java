@@ -23,6 +23,7 @@ public class InitDBConfig {
                     .email("admin")
                     .password(new BCryptPasswordEncoder().encode("admin"))
                     .role(Role.valueOf("ADMIN"))
+                    .isActive(true)
                     .build();
             userRepository.save(dbUser);
             log.info("Super Admin created");

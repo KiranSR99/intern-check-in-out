@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpHandlerService } from '../../../services/http-handler.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-intern-log',
@@ -8,6 +10,11 @@ import { Component, OnInit } from '@angular/core';
 export class InternLogComponent implements OnInit {
   userRole: any;
   isCheckedIn: boolean = false;
+  intern : any;
+  searchText: string = '';
+  data: any;
+
+constructor( private http : HttpHandlerService, private route: Router){}
 
   ngOnInit(): void {
       this.userRole = localStorage.getItem('role');
@@ -22,6 +29,10 @@ export class InternLogComponent implements OnInit {
 
   onCheckOutClick(){
     this.isCheckedIn = false;
+  }
+
+  onClickAddTask(){
+    this.route.navigate(['app/log-mgnt/add-log']);
   }
 
 }

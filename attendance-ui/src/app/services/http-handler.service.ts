@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { GlobalApiHandler } from '../models/global-api-handler.model';
@@ -10,7 +10,7 @@ import { UserList } from '../models/UserList.model';
   providedIn: 'root',
 })
 export class HttpHandlerService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public apiUrl = `http://localhost:8899/api/v1`;
 
@@ -28,14 +28,14 @@ export class HttpHandlerService {
     );
   }
 
-  getLogById(id: number): Observable<GlobalApiHandler<LogsDetails>>{
-    return this.http.get<GlobalApiHandler<LogsDetails>>(`${this.apiUrl}/task/getTaskById/`+id);
+  getLogById(id: number): Observable<GlobalApiHandler<LogsDetails>> {
+    return this.http.get<GlobalApiHandler<LogsDetails>>(`${this.apiUrl}/task/getTaskById/` + id);
   }
 
-  updateLog(data: any): Observable<GlobalApiHandler<LogsDetails>>{
+  updateLog(data: any): Observable<GlobalApiHandler<LogsDetails>> {
     return this.http.put<GlobalApiHandler<LogsDetails>>(`${this.apiUrl}/task/updateTask`, data);
   }
-  
+
   addUser(data: any): Observable<GlobalApiHandler<UserList>> {
     return this.http.post<GlobalApiHandler<UserList>>(
       `${this.apiUrl}/users/saveUser`,
@@ -56,9 +56,9 @@ export class HttpHandlerService {
   }
 
 
-getAllLog(): Observable<any>{
-  return this.http.get<any>(`${this.apiUrl}/task/getAllTasks`)
-}
+  getAllLog(): Observable<GlobalApiHandler<any>> {
+    return this.http.get<GlobalApiHandler<any>>(`${this.apiUrl}/task/getAllTasks`)
+  }
 
   updateUser(data: any): Observable<GlobalApiHandler<any>> {
     return this.http.put<GlobalApiHandler<any>>(
@@ -75,25 +75,15 @@ getAllLog(): Observable<any>{
 
   //To send leave request
   sendLeaveRequest(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/leave/create`,data);
+    return this.http.post(`${this.apiUrl}/leave/create`, data);
   }
 
 
-checkIn(userId: any): Observable<any>{
-  return this.http.post(`${this.apiUrl}/schedule/checkIn`, userId)
-}
+  checkIn(data: any): Observable<GlobalApiHandler<any>> {
+    return this.http.post<GlobalApiHandler<any>>(`${this.apiUrl}/schedule/checkIn`, data);
+  }
 
-// checkIn(userId: any): Observable<any> {
-//   // Ensure userId is an integer
-//   const userIdInt = Number(userId);
-
-//   // Construct the request body as a JSON object with the integer userId
-//   const body = { userId: userIdInt };
-
-//   // Directly pass the object to the POST method
-//   return this.http.post(`${this.apiUrl}/schedule/checkIn`, body);
-// }
-
+ 
 
 
 }

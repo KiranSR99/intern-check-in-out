@@ -77,7 +77,7 @@
             <div class="col-md-6 col-sm-12" *ngIf="showPrimarySupervisor()">
               <label>Primary Supervisor</label>
               <input type="email" formControlName="primarySupervisor" name="primarySupervisor" id="primarySupervisor"
-                class="form-control" placeholder="Enter Primary Supervisor email" required />
+                class="form-control" placeholder="Enter primary supervisor email" required />
               <div class="text-danger"
                 *ngIf="userDetails.get('primarySupervisor')?.invalid && userDetails.get('primarySupervisor')?.touched">
                 <small>Please enter a valid email address for the Primary Supervisor.</small>
@@ -87,7 +87,7 @@
             <div class="col-md-6 col-sm-12" *ngIf="showSecondarySupervisor()">
               <label>Secondary Supervisor</label>
               <input type="email" formControlName="secondarySupervisor" name="secondarySupervisor"
-                id="secondarySupervisor" class="form-control" placeholder="Enter Secondary Supervisor email" required />
+                id="secondarySupervisor" class="form-control" placeholder="Enter secondary supervisor email" required />
               <div class="text-danger"
                 *ngIf="userDetails.get('secondarySupervisor')?.invalid && userDetails.get('secondarySupervisor')?.touched">
                 <small>Please enter a valid email address for the Secondary Supervisor.</small>
@@ -107,8 +107,6 @@
             </div>
 
           </div>
-
-
         </div>
       </form>
     </div>

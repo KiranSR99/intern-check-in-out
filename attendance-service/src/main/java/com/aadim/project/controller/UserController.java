@@ -4,6 +4,7 @@ import com.aadim.project.controller.Base.BaseController;
 import com.aadim.project.dto.GlobalApiResponse;
 import com.aadim.project.dto.request.UserRequest;
 import com.aadim.project.dto.request.UserUpdateRequest;
+import com.aadim.project.entity.Role;
 import com.aadim.project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,21 @@ public class UserController extends BaseController {
     @GetMapping("/getById/{id}")
     public ResponseEntity<GlobalApiResponse> getUserById (@PathVariable Integer id) {
         return successResponse(userService.getUserById(id), "User with id " + id + "fetched successfully." );
+    }
+
+    @GetMapping("/getAllInterns")
+    public ResponseEntity<GlobalApiResponse> getAllInterns() {
+        return successResponse(userService.getAllUsersByRole(Role.valueOf("INTERN")));
+    }
+
+    @GetMapping("/getAllAdmins")
+    public ResponseEntity<GlobalApiResponse> getAllAdmins() {
+        return successResponse(userService.getAllUsersByRole(Role.valueOf("ADMIN")));
+    }
+
+    @GetMapping("/getAllSupervisors")
+    public ResponseEntity<GlobalApiResponse> getAllSupervisors() {
+        return successResponse(userService.getAllUsersByRole(Role.valueOf("SUPERVISOR")));
     }
 
     @PutMapping("/update")

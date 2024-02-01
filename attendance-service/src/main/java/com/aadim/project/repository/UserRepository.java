@@ -1,5 +1,6 @@
 package com.aadim.project.repository;
 
+import com.aadim.project.entity.Role;
 import com.aadim.project.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,5 +20,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.isActive = true")
     List<User> findActiveUsers();
 
-
+    @Query("select u from User u WHERE u.isActive = true and u.role =:role")
+    List<User> findActiveUsersByRole(Role role);
 }

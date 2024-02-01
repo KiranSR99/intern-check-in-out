@@ -49,7 +49,7 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
     ChangePasswordComponent,
     ForgotPasswordComponent,
     LeaveRequestComponent,
-    CreateLeaveRequestComponent
+    CreateLeaveRequestComponent,
     SearchFilterPipe,
     UpdateUsersComponent
 

@@ -26,4 +26,9 @@ public class TaskController extends BaseController {
         return successResponse(taskService.getAllTasks(), "Tasks fetched successfully");
     }
 
+    @GetMapping("/getTaskById/{id}")
+    public ResponseEntity<GlobalApiResponse> getTaskById(@PathVariable Integer id) {
+        return successResponse(taskService.getTaskById(id), "Task with Id "+ id +" fetched successfully");
+    }
+
 }

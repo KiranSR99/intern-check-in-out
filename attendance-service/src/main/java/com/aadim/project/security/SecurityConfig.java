@@ -38,6 +38,7 @@ public class SecurityConfig {
                 }).authorizeHttpRequests(auth->{
                     auth.requestMatchers("/api/v1/login").permitAll();
                     auth.requestMatchers("/api/v1/**").authenticated();
+                    auth.requestMatchers("/api/v1/forgot-password/**").permitAll();
                 })
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

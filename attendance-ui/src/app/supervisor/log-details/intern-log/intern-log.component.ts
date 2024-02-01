@@ -12,7 +12,6 @@ export class InternLogComponent implements OnInit {
   isCheckedIn: boolean = false;
   intern : any;
   searchText: any;
-  
   id: any;
   userId: any;
 
@@ -28,7 +27,9 @@ constructor( private http : HttpHandlerService, private route: Router){}
     this.userRole = localStorage.getItem('role');
       if(this.userRole){
         this.userRole = JSON.parse(this.userRole);
-      }      
+      } 
+     
+      
   }
 
   showInternLog(){
@@ -58,16 +59,17 @@ constructor( private http : HttpHandlerService, private route: Router){}
 
   onCheckInClick(){
     this.isCheckedIn = true;
-    // this.http.checkIn().subscribe(
-    //   (result: any)=>{
-    //     console.log("Check in successfully", result);
-    //   },
-    //   (error: any)=>{
-    //     console.error("Error", error);
-    //   }
+
+    this.http.checkIn(this.userId).subscribe(
+      (result: any)=>{
+        console.log("Check in successfully", result);
+      },
+      (error: any)=>{
+        console.error("Error", error);
+      }
      
       
-    // );
+    );
   }
 
   onCheckOutClick(){
@@ -83,7 +85,7 @@ constructor( private http : HttpHandlerService, private route: Router){}
   }
 
   onEditClick(id: number){
-    this.route.navigate(['app/log-mgnt/edit-log']);
+    this.route.navigate(['app/log-mgnt/edit-log/', id]);
   }
 
   onDeleteClick(){}

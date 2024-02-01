@@ -244,10 +244,13 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public String changePasswordByEmail (ForgotPasswordRequest request) {
-        User user = userRepository.getUserByEmail(request.getEmail());
-        if (user != null && user.isActive()) {
-            user.setPassword(request.getNewPassword());
-            return "Password updated successfully";
+        if(userRepository.existsByEmail(request.getEmail())) {
+            User user = userRepository.getUserByEmail(request.getEmail());
+            if (user.isActive()) {
+                user.setPassword(new BCryptPasswordEncoder().encode(request.getNewPassword()));
+                return "Password updated successfully";
+            }
+            else return "User is inActive. Couldn't change password.";
         }
         return "User with email " + request.getEmail() + " doesn't exist.";
     }

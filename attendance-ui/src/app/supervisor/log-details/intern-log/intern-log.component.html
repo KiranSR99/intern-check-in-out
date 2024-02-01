@@ -25,6 +25,7 @@
                         <td>S.N</td>
                         <td>Full Name</td>
                         <td>Check-in</td>
+                        <td>Field</td>
                         <td>S.N</td>
                         <td>Task</td>
                         <td>Status</td>
@@ -34,17 +35,17 @@
                         <td>Action</td>
                     </tr>
                 </thead>
-                <tbody *ngFor="let response of intern| searchFilter:searchText; let i = index ">
+                <tbody *ngFor="let data of intern |searchFilter:searchText; let i = index ">
                     <tr>
                         <td>{{i+1}}</td>
-                        <td>{{response.fullName}}</td>
-                        <td>{{response.checkIn}}</td>
-                        <td></td>
-                        <td>{{response.task}}</td>
-                        <td>{{response.status}}</td>
-                        <td>{{response.timeTaken}}</td>
-                        <td>{{response.problem}}</td>
-                        <td></td>
+                        <td>{{data.fullName}}</td>
+                        <td>{{data.checkIn}}</td>
+                        <td>{{data.field}}</td>
+                        <td>{{data.task}}</td>
+                        <td>{{data.status}}</td>
+                        <td>{{data.timeTaken}}</td>
+                        <td>{{data.problem}}</td>
+                        <td>{{data.checkOut}}</td>
                         <td></td>
                     </tr>
                 </tbody>

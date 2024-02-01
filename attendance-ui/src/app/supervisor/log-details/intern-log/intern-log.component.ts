@@ -12,7 +12,6 @@ export class InternLogComponent implements OnInit {
   isCheckedIn: boolean = false;
   intern : any;
   searchText: any;
-  
   id: any;
   userId: any;
 
@@ -29,7 +28,7 @@ constructor( private http : HttpHandlerService, private route: Router){}
       if(this.userRole){
         this.userRole = JSON.parse(this.userRole);
       } 
-      
+     
       
   }
 
@@ -86,7 +85,7 @@ constructor( private http : HttpHandlerService, private route: Router){}
   }
 
   onEditClick(id: number){
-    this.route.navigate(['app/log-mgnt/edit-log']);
+    this.route.navigate(['app/log-mgnt/edit-log/', id]);
   }
 
   onDeleteClick(){}

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpHandlerService } from '../../../services/http-handler.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-intern-log',
@@ -43,8 +44,5 @@ constructor( private http : HttpHandlerService){}
     this.isCheckedIn = false;
   }
 
-  onClickAddTask(){
-    //this.route.navigate(['/app/log-mgnt/add-log'])
-  }
 
 }

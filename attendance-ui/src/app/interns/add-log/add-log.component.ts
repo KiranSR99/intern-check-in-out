@@ -49,7 +49,7 @@ export class AddLogComponent {
 
   onClickSaveLog() {
     const tasksArray: Array<any> = [];
-
+  
     // Add main task
     tasksArray.push({
       task: this.logDetails.get('task')?.value,
@@ -58,7 +58,7 @@ export class AddLogComponent {
       problem: this.logDetails.get('problem')?.value,
       userId: this.userId,
     });
-
+  
     // Add multiLogDetails tasks
     this.multiLogDetails.controls.forEach((control: any) => {
       tasksArray.push({
@@ -69,22 +69,28 @@ export class AddLogComponent {
         userId: control.get('userId')?.value
       });
     });
-
+  
     const logDetailsData = { tasks: tasksArray };
     console.log(logDetailsData);
-
-    this.http.saveLog(logDetailsData).subscribe(
-      (response: any) => {
-        console.log(response);
-        this.toast.showSuccess('Log Add Successfully');
-        this.logDetails.reset();
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-    // this.location.back();
+  
+    if (this.logDetails.valid) {
+      this.http.saveLog(logDetailsData).subscribe(
+        (response: any) => {
+          console.log(response);
+          this.toast.showSuccess('Log Add Successfully');
+          this.logDetails.reset();
+          this.router.navigate(['/app/log-mgnt/intern-log']);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }else{
+      this.logDetails.markAllAsTouched();
+    } 
   }
+  
+  
 
   addmultiLogDetails() {
     this.multiLogDetails.push(

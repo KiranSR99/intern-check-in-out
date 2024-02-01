@@ -14,6 +14,7 @@ import { ChangePasswordComponent } from './common/change-password/change-passwor
 import { ForgotPasswordComponent } from './common/forgot-password/forgot-password.component';
 import { authGuard } from './guards/auth.guard';
 import { negateAuthGuard } from './guards/negate-auth.guard';
+import { EditLogComponent } from './interns/edit-log/edit-log.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '', pathMatch: 'full' },
@@ -43,6 +44,7 @@ const routes: Routes = [
         children: [
           { path: 'add-log', component: AddLogComponent },
           { path: 'intern-log', component: InternLogComponent },
+          {path: 'edit-log', component: EditLogComponent},
           {
             path: '**',
             redirectTo: 'intern-log',

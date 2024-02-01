@@ -6,7 +6,7 @@ import com.aadim.project.dto.response.LeaveResponse;
 import java.util.List;
 
 public interface LeaveService {
-    LeaveResponse createLeave(LeaveRequest leave);
+    String createLeave(LeaveRequest leave);
 
     List<LeaveResponse> getAllLeaves();
 

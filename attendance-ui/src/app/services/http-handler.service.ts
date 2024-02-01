@@ -23,7 +23,7 @@ export class HttpHandlerService {
   }
 
   saveLog(user: any): Observable<GlobalApiHandler<LogsDetails>>{
-    return this.http.post<GlobalApiHandler<LogsDetails>>(`${this.apiUrl}/task/saveTask`,user);
+    return this.http.post<GlobalApiHandler<LogsDetails>>(`${this.apiUrl}/task/saveTasks`,user);
   }
 
 

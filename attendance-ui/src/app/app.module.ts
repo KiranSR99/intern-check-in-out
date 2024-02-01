@@ -26,6 +26,7 @@ import { ChangePasswordComponent } from './common/change-password/change-passwor
 import { ForgotPasswordComponent } from './common/forgot-password/forgot-password.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { EditLogComponent } from './interns/edit-log/edit-log.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     UserProfileComponent,
     EditProfileComponent,
     ChangePasswordComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    EditLogComponent
 
   ],
   imports: [

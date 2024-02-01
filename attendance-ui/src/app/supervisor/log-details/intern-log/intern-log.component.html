@@ -7,7 +7,7 @@
         
         <div class="buttons" *ngIf="userRole === 'INTERN'">
             <button *ngIf="!isCheckedIn" class="btn btn-success mx-2" (click)="onCheckInClick()">Check-in</button>
-            <button *ngIf="isCheckedIn" class="btn btn-warning mx-2"><i class="fa-solid fa-plus"></i> Add Task</button>
+            <button *ngIf="isCheckedIn" class="btn btn-warning mx-2" (click)="onClickAddTask()"><i class="fa-solid fa-plus"></i> Add Task</button>
             <button *ngIf="isCheckedIn" class="btn btn-danger" (click)="onCheckOutClick()">Check-out</button>
         </div>
     </div>

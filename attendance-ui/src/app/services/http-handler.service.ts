@@ -77,4 +77,25 @@ getAllLog(): Observable<any>{
   sendLeaveRequest(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/leave/create`,data);
   }
+
+
+checkIn(userId: any): Observable<any>{
+  return this.http.post(`${this.apiUrl}/schedule/checkIn`, userId)
 }
+
+// checkIn(userId: any): Observable<any> {
+//   // Ensure userId is an integer
+//   const userIdInt = Number(userId);
+
+//   // Construct the request body as a JSON object with the integer userId
+//   const body = { userId: userIdInt };
+
+//   // Directly pass the object to the POST method
+//   return this.http.post(`${this.apiUrl}/schedule/checkIn`, body);
+// }
+
+
+
+}
+
+

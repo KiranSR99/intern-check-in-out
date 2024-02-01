@@ -7,9 +7,12 @@
         
         <div class="buttons" *ngIf="userRole === 'INTERN'">
             <button *ngIf="!isCheckedIn" class="btn btn-success mx-2" (click)="onCheckInClick()">Check-in</button>
-            <button *ngIf="isCheckedIn" class="btn btn-warning mx-2"><i class="fa-solid fa-plus"></i> Add Task</button>
+            <button *ngIf="isCheckedIn" class="btn btn-warning mx-2" (click)="onClickAddTask()"><i class="fa-solid fa-plus"></i> Add Task</button>
             <button *ngIf="isCheckedIn" class="btn btn-danger" (click)="onCheckOutClick()">Check-out</button>
         </div>
+        <div *ngIf="userRole === 'ADMIN' || userRole === 'SUPERVISOR'">
+            <input type="search" class="form-control" [(ngModel)]="searchText" placeholder="Search..." aria-label="Search">
+          </div>
     </div>
     <hr>
 
@@ -31,13 +34,16 @@
                         <td>Action</td>
                     </tr>
                 </thead>
-                <tbody *ngFor="let data of intern ; let i = index">
+                <tbody *ngFor="let response of intern| searchFilter:searchText; let i = index ">
                     <tr>
                         <td>{{i+1}}</td>
-                        <td>{{data.task}}</td>
-                        <td>{{data.status}}</td>
-                        <td>{{data.timeTaken}}</td>
-                        <td>{{data.problem}}</td>
+                        <td>{{response.fullName}}</td>
+                        <td>{{response.checkIn}}</td>
+                        <td></td>
+                        <td>{{response.task}}</td>
+                        <td>{{response.status}}</td>
+                        <td>{{response.timeTaken}}</td>
+                        <td>{{response.problem}}</td>
                         <td></td>
                         <td></td>
                     </tr>

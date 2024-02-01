@@ -47,12 +47,7 @@ getAllLog(): Observable<any>{
 }
   
 updateUser(data: any): Observable<GlobalApiHandler<any>>{
-<<<<<<< HEAD
   return this.http.put<GlobalApiHandler<any>>(`${this.apiUrl}/users/update`,data);
-=======
-  return this.http.put<GlobalApiHandler<any>>(`${this.apiUrl}/user/update`,data);
-
->>>>>>> c67f90854933be100fce7e61a05723165f649e6b
 }
 
 

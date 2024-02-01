@@ -3,6 +3,7 @@ package com.aadim.project.controller;
 import com.aadim.project.controller.Base.BaseController;
 import com.aadim.project.dto.GlobalApiResponse;
 import com.aadim.project.dto.request.TaskRequest;
+import com.aadim.project.dto.request.TaskUpdateRequest;
 import com.aadim.project.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,4 +27,13 @@ public class TaskController extends BaseController {
         return successResponse(taskService.getAllTasks(), "Tasks fetched successfully");
     }
 
+    @GetMapping("/getTaskById/{id}")
+    public ResponseEntity<GlobalApiResponse> getTaskById(@PathVariable Integer id) {
+        return successResponse(taskService.getTaskById(id), "Task with Id "+ id +" fetched successfully");
+    }
+
+    @PutMapping("/updateTask")
+    public ResponseEntity<GlobalApiResponse> updateTask(@RequestBody TaskUpdateRequest updateRequest){
+        return successResponse(taskService.updateTask(updateRequest), "Task Updated successfully");
+    }
 }

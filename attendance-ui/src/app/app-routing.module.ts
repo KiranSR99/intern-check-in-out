@@ -14,6 +14,8 @@ import { ChangePasswordComponent } from './common/change-password/change-passwor
 import { ForgotPasswordComponent } from './common/forgot-password/forgot-password.component';
 import { authGuard } from './guards/auth.guard';
 import { negateAuthGuard } from './guards/negate-auth.guard';
+import { LeaveRequestComponent } from './interns/leave-request/leave-request.component';
+import { UpdateUsersComponent } from './admin/update-users/update-users.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '', pathMatch: 'full' },
@@ -32,7 +34,7 @@ const routes: Routes = [
         children: [
           { path: 'user-list', component: UserDetailsComponent },
           { path: 'add-user', component: AddUsersComponent },
-          // { path: 'edit-user/:id', component: UpdateUsersComponent },
+          { path: 'update-user/:id', component: UpdateUsersComponent },
           { path: 'user-profile', component: UserProfileComponent },
           { path: 'edit-profile', component: EditProfileComponent },
           { path: '**', redirectTo: 'user-list', pathMatch: 'full' },
@@ -43,6 +45,7 @@ const routes: Routes = [
         children: [
           { path: 'add-log', component: AddLogComponent },
           { path: 'intern-log', component: InternLogComponent },
+          { path: 'leave-request', component: LeaveRequestComponent },
           {
             path: '**',
             redirectTo: 'intern-log',

@@ -45,4 +45,29 @@ public class MailServiceImpl implements MailService {
         helper.setText(htmlContent,true);
         javaMailSender.send(message);
     }
+
+
+    @Async
+    @Override
+    public void sendMailWithOtp(String toEmail, Integer verificationCode) throws MessagingException{
+
+        String sub = "Password Verification Code";
+        String content = "Hello "+toEmail+" Your Verification code is :" + verificationCode;
+        sendOtpMail(toEmail, sub, content);
+    }
+
+    @Async
+    @Override
+    public void sendOtpMail(String to, String sub, String content) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message,true,"UTF-8");
+        helper.setTo(to);
+        helper.setSubject(sub);
+        Context context = new Context();
+        context.setVariable("content", content);
+        String htmlContent = templateEngine.process("email-otp-template.html",
+                context);
+        helper.setText(htmlContent,true);
+        javaMailSender.send(message);
+    }
 }

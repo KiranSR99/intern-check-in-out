@@ -4,6 +4,7 @@ import com.aadim.project.dto.request.LeaveRequest;
 import com.aadim.project.dto.response.LeaveResponse;
 import com.aadim.project.entity.Intern;
 import com.aadim.project.entity.Leave;
+import com.aadim.project.entity.Supervisor;
 import com.aadim.project.repository.InternRepository;
 import com.aadim.project.repository.LeaveRepository;
 import com.aadim.project.service.LeaveService;
@@ -47,15 +48,18 @@ public class LeaveServiceImpl implements LeaveService {
         leave.setStatus("Pending");
         leave.setActive(true);
 
+        String primarySupervisorEmail = intern.getPrimarySupervisor().getUser().getEmail();
+        String secondarySupervisorEmail = intern.getSecondarySupervisor().getUser().getEmail();
+
         try{
             mailServiceImpl.sendHtmlMail(
-                    "supervisor@yopmail.com",
+                    primarySupervisorEmail,
                     "Leave Request",
                     leaveRequest,
                     intern
             );
             mailServiceImpl.sendHtmlMail(
-                    "supervisor2@yopmail.com",
+                    secondarySupervisorEmail,
                     "Leave Request",
                     leaveRequest,
                     intern
@@ -112,4 +116,17 @@ public class LeaveServiceImpl implements LeaveService {
         leaveRepository.save(leave);
         return "Leave deleted successfully";
     }
+
+    @Override
+    public List<LeaveResponse> getInternLeaves(Integer id) {
+        List<LeaveResponse> leaveResponseList = new ArrayList<>();
+        List<Leave> leaveList = leaveRepository.findLeaveByInternId(internRepository.findInternByUserId(id).getId());
+
+        for (Leave leave : leaveList) {
+            leaveResponseList.add(new LeaveResponse(leave));
+        }
+        log.info("Returning all leave records of intern: "+ id);
+        return leaveResponseList;
+    }
+
 }

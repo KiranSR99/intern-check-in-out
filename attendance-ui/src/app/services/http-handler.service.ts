@@ -38,7 +38,7 @@ export class HttpHandlerService {
   }
 
   deleteID(id: number): Observable<GlobalApiHandler<any>> {
-    return this.http.delete<GlobalApiHandler<any>>(`${this.apiUrl}/user/delete/${id}`)            
+    return this.http.delete<GlobalApiHandler<any>>(`${this.apiUrl}/users/delete/${id}`)            
 
 }
   
@@ -47,7 +47,20 @@ getAllLog(): Observable<any>{
 }
   
 updateUser(data: any): Observable<GlobalApiHandler<any>>{
-  return this.http.put<GlobalApiHandler<any>>(`${this.apiUrl}/user/update`,data);
+
+  return this.http.put<GlobalApiHandler<any>>(`${this.apiUrl}/users/update`,data);
 
 }
+
+
+  getUserById(id: number): Observable<GlobalApiHandler<UserList>> {
+  return this.http.get<GlobalApiHandler<UserList>>(`${this.apiUrl}/users/getById/${id}`);
 }
+
+// checkIn(): Observable<any>{
+//   return this.http.post(`${this.apiUrl}/schedule/checkIn`,)
+// }
+
+}
+
+

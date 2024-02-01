@@ -32,7 +32,7 @@ public class LeaveController extends BaseController {
         return successResponse(leaveService.getLeaveById(id));
     }
 
-    @PutMapping("/update/{id}")
+    @PatchMapping("/update/{id}")
     public ResponseEntity<GlobalApiResponse> updateLeave(@PathVariable Integer id) {
 
         return successResponse(leaveService.setLeaveStatus(id));
@@ -42,5 +42,11 @@ public class LeaveController extends BaseController {
     public ResponseEntity<GlobalApiResponse> deleteLeave(@PathVariable Integer id) {
 
         return successResponse(leaveService.deleteLeave(id));
+    }
+
+    @GetMapping("/getIntern/{id}")
+    public ResponseEntity<GlobalApiResponse> getInternLeaves(@PathVariable Integer id) {
+
+        return successResponse(leaveService.getInternLeaves(id));
     }
 }

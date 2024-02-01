@@ -15,13 +15,13 @@ public class TaskResponse {
     private String status;
     private String problem;
     private String timeTaken;
-    private User userId;
+    private Integer userId;
 
     public TaskResponse(Task savedTask){
         this.task = savedTask.getTask();
         this.status = savedTask.getStatus();
         this.problem = savedTask.getProblem();
         this.timeTaken = savedTask.getTimeTaken();
-        this.userId = savedTask.getUser();
+        this.userId = savedTask.getUser().getId();
     }
 }

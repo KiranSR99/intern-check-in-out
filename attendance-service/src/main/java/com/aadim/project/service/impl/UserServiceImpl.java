@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserResponse saveUser(UserRequest request) {
+        log.info("Saving user");
         User user = new User();
         user.setEmail(request.getEmail());
         user.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
@@ -38,20 +39,25 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         if(request.getRole().toString().equals("ADMIN") ) {
+            log.info("Role is Admin");
             Admin admin = new Admin();
             admin.setFullName(request.getFullName());
             admin.setPhone(request.getPhone());
             admin.setUser(user);
             Admin admin1 = adminRepository.save(admin);
+            log.info("Admin Saved");
             return new UserResponse(admin1, user);
         } else if (Objects.equals(request.getRole().toString(), "SUPERVISOR")) {
+            log.info("Role is Supervisor");
             Supervisor supervisor = new Supervisor();
             supervisor.setFullName(request.getFullName());
             supervisor.setPhone(request.getPhone());
             supervisor.setUser(user);
             Supervisor supervisor1 = supervisorRepository.save(supervisor);
+            log.info("Supervisor Saved");
             return new UserResponse(supervisor1, user);
         } else if (Objects.equals(request.getRole().toString(), "INTERN")) {
+            log.info("Role is Intern");
             Intern intern = new Intern();
             intern.setFullName(request.getFullName());
             intern.setPhone(request.getPhone());
@@ -62,13 +68,17 @@ public class UserServiceImpl implements UserService {
             Supervisor secondarySupervisor = supervisorRepository.findSupervisorById(request.getSecondarySupervisor());
             intern.setSecondarySupervisor(secondarySupervisor);
             Intern intern1= internRepository.save(intern);
+            log.info("Intern Saved");
             return new UserResponse(intern1, user);
         }
-        return new UserResponse();
+        else {
+            throw new RuntimeException("Role not found");
+        }
     }
 
     @Override
     public List<UserResponse> getAllUser() {
+        log.info("Fetching All Users");
         List<UserResponse> userResponses = new ArrayList<>();
         List<User> users = userRepository.findActiveUsers();
 
@@ -95,12 +105,13 @@ public class UserServiceImpl implements UserService {
             }
             userResponses.add(userResponse);
         }
-
+        log.info("All users fetched successfully");
         return userResponses;
     }
 
     @Override
     public UserResponse getUserById(Integer id) {
+        log.info("Fetching user with id: " + id);
         User user = userRepository.getReferenceById(id);
         if(!user.isActive()) {
             throw new RuntimeException("User not available");
@@ -122,16 +133,19 @@ public class UserServiceImpl implements UserService {
             userResponse.setPhone(intern.getPhone());
             userResponse.setFullName(intern.getFullName());
             userResponse.setFieldType(intern.getFieldType());
+        } else {
+            log.warn("Role not found");
+            throw new RuntimeException("Role Not found");
         }
-
+        log.info("User with id : " + id + "fetched successfully.");
         return userResponse;
     }
 
 
-//    To-Do  next
+
     @Override
     public List<UserResponse> getAllUsersByRole(Role role) {
-        log.warn(String.valueOf(role));
+        log.info("Fetching all users of " + role);
         List<UserResponse> userResponses = new ArrayList<>();
         List<User> users = userRepository.findActiveUsersByRole(role);
         for (User user: users) {
@@ -158,12 +172,10 @@ public class UserServiceImpl implements UserService {
                     userResponse.setFullName(admin.getFullName());
                     userResponse.setPhone(admin.getPhone());
                 }
-//            else {
-//                throw new RuntimeException("Role " + role + "not found.");
-//                }
             }
             userResponses.add(userResponse);
         }
+        log.info("Fetched all users of ");
         return userResponses;
     }
 
@@ -197,17 +209,21 @@ public class UserServiceImpl implements UserService {
             internRepository.save(intern);
             return new UserResponse(intern, user);
         }
+        log.warn("Cannot update user with id : "+ request.getId());
         return null;
     }
 
 
     @Override
     public String deleteUser(Integer id) {
+        log.info("Deleting user with id :" + id);
         if(!userRepository.existsById(id)) {
+            log.warn("User with id " + id + "doesnt exist.");
             return "User doesnt exist.";
         }
         User user = userRepository.getReferenceById(id);
         if(!user.isActive()) {
+            log.warn("User with id " + id + "isn't active.");
             return "User is not active.";
         }
         user.setActive(false);
@@ -225,6 +241,7 @@ public class UserServiceImpl implements UserService {
             intern.setIsActive(false);
             internRepository.save(intern);
         }
+        log.info("User with id " + id + " deleted successfully.");
         return "User with id " + id + " deleted successfully.";
     }
 
@@ -232,26 +249,32 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public String changePassword(PasswordRequest request)
     {
-
+        log.info("Changing Password");
         User user = userRepository.getReferenceById(request.getUserId());
         if(new BCryptPasswordEncoder().matches(request.getOldPassword(), user.getPassword()) ) {
             user.setPassword(new BCryptPasswordEncoder().encode(request.getNewPassword()));
         } else {
+            log.warn("Old password didnt match");
             throw new RuntimeException("Old password doesn't match.");
         }
+        log.info("Password changed.");
         return "success";
     }
 
     @Transactional
     public String changePasswordByEmail (ForgotPasswordRequest request) {
+        log.info("Changing Password by Email.");
         if(userRepository.existsByEmail(request.getEmail())) {
             User user = userRepository.getUserByEmail(request.getEmail());
             if (user.isActive()) {
                 user.setPassword(new BCryptPasswordEncoder().encode(request.getNewPassword()));
+                log.info("Password updated successfully");
                 return "Password updated successfully";
             }
             else return "User is inActive. Couldn't change password.";
         }
+        log.warn("User with email " + request.getEmail() + " doesn't exist.");
         return "User with email " + request.getEmail() + " doesn't exist.";
     }
+
 }

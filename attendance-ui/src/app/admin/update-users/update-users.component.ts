@@ -54,7 +54,8 @@ export class UpdateUsersComponent implements OnInit {
         this.userDetails.patchValue({
             fullName: data.fullName,
             email: data.email,
-            phone: data.phone
+            phone: data.phone,
+            password: data.password
         })
     }
 

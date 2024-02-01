@@ -5,10 +5,25 @@
     <title>Aadim Innovation</title>
 </head>
 <body>
-<h1><img src="aadiminnovation.png" height="30px" width="50px"> Aadim Innovation - Intern CheckIn-CheckOut</h1>
+<h1 style="color: cornflowerblue">Aadim Innovation - Intern Leave Request</h1>
 
-<h2 style="color: cornflowerblue"> Notifications! </h2>
-<p th:text="${content}"></p>
+<div>
+    <p>Subject: Leave Request</p>
+
+    <p>Dear sir,</p>
+
+    I hope this message finds you well. I would like to request a leave of absence for <span th:text="${noOfDays}"></span> days starting from <span th:text="${startDate}"></span> to <span th:text="${endDate}"></span>.
+
+    The reason for my leave is <span th:text="${reason}"></span>. I will ensure all my current tasks are up to date and make any necessary arrangements for coverage.
+
+    <p>Thank you for your understanding. Please let me know if you need any additional information.</p>
+
+    <p>Best regards,</p>
+
+    <p th:text="${name}"></p>
+    <p th:text="${position}"></p>
+    <p th:text="${phone}"></p>
+</div>
 
 </body>
 </html>

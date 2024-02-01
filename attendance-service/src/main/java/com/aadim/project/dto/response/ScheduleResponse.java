@@ -20,7 +20,7 @@ public class ScheduleResponse {
 
     public ScheduleResponse(Schedule schedule){
         this.id = schedule.getId();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         this.checkInTime = schedule.getCheckInTime().format(formatter);
         this.checkOutTime = schedule.getCheckOutTime();
         this.internId = schedule.getIntern().getId();

@@ -75,4 +75,13 @@ constructor( private http : HttpHandlerService, private route: Router){}
     this.route.navigate(['app/log-mgnt/add-log']);
   }
 
+  onViewClick(){
+
+  }
+
+  onEditClick(id: number){
+    this.route.navigate(['app/log-mgnt/edit-log']);
+  }
+
+  onDeleteClick(){}
 }

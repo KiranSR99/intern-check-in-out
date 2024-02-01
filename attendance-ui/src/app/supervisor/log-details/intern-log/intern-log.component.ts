@@ -11,7 +11,7 @@ export class InternLogComponent implements OnInit {
   userRole: any;
   isCheckedIn: boolean = false;
   intern : any;
-  searchText: string ='';
+  searchText: any;
   data: any;
   id: any;
 

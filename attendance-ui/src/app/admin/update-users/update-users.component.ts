@@ -1,37 +1,94 @@
-// import { Component } from '@angular/core';
-// import { Router } from '@angular/router';
-// import { ToastrService } from 'ngx-toastr';
-// import { HttpHandlerService } from '../../services/http-handler.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpHandlerService } from '../../services/http-handler.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastService } from '../../services/toast.service';
 
-// @Component({
-//   selector: 'app-update-users',
-//   templateUrl: './update-users.component.html',
-//   styleUrls: ['./update-users.component.scss']
-// })
-// export class UpdateUsersComponent {
-//   userDetails: any;
+@Component({
+    selector: 'app-update-users',
+    templateUrl: './update-users.component.html',
+    styleUrls: ['./update-users.component.scss']
+})
 
-//   constructor(
-//     private toastr: ToastrService,
-//     private router: Router,
-//     private http: HttpHandlerService
-//   ) {
-//     this.userDetails = {}; // Initialize userDetails
-//     this.id = null; // Initialize id
-//   }
+export class UpdateUsersComponent implements OnInit {
+    userDetails: FormGroup;
+    userId: any;
 
-//   onClickUpdate() {
-//     this.http.put<any>(`${this.apiUrl}/${this.userDetails.id}`, this.userDetails)
-//       .subscribe({
-//         next: (response: any) => {
-//           console.log('User updated successfully:', response);
-//           this.toastr.success('User updated successfully');
-//           this.router.navigate(['/app/user-mgnt/user-list']);
-//         },
-//         error: (error: any) => {
-//           console.error('Error updating user:', error);
-//           this.toastr.error('Error updating user');
-//         }
-//       });
-//   }
-// }
+    roles: any[] = [
+        { id: 'ADMIN', name: 'Admin' },
+        { id: 'SUPERVISOR', name: 'Supervisor' },
+        { id: 'INTERN', name: 'Intern' }
+    ];
+
+    constructor(
+        private toast: ToastService,
+        private router: Router,
+        private fb: FormBuilder,
+        private http: HttpHandlerService,
+        private activatedRoute: ActivatedRoute
+    ) {
+        this.userDetails = this.fb.group({
+            fullName: ['', Validators.required],
+            email: ['', [Validators.required, Validators.email]],
+            phone: ['', Validators.required],
+            password: ['', Validators.required],
+            role: ['', Validators.required],
+            fieldType: ['']
+        });
+    }
+
+    ngOnInit(): void {
+        this.activatedRoute.params.subscribe((params: any) => {
+            this.userId = params['userId'];
+            this.http.getUserById(this.userId).subscribe(
+                (response) => {
+                    this.patchingData(response.data);
+                    // this.userId(response.data)
+                }
+            );
+        });
+    }
+
+
+    patchingData(data: any) {
+        this.userDetails.patchValue({
+            fullName: data.fullName,
+            email: data.email,
+            phone: data.phone
+        })
+    }
+
+    cancel() {
+        this.router.navigate(['/']);
+    }
+
+    onSubmit() {
+        if (this.userDetails.valid) {
+            this.http.updateUser(this.userDetails.value).subscribe({
+                next: (response: any) => {
+                    console.log('User added successfully');
+                    this.toast.showSuccess('User added successfully');
+                    this.router.navigate(['/app/user-mgnt/user-list']);
+                },
+                error: (err) => {
+                    console.error('Error adding user:', err);
+                    this.toast.showError('Error adding user');
+                }
+            });
+        } else {
+            this.userDetails.markAllAsTouched();
+        }
+    }
+
+    onRoleChange(event: Event) {
+        const roleId = (event.target as HTMLSelectElement).value;
+        if (roleId !== 'INTERN') {
+            this.userDetails.patchValue({ fieldType: '' });
+        }
+    }
+
+    showFieldInput(): boolean {
+        const roleId = this.userDetails.get('role')?.value;
+        return roleId == 'INTERN';
+    }
+}

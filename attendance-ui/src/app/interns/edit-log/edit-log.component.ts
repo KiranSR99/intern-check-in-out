@@ -33,6 +33,7 @@ export class EditLogComponent {
     this.route.params.subscribe(params => {
       this.id = params['id'];
       this.editLog(this.id);
+      console.log("Fetched id:", this.id);
     });
   }
 

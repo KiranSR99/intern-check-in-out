@@ -13,7 +13,7 @@
                 required
               />
               <div class="text-danger"
-                   *ngIf="userDetails.get('fullName').invalid && userDetails.get('fullName').touched">
+                   *ngIf="userDetails.get('fullName')?.invalid && userDetails.get('fullName')?.touched">
                 <small>Please enter your full name.</small>
               </div>
             </div>
@@ -22,7 +22,7 @@
               <label>Email</label>
               <input type="email" formControlName="email" name="email" id="email" class="form-control" placeholder="Enter your email"required/>
               <div class="text-danger"
-                   *ngIf="userDetails.get('email').invalid && userDetails.get('email').touched">
+                   *ngIf="userDetails.get('email')?.invalid && userDetails.get('email')?.touched">
                 <small>Please enter email.</small>
               </div>
             </div>
@@ -31,8 +31,20 @@
               <label>Phone</label>
               <input type="text" formControlName="phone" name="phone" id="phone" class="form-control" placeholder="Enter your phone number" required/>
               <div class="text-danger"
-                   *ngIf="userDetails.get('phone').invalid && userDetails.get('phone').touched">
+                   *ngIf="userDetails.get('phone')?.invalid && userDetails.get('phone')?.touched">
                 <small>Please enter phone number.</small>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+              <label>Password</label>
+              <input type="password" formControlName="password" class="form-control" placeholder="Enter password"
+                required />
+              <div class="text-danger"
+                *ngIf="userDetails.get('password')?.invalid && userDetails.get('password')?.touched">
+                <small *ngIf="userDetails.get('password')?.hasError('weakPassword')">Please enter a stronger
+                  password.</small>
+                <small *ngIf="!userDetails.get('password')?.hasError('weakPassword')">Please enter password.</small>
               </div>
             </div>
   

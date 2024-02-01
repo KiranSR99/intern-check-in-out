@@ -15,4 +15,6 @@ public interface LeaveService {
     LeaveResponse setLeaveStatus(Integer id);
 
     String deleteLeave(Integer id);
+
+    List<LeaveResponse> getInternLeaves(Integer id);
 }

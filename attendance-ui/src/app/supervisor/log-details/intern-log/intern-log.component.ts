@@ -11,8 +11,10 @@ export class InternLogComponent implements OnInit {
   userRole: any;
   isCheckedIn: boolean = false;
   intern : any;
+  searchText: string = '';
+  data: any;
 
-constructor( private http : HttpHandlerService){}
+constructor( private http : HttpHandlerService, private route: Router){}
 
  
 
@@ -44,5 +46,8 @@ constructor( private http : HttpHandlerService){}
     this.isCheckedIn = false;
   }
 
+  onClickAddTask(){
+    this.route.navigate(['app/log-mgnt/add-log']);
+  }
 
 }

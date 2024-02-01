@@ -1,6 +1,7 @@
 package com.aadim.project.service.impl;
 
 import com.aadim.project.dto.request.LeaveRequest;
+import com.aadim.project.entity.Intern;
 import com.aadim.project.service.MailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -26,7 +27,7 @@ public class MailServiceImpl implements MailService {
     private TemplateEngine templateEngine;
     @Async
     @Override
-    public void sendHtmlMail(String to, String sub, LeaveRequest leaveRequest) throws MessagingException {
+    public void sendHtmlMail(String to, String sub, LeaveRequest leaveRequest, Intern intern) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message,true,"UTF-8");
         helper.setTo(to);
@@ -36,9 +37,9 @@ public class MailServiceImpl implements MailService {
         context.setVariable("startDate", leaveRequest.getStartDate());
         context.setVariable("endDate", leaveRequest.getEndDate());
         context.setVariable("reason", leaveRequest.getReason());
-        context.setVariable("name", leaveRequest.getName());
-        context.setVariable("position", leaveRequest.getPosition());
-        context.setVariable("phone", leaveRequest.getPhone());
+        context.setVariable("name", intern.getFullName());
+        context.setVariable("position", intern.getFieldType());
+        context.setVariable("phone", intern.getPhone());
         String htmlContent = templateEngine.process("email-template.html",
                 context);
         helper.setText(htmlContent,true);

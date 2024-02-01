@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "schedules")
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,13 +22,11 @@ public class Schedule {
 
     private LocalDateTime checkInTime;
     private LocalDateTime checkOutTime;
-    @PrePersist
-    public void prePersist() {
-        this.checkInTime = LocalDateTime.now();
-    }
+//    @PrePersist
+//    public void prePersist() {
+//        this.checkInTime = LocalDateTime.now();
+//    }
 
-//    @Column(name = "is_present")
-//    private Boolean isPresent;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "intern_id")
     private Intern intern;

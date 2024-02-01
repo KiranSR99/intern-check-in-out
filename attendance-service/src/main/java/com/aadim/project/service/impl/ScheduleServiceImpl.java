@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,12 +28,13 @@ public class ScheduleServiceImpl implements ScheduleService {
     //save the check in time
     @Override
     public ScheduleResponse saveCheckIn(ScheduleRequest request){
-//        Schedule existingSchedule = scheduleRepository.findByInternIdAndCheckoutTimeIsNull(request.getInternId()).orElse(null);
-//        if (existingSchedule != null) {
-//            throw new RuntimeException("User has already checked in");  // Replace with your own exception
-//        }
+        //create a condition to check if the checkInTime has already been set
+        Optional<Schedule> existingSchedule = scheduleRepository.findByInternIdAndCheckOutTimeIsNull(request.getInternId());
+        if (existingSchedule.isPresent()) {
+            throw new RuntimeException("User has already checked in");
+        }
         Schedule schedule = new Schedule();
-        schedule.setCheckInTime(request.getCheckInTime());
+        schedule.setCheckInTime(LocalDateTime.now());
         schedule.setCheckOutTime(request.getCheckOutTime());
         Intern intern = new Intern();
         intern.setId(request.getInternId());

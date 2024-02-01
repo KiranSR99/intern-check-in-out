@@ -30,16 +30,16 @@
                                 <td>{{ item.phone }}</td>
                                 <td>{{ item.role }}</td>
                                 <td>
-                                    <div class="row">
-
-                                        <div class="col-sm-4">
-                                            <button type="update" class="btn btn-outline-primary"
-                                                (click)="updateUserById(item.id)"><i class="fa fa-edit"></i></button>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <button type="delete" class="btn btn-outline-danger"><i
-                                                    class="fa fa-trash"></i></button>
-                                        </div>
+                                    <div class="row ">
+                                     
+                                      <div class="col-sm-4">
+                                        <button type="update" class="btn btn-outline-primary" (click)="onUpdateClick(item.userId)"><i
+                                          class="fa fa-edit"></i></button>
+                                      </div>
+                                      <div class="col-sm-4">   
+                                    <button type="delete" class="btn btn-outline-danger"><i
+                                      class="fa fa-trash"></i></button>
+                                      </div>
                                     </div>
                                 </td>
                             </tr>

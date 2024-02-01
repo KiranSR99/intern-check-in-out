@@ -21,5 +21,23 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
 
 //    Optional<Schedule> findByInternIdAndCheckoutTimeIsNull(Integer userId);
 
+    //create a query to get the checkin time from the schedules
+//    @Query(
+//            nativeQuery = true,
+//            value = """
+//                    select s.check_in_time from schedule s where s.intern_id = :internId and s.check_out_time is null
+//                    """
+//    )
+//    Optional<Schedule> getCheckInTime(@Param("internId") Integer internId);
+
+
+    @Query(
+
+            nativeQuery = true,
+            value = """
+            SELECT * FROM schedule s WHERE s.intern_id = :internId AND s.check_out_time IS NULL
+            """)
+    Optional<Schedule> findByInternIdAndCheckOutTimeIsNull(Integer internId);
 
 }
+

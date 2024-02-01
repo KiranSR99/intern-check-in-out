@@ -68,6 +68,10 @@ checkOtp(data: any): Observable<GlobalApiHandler<any>>{
   return this.http.post<GlobalApiHandler<any>>(`${this.apiUrl}/forgot-password/validate-otp`, data);
 }
 
+checkIn(userId: any): Observable<any>{
+  return this.http.post(`${this.apiUrl}/schedule/checkIn`, userId)
+}
+
 updatePassword(data: any){
   return this.http.put<any>(`${this.apiUrl}/forgot-password/update-password` , data)
 }

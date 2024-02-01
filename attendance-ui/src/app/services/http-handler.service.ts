@@ -41,4 +41,5 @@ export class HttpHandlerService {
     return this.http.delete<GlobalApiHandler<any>>(`${this.apiUrl}/user/delete/${id}`)            
 
 }
+
 }

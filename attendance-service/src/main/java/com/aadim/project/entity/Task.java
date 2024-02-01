@@ -24,7 +24,7 @@ public class Task {
     private String problem;
     private String timeTaken;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 

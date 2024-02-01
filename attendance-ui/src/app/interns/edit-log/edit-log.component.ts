@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpHandlerService } from '../../services/http-handler.service';
 import { ToastService } from '../../services/toast.service';
 import { Location } from '@angular/common';
@@ -15,10 +15,12 @@ export class EditLogComponent {
   submitted = false;
   showDeleteButton = false;
   userId: any;
+  id: number = 0;
 
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpHandlerService,
+    private route: ActivatedRoute,
     private router: Router,
     private location: Location,
     private toast: ToastService
@@ -28,7 +30,10 @@ export class EditLogComponent {
     this.onInitLogDetails();
 
     this.userId = localStorage.getItem('userId');
-
+    this.route.params.subscribe(params => {
+      this.id = params['id'];
+      this.editLog(this.id);
+    });
   }
 
   onInitLogDetails() {
@@ -60,8 +65,47 @@ export class EditLogComponent {
     this.showDeleteButton = true;
   }
 
-  onClickUpdateLog(){
+  editLog(id: number) {
+    this.http.getLogById(id).subscribe(
+      (response: any) => {
+        console.log('Individual Data fetched successfully:', response);
+        this.populateForm(response.data);
+      },
+      (error: any) => {
+        console.log('Error fetching data:', error);
+      }
+    );
+  }
+
+  populateForm(data: any) {
+    // Set the values for the main form
+    this.logDetails.patchValue({
+      id: data.id,
+      task: data.task,
+      status: data.status,
+      timeTaken: data.timeTaken,
+      problem: data.problem,
+    });
+
+ 
+    const logDetailsArray = this.logDetails.get('multiLogDetails') as FormArray;
     
+
+    // Add a new group for each another detail
+    data.multiLogDetails.forEach((multiLogDetails: any) => {
+      logDetailsArray.push(this.formBuilder.group({
+        id: multiLogDetails.id,
+        task: multiLogDetails.task,
+        status: multiLogDetails.status,
+        timeTaken: multiLogDetails.timeTaken,
+        problem: multiLogDetails.problem,
+        
+      }));
+    });
+  }
+
+  onClickUpdateLog(){
+
   }
 
   onDeleteButtonClick(i: number) {

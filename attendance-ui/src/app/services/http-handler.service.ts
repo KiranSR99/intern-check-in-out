@@ -26,7 +26,9 @@ export class HttpHandlerService {
     return this.http.post<GlobalApiHandler<LogsDetails>>(`${this.apiUrl}/task/saveTasks`,user);
   }
 
-
+  getLogById(id: number): Observable<GlobalApiHandler<LogsDetails>>{
+    return this.http.get<GlobalApiHandler<LogsDetails>>(`${this.apiUrl}/task/getTaskById/${id}`);
+  }
 
   addUser(data: any): Observable<GlobalApiHandler<UserList>> {
     return this.http.post<GlobalApiHandler<UserList>>(`${this.apiUrl}/users/saveUser`, data);
@@ -56,6 +58,8 @@ updateUser(data: any): Observable<GlobalApiHandler<any>>{
   getUserById(id: number): Observable<GlobalApiHandler<UserList>> {
   return this.http.get<GlobalApiHandler<UserList>>(`${this.apiUrl}/users/getById/${id}`);
 }
+
+
 
 }
 

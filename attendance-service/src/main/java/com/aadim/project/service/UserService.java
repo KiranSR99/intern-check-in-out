@@ -28,4 +28,5 @@ public interface UserService {
     String changePassword(PasswordRequest request);
 
     String changePasswordByEmail (ForgotPasswordRequest request);
+
 }

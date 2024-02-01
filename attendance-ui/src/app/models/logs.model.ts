@@ -1,16 +1,14 @@
+import { UserList } from "./UserList.model";
+
 export class LogsDetails {
-    id: number | undefined;
-    task: string | undefined;
-    status: string | undefined ;
-    timeTaken: string | undefined;
-    problem: string | undefined;
-    //multiLogDetails: MultiLogDetails[];
+    Tasks: Array<Task> | undefined;
 }
 
-// export interface MultiLogDetails{
-//     id: number | undefined;
-//     task: string | undefined;
-//     status: string | undefined;
-//     timeTaken: string | undefined;
-//     problem: string | undefined;
-// }
+export interface Task{
+    id: number ;
+    task: string ;
+    status: string ;
+    timeTaken: string ;
+    problem: string ;
+    userId: UserList;
+}

@@ -4,11 +4,12 @@
         <a class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
             <h4 class="text-warning">Intern Log History</h4>
         </a>
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0">
-            <!-- <i class="fa fa-search"></i> -->
-            <input type="text" class="form-control" placeholder="Search..." aria-label="Search"   >
-           
-        </form>
+        
+        <div class="buttons" *ngIf="userRole === 'INTERN'">
+            <button *ngIf="!isCheckedIn" class="btn btn-success mx-2" (click)="onCheckInClick()">Check-in</button>
+            <button *ngIf="isCheckedIn" class="btn btn-warning mx-2"><i class="fa-solid fa-plus"></i> Add Task</button>
+            <button *ngIf="isCheckedIn" class="btn btn-danger" (click)="onCheckOutClick()">Check-out</button>
+        </div>
     </div>
     <hr>
 

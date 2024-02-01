@@ -13,7 +13,7 @@
                 </div>
 
                 <hr class="mt-1 mb-3" />
-                <p><b>1. Enter your Log</b></p>
+                <p><b>1. Enter your Task Details</b></p>
                 <div class="row g-4">
                     <div class="col-md-6">
                         <label for="text">Task</label>
@@ -43,13 +43,13 @@
 
                     <div class="col-md-6">
                         <label for="text">Time taken</label>
-                        <input type="email" class="form-control" name="timetaken" id="timetaken"
-                            formControlName="timetaken" placeholder="Enter the time taken" required/>
+                        <input type="email" class="form-control" name="timeTaken" id="timeTaken"
+                            formControlName="timeTaken" placeholder="Enter the time taken" required/>
                         <span class="text-danger"
-                            *ngIf="logDetails.get('timetaken')?.invalid && logDetails.get('timetaken')?.touched">Time
+                            *ngIf="logDetails.get('timeTaken')?.invalid && logDetails.get('timeTaken')?.touched">Time
                             taken is
                             required!</span>
-                        <span *ngIf="submitted && logDetails.get('timetaken')?.errors?.['required']"
+                        <span *ngIf="submitted && logDetails.get('timeTaken')?.errors?.['required']"
                             class='text-danger'>
                             Time taken is required!
                         </span>
@@ -77,7 +77,7 @@
                     <div [formGroupName]="i">
                         <div class="row">
                             <div class="col-sm-6">
-                                <p><b>{{i+2}}. Enter Your Multiple Logs</b></p>
+                                <p><b>{{i+2}}. Enter your Task Details</b></p>
                             </div>
                             <div class="col-sm-6">
                                 <button class="btn btn-danger float-end" *ngIf="i>=0" (click)="onDeleteButtonClick(i)">
@@ -117,13 +117,13 @@
 
                             <div class="col-md-6 mb-3">
                                 <label for="text">Time taken</label>
-                                <input type="email" class="form-control" name="timetaken" id="timetaken"
-                                    formControlName="timetaken" placeholder="Enter the time taken" required/>
+                                <input type="email" class="form-control" name="timeTaken" id="timeTaken"
+                                    formControlName="timeTaken" placeholder="Enter the time taken" required/>
                                 <span class="text-danger"
-                                    *ngIf="control.get('timetaken')?.invalid && control.get('timetaken')?.touched">Time
+                                    *ngIf="control.get('timeTaken')?.invalid && control.get('timeTaken')?.touched">Time
                                     taken is
                                     required!</span>
-                                <span *ngIf="submitted && control.get('timetaken')?.errors?.['required']"
+                                <span *ngIf="submitted && control.get('timeTaken')?.errors?.['required']"
                                     class='text-danger'>
                                     Time taken is required!
                                 </span>
@@ -154,7 +154,11 @@
                     <button class="btn btn-outline-danger float-start" (click)="cancel()">Cancel</button>
                 </div>
                 <div class="col-md-6">
+<<<<<<< HEAD
                     <button class="btn btn-outline-success btn-block float-end" (click)="onClickSaveLog(logDetails.value)">Submit</button>
+=======
+                    <button class="btn btn-success btn-block float-end" (click)="onClickSaveLog()">Submit</button>
+>>>>>>> f790e1133606b643692ad8ea6e86f0dcb9ba9f42
                 </div>
             </div>
        

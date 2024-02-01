@@ -15,9 +15,13 @@ public class Leave {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "intern_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "intern_id")
     private Intern internId;
+
+    private Integer noOfDays;
+    private String startDate;
+    private String endDate;
 
     private String reason;
 

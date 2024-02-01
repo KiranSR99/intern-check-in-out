@@ -27,14 +27,21 @@
                                 <td>{{ per_i + 1 }}</td>
                                 <td>{{ item.fullName }}</td>
                                 <td>{{ item.email }}</td>
-                                <td>{{ item.phoneNum }}</td>
+                                <td>{{ item.phone }}</td>
                                 <td>{{ item.role }}</td>
                                 <td>
-                                    <button class="btn btn-primary btn-sm mx-3" (click)="updateUserById(item.id)">
-                                        <i class="fa fa-pencil"></i> Update</button>
-                                    <button class="btn btn-danger btn-sm">
-                                        <i class="fa fa-trash"></i> Delete</button>
-                                </td>
+                                    <div class="row ">
+                                     
+                                      <div class="col-sm-4">
+                                        <button type="update" class="btn btn-outline-primary" (click)="updateUserById(item.id)"><i
+                                          class="fa fa-edit"></i></button>
+                                      </div>
+                                      <div class="col-sm-4">   
+                                    <button type="delete" class="btn btn-outline-danger"><i
+                                      class="fa fa-trash"></i></button>
+                                      </div>
+                                    </div>
+                                  </td>
                             </tr>
                         </tbody>
                     </table>

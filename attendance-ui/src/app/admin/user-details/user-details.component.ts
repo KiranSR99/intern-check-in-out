@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { HttpHandlerService } from '../../services/http-handler.service';
-// import { HttpHandlerService } from '../../../services/http-handler.service';
 
 @Component({
   selector: 'app-user-details',
@@ -26,7 +25,7 @@ export class UserDetailsComponent {
     this.httpHandler.getAllUsers().subscribe(
       (data: any) => {
         console.log("Data fetched successfully")
-        this.userDetailsData = data;
+        this.userDetailsData = data.data;
       },
       (error:any) => {
         console.error('Error fetching user details:', error);
@@ -50,7 +49,7 @@ export class UserDetailsComponent {
       });
     }
   }
-
+ 
 
 
   addUser() {

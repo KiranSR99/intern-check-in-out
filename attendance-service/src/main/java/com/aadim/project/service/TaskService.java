@@ -11,4 +11,6 @@ public interface TaskService {
     List<TaskResponse> saveAllTasks(TaskRequest  taskRequest);
 
     List<TaskResponse> getAllTasks();
+
+    TaskResponse getTaskById(Integer id);
 }

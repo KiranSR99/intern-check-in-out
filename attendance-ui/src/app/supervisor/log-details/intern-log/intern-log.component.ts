@@ -19,6 +19,8 @@ export class InternLogComponent implements OnInit {
 
 constructor( private http : HttpHandlerService, private route: Router){}
 
+ 
+
   ngOnInit(): void {
     this.showInternLog();
     this.showInternName(this.id);

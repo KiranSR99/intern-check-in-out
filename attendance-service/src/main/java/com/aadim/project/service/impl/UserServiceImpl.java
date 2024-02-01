@@ -1,5 +1,6 @@
 package com.aadim.project.service.impl;
 
+import com.aadim.project.dto.request.PasswordRequest;
 import com.aadim.project.dto.request.UserRequest;
 import com.aadim.project.dto.request.UserUpdateRequest;
 import com.aadim.project.dto.response.UserResponse;
@@ -226,4 +227,17 @@ public class UserServiceImpl implements UserService {
         return "User with id " + id + " deleted successfully.";
     }
 
+
+    @Transactional
+    public String changePassword(PasswordRequest request)
+    {
+
+        User user = userRepository.getReferenceById(request.getUserId());
+        if(new BCryptPasswordEncoder().matches(request.getOldPassword(), user.getPassword()) ) {
+            user.setPassword(new BCryptPasswordEncoder().encode(request.getNewPassword()));
+        } else {
+            throw new RuntimeException("Old password doesn't match.");
+        }
+        return "success";
+    }
 }

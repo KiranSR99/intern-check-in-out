@@ -4,10 +4,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from '../../services/http-handler.service';
 import { ToastService } from '../../services/toast.service';
-<<<<<<< HEAD
-=======
 import { LogsDetails } from '../../models/logs.model';
->>>>>>> f790e1133606b643692ad8ea6e86f0dcb9ba9f42
 
 @Component({
   selector: 'app-add-log',
@@ -24,14 +21,9 @@ export class AddLogComponent {
     private formBuilder: FormBuilder,
     private http: HttpHandlerService,
     private router: Router,
-<<<<<<< HEAD
-    private toast: ToastService,
-    private location: Location){}
-=======
     private location: Location,
     private toast: ToastService
   ) {}
->>>>>>> f790e1133606b643692ad8ea6e86f0dcb9ba9f42
 
   ngOnInit(): void {
     this.onInitLogDetails();
@@ -55,24 +47,6 @@ export class AddLogComponent {
     return this.logDetails.get('multiLogDetails') as FormArray;
   }
 
-<<<<<<< HEAD
-  onClickSaveLog(user: any){
-    if (this.logDetails.valid) {
-      this.http.saveLog(this.logDetails.value).subscribe({
-        next: (response: any) => {
-          console.log('User added successfully');
-          this.toast.showSuccess('User added successfully');
-          this.router.navigate(['/app/log-mgnt/intern-log']);
-        },
-        error: (err) => {
-          console.error('Error adding user:', err);
-          this.toast.showError('Error adding logs');
-        }
-      });
-    } else {
-      this.logDetails.markAllAsTouched();
-    }
-=======
   onClickSaveLog() {
     const tasksArray: Array<any> = [];
 
@@ -99,7 +73,7 @@ export class AddLogComponent {
     const logDetailsData = { tasks: tasksArray };
     console.log(logDetailsData);
 
-    this.httpHandlerService.saveLog(logDetailsData).subscribe(
+    this.http.saveLog(logDetailsData).subscribe(
       (response: any) => {
         console.log(response);
         this.toast.showSuccess('Log Add Successfully');
@@ -110,7 +84,6 @@ export class AddLogComponent {
       }
     );
     // this.location.back();
->>>>>>> f790e1133606b643692ad8ea6e86f0dcb9ba9f42
   }
 
   addmultiLogDetails() {

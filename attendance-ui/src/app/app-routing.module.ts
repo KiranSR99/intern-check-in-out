@@ -5,11 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { BaseComponent } from './components/base/base.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AddUsersComponent } from './admin/add-users/add-users.component';
-import { UpdateUsersComponent } from './admin/update-users/update-users.component';
 import { UserDetailsComponent } from './admin/user-details/user-details.component';
-
 import { AddLogComponent } from './interns/add-log/add-log.component';
-
 import { InternLogComponent } from './supervisor/log-details/intern-log/intern-log.component';
 import { UserProfileComponent } from './common/user-profile/user-profile.component';
 import { EditProfileComponent } from './common/edit-profile/edit-profile.component';
@@ -35,7 +32,7 @@ const routes: Routes = [
         children: [
           { path: 'user-list', component: UserDetailsComponent },
           { path: 'add-user', component: AddUsersComponent },
-          { path: 'edit-user/:id', component: UpdateUsersComponent },
+          // { path: 'edit-user/:id', component: UpdateUsersComponent },
           { path: 'user-profile', component: UserProfileComponent },
           { path: 'edit-profile', component: EditProfileComponent },
           { path: '**', redirectTo: 'user-list', pathMatch: 'full' },

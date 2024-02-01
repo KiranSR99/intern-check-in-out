@@ -62,10 +62,11 @@ export class AddUsersComponent {
       this.userDetails.get('primarySupervisor')?.enable();
       this.userDetails.get('secondarySupervisor')?.enable();
     } else {
-      this.userDetails.get('primarySupervisor')?.disable();
-      this.userDetails.get('secondarySupervisor')?.disable();
+      // this.userDetails.get('primarySupervisor')?.disable();
+      // this.userDetails.get('secondarySupervisor')?.disable();
     }
   }
+  
   
 
   showFieldInput(): boolean {

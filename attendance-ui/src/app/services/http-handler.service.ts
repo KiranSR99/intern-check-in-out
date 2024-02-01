@@ -57,9 +57,22 @@ updateUser(data: any): Observable<GlobalApiHandler<any>>{
   return this.http.get<GlobalApiHandler<UserList>>(`${this.apiUrl}/users/getById/${id}`);
 }
 
-// checkIn(): Observable<any>{
-//   return this.http.post(`${this.apiUrl}/schedule/checkIn`,)
+checkIn(userId: any): Observable<any>{
+  return this.http.post(`${this.apiUrl}/schedule/checkIn`, userId)
+}
+
+// checkIn(userId: any): Observable<any> {
+//   // Ensure userId is an integer
+//   const userIdInt = Number(userId);
+
+//   // Construct the request body as a JSON object with the integer userId
+//   const body = { userId: userIdInt };
+
+//   // Directly pass the object to the POST method
+//   return this.http.post(`${this.apiUrl}/schedule/checkIn`, body);
 // }
+
+
 
 }
 

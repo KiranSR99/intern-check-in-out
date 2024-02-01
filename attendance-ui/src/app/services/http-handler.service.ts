@@ -60,10 +60,9 @@ updateUser(data: any): Observable<GlobalApiHandler<any>>{
   return this.http.get<GlobalApiHandler<UserList>>(`${this.apiUrl}/users/getById/${id}`);
 }
 
-saveCheckIn(request: any): Observable<GlobalApiHandler<any>> {
-  return this.http.post<GlobalApiHandler<any>>(`${this.apiUrl}/schedule/checkIn`, request);
+forgotPassword(email: any): Observable<any>{
+  return this.http.post<any>(`${this.apiUrl}/mail/forgot-password`, email);
 }
-
 }
 
 

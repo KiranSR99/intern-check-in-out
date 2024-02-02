@@ -19,7 +19,7 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name = "users")
-public class User implements UserDetails {
+public class User extends Auditable implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

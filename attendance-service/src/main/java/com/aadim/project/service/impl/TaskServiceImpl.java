@@ -13,8 +13,10 @@ import com.aadim.project.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import javax.swing.event.ListDataEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,40 +37,52 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskResponse> saveAllTasks(TaskRequest taskRequest) {
         log.info("Task save request received");
-        List<TaskReq> taskRequests = taskRequest.getTasks();
+//        List<TaskReq> taskRequests = taskRequest.getTasks();
         List<Task> savedTasks = new ArrayList<>();
-
-        for (TaskReq taskReq : taskRequests) {
-            Task task = new Task();
-            User user = userRepository.getReferenceById(taskReq.getUserId());
-            task.setUser(user);
-            task.setTask(taskReq.getTask());
-            task.setStatus(taskReq.getStatus());
-            task.setProblem(taskReq.getProblem());
-            task.setTimeTaken(taskReq.getTimeTaken());
-
-            savedTasks.add(taskRepository.save(task));
-        }
-
         List<TaskResponse> taskResponses = new ArrayList<>();
-        for (Task savedTask : savedTasks) {
-            TaskResponse taskResponse = new TaskResponse();
-            taskResponse.setProblem(savedTask.getProblem());
-            taskResponse.setTask(savedTask.getTask());
-            taskResponse.setStatus(savedTask.getStatus());
-            taskResponse.setTimeTaken(savedTask.getTimeTaken());
-            taskResponse.setUserId(savedTask.getUser().getId());
 
+        taskRequest.getTasks().forEach( t ->{
+            Task task = new Task();
+            BeanUtils.copyProperties(t,task);
+            User user = userRepository.findById(t.getUserId()).orElseThrow(()->
+                    new RuntimeException("User not found"));
+            task.setUser(user);
+            savedTasks.add(task);
+            TaskResponse taskResponse = new TaskResponse(task);
             taskResponses.add(taskResponse);
-        }
+        });
+
+        taskRepository.saveAllAndFlush(savedTasks);
         return taskResponses;
 
+//
+//        for (TaskReq taskReq : taskRequests) {
+//            Task task = new Task();
+//            User user = userRepository.getReferenceById(taskReq.getUserId());
+//            task.setUser(user);
+//            task.setTask(taskReq.getTask());
+//            task.setStatus(taskReq.getStatus());
+//            task.setProblem(taskReq.getProblem());
+//            task.setTimeTaken(taskReq.getTimeTaken());
+//
+//            savedTasks.add(taskRepository.save(task));
+//            log.info("Task saved successfully");
+//        }
+//
+//        List<TaskResponse> taskResponses = new ArrayList<>();
+//        for (Task savedTask : savedTasks) {
+//            TaskResponse taskResponse = new TaskResponse();
+//            taskResponse.setProblem(savedTask.getProblem());
+//            taskResponse.setTask(savedTask.getTask());
+//            taskResponse.setStatus(savedTask.getStatus());
+//            taskResponse.setTimeTaken(savedTask.getTimeTaken());
+//            taskResponse.setUserId(savedTask.getUser().getId());
+//
+//            taskResponses.add(taskResponse);
+//        }
+//        return taskResponses;
 
-//        List<Task> tasks = taskRequest.getTasks();
-//        List<Task> savedTasks = taskRepository.saveAll(tasks);
-//        return savedTasks.stream()
-//                .map(task -> modelMapper.map(task, TaskResponse.class))
-//                .collect(Collectors.toList());
+
     }
 
 
@@ -87,6 +101,7 @@ public class TaskServiceImpl implements TaskService {
             taskResponse.setUserId(savedTask.getUser().getId());
 
             taskResponses.add(taskResponse);
+            log.info("Task fetched request successfully");
         }
         return taskResponses;
 
@@ -97,6 +112,8 @@ public class TaskServiceImpl implements TaskService {
     }
     @Override
     public TaskResponse getTaskById(Integer id) {
+        log.info("Task fetchById request received");
+
         Task task = taskRepository.getReferenceById(id);
 
         TaskResponse taskResponse = new TaskResponse();
@@ -106,11 +123,13 @@ public class TaskServiceImpl implements TaskService {
         taskResponse.setTimeTaken(task.getTimeTaken());
         taskResponse.setProblem(task.getProblem());
 
+        log.info("Task fetchById successful");
         return taskResponse;
     }
 
     @Override
     public TaskResponse updateTask(TaskUpdateRequest updateRequest) {
+        log.info("Task update request received");
         Task task = taskRepository.getReferenceById(updateRequest.getId());
 
         task.setStatus(updateRequest.getStatus());
@@ -119,6 +138,7 @@ public class TaskServiceImpl implements TaskService {
         task.setTimeTaken(updateRequest.getTimeTaken());
 
         Task savedTask = taskRepository.save(task);
+        log.info("Task updated successfully");
         return new TaskResponse(savedTask);
     }
 

@@ -28,6 +28,7 @@ public class MailServiceImpl implements MailService {
     @Async
     @Override
     public void sendHtmlMail(String to, String sub, LeaveRequest leaveRequest, Intern intern) throws MessagingException {
+        log.info("Sending mail for leave to primary and secondary supervisor");
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message,true,"UTF-8");
         helper.setTo(to);
@@ -44,6 +45,7 @@ public class MailServiceImpl implements MailService {
                 context);
         helper.setText(htmlContent,true);
         javaMailSender.send(message);
+        log.info("Mail sent successfully");
     }
 
 
@@ -54,11 +56,13 @@ public class MailServiceImpl implements MailService {
         String sub = "Password Verification Code";
         String content = "Hello "+toEmail+" Your Verification code is :" + verificationCode;
         sendOtpMail(toEmail, sub, content);
+
     }
 
     @Async
     @Override
     public void sendOtpMail(String to, String sub, String content) throws MessagingException {
+        log.info("Sending mail with otp");
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message,true,"UTF-8");
         helper.setTo(to);
@@ -69,5 +73,6 @@ public class MailServiceImpl implements MailService {
                 context);
         helper.setText(htmlContent,true);
         javaMailSender.send(message);
+        log.info("Mail with otp sent successfully");
     }
 }

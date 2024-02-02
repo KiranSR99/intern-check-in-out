@@ -16,6 +16,9 @@ import { authGuard } from './guards/auth.guard';
 import { negateAuthGuard } from './guards/negate-auth.guard';
 import { LeaveRequestComponent } from './interns/leave-request/leave-request.component';
 import { UpdateUsersComponent } from './admin/update-users/update-users.component';
+import { CreateLeaveRequestComponent } from './interns/create-leave-request/create-leave-request.component';
+import { EditLogComponent } from './interns/edit-log/edit-log.component';
+import { EnterOtpComponent } from './enter-otp/enter-otp.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '', pathMatch: 'full' },
@@ -23,6 +26,9 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [negateAuthGuard] },
   { path: 'change-password', component: ChangePasswordComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
+  {
+    path: 'enter-otp',
+    component: EnterOtpComponent},
   {
     path: 'app',
     component: BaseComponent,
@@ -45,7 +51,9 @@ const routes: Routes = [
         children: [
           { path: 'add-log', component: AddLogComponent },
           { path: 'intern-log', component: InternLogComponent },
+          {path: 'edit-log/:id', component: EditLogComponent},
           { path: 'leave-request', component: LeaveRequestComponent },
+          { path: 'create-new/:id', component: CreateLeaveRequestComponent },
           {
             path: '**',
             redirectTo: 'intern-log',

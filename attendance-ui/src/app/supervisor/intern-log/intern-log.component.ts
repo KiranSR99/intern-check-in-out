@@ -5,7 +5,7 @@ import { HttpHandlerService } from '../../services/http-handler.service';
 @Component({
   selector: 'app-intern-log',
   templateUrl: './intern-log.component.html',
-  styleUrl: './intern-log.component.scss',
+  styleUrls: ['./intern-log.component.scss'],
 })
 export class InternLogComponent implements OnInit {
   userRole: any;
@@ -20,16 +20,19 @@ export class InternLogComponent implements OnInit {
 
   ngOnInit(): void {
     this.showInternLog();
-    // this.showInternName(this.id);
     this.userId = localStorage.getItem('userId');
     this.userRole = localStorage.getItem('role');
+
+    // Retrieve the isCheckedIn state from localStorage
+    const isCheckedInString = localStorage.getItem('isCheckedIn');
+    this.isCheckedIn = isCheckedInString === 'true';
+
     if (this.userRole) {
       this.userRole = JSON.parse(this.userRole);
     }
   }
 
   showInternLog() {
-    
     this.http.getAllLog().subscribe(
       (result: any) => {
         this.intern = result;
@@ -43,12 +46,13 @@ export class InternLogComponent implements OnInit {
 
   onCheckInClick() {
     this.isCheckedIn = true;
+    localStorage.setItem('isCheckedIn', 'true');
 
-    const chekckInReqBody = {
+    const checkInReqBody = {
       userId: this.userId,
     };
 
-    this.http.checkIn(chekckInReqBody).subscribe(
+    this.http.checkIn(checkInReqBody).subscribe(
       (result: any) => {
         console.log('Check in successfully', result);
       },
@@ -60,15 +64,15 @@ export class InternLogComponent implements OnInit {
 
   onCheckOutClick() {
     this.isCheckedIn = false;
+    localStorage.removeItem('isCheckedIn');
 
     const checkOutReqBody = {
       userId: this.userId
-    }
+    };
 
     this.http.checkOut(checkOutReqBody).subscribe(
       (result: any) => {
         console.log("Checked out successfully", result);
-        this.isCheckedIn = false;
         this.showInternLog(); // Refresh the log to show the updated check-out time
       },
       (error: any) => {
@@ -86,6 +90,4 @@ export class InternLogComponent implements OnInit {
   onEditClick(id: number) {
     this.route.navigate(['app/log-mgnt/edit-log/', id]);
   }
-
-  
 }

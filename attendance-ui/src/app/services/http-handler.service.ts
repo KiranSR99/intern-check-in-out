@@ -61,7 +61,7 @@ export class HttpHandlerService {
     );
   }
 
-  //To get the tasks of all Inters
+    //To show all the details of Intern including tasks, check-in, check-out, etc...
   getAllLog(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/schedule/details`);
   }
@@ -142,8 +142,8 @@ export class HttpHandlerService {
   }
 
   //To check-out by the Intern
-  checkOut(data: any): Observable<any>{
-    return this.http.put<any>(`${this.apiUrl}/schedule/checkOut`, data)
+  checkOut(data: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/schedule/checkOut`, data);
   }
 
 }

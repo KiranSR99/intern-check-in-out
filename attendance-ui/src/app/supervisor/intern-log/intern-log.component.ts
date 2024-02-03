@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from '../../services/http-handler.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-intern-log',
   templateUrl: './intern-log.component.html',
-  styleUrl: './intern-log.component.scss',
+  styleUrls: ['./intern-log.component.scss'],
 })
 export class InternLogComponent implements OnInit {
   userRole: any;
@@ -16,13 +17,17 @@ export class InternLogComponent implements OnInit {
   userId: any;
   internLogs: any;
 
-  constructor(private http: HttpHandlerService, private route: Router) {}
+  constructor(private http: HttpHandlerService, private route: Router, private toast: ToastService) {}
 
   ngOnInit(): void {
     this.showInternLog();
-    this.showInternName(this.id);
     this.userId = localStorage.getItem('userId');
     this.userRole = localStorage.getItem('role');
+
+    // Retrieve the isCheckedIn state from localStorage
+    const isCheckedInString = localStorage.getItem('isCheckedIn');
+    this.isCheckedIn = isCheckedInString === 'true';
+
     if (this.userRole) {
       this.userRole = JSON.parse(this.userRole);
     }
@@ -31,20 +36,8 @@ export class InternLogComponent implements OnInit {
   showInternLog() {
     this.http.getAllLog().subscribe(
       (result: any) => {
-        this.intern = result.data;
+        this.intern = result;
         console.log('fetch data successfully', result);
-      },
-      (error: any) => {
-        console.error('Error fetching data', error);
-      }
-    );
-  }
-
-  showInternName(id: any) {
-    this.http.getUserById(id).subscribe(
-      (result: any) => {
-        this.intern = result.data.fullName;
-        console.log('Fetch data successfully', result);
       },
       (error: any) => {
         console.error('Error fetching data', error);
@@ -54,10 +47,16 @@ export class InternLogComponent implements OnInit {
 
   onCheckInClick() {
     this.isCheckedIn = true;
+    localStorage.setItem('isCheckedIn', 'true');
 
-    this.http.checkIn(this.userId).subscribe(
+    const checkInReqBody = {
+      userId: this.userId,
+    };
+
+    this.http.checkIn(checkInReqBody).subscribe(
       (result: any) => {
-        console.log('Check in successfully', result);
+        this.toast.showSuccess('Check-in successful.');
+        this.showInternLog();
       },
       (error: any) => {
         console.error('Error', error);
@@ -67,6 +66,21 @@ export class InternLogComponent implements OnInit {
 
   onCheckOutClick() {
     this.isCheckedIn = false;
+    localStorage.removeItem('isCheckedIn');
+
+    const checkOutReqBody = {
+      userId: this.userId
+    };
+
+    this.http.checkOut(checkOutReqBody).subscribe(
+      (result: any) => {
+        this.toast.showSuccess('Checked out successfully.');
+        this.showInternLog();
+      },
+      (error: any) => {
+        console.error('Error during check-out', error);
+      }
+    );
   }
 
   onClickAddTask() {
@@ -78,6 +92,4 @@ export class InternLogComponent implements OnInit {
   onEditClick(id: number) {
     this.route.navigate(['app/log-mgnt/edit-log/', id]);
   }
-
-  onDeleteClick() {}
 }

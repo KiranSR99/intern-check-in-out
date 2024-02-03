@@ -37,7 +37,7 @@
                         <td>Full Name</td>
                         <td>Check-in</td>
                         <td>Field</td>
-                        <td>S.N</td>
+                        <td>Task No</td>
                         <td>Task</td>
                         <td>Status</td>
                         <td>Time Taken</td>
@@ -49,15 +49,15 @@
                 <tbody *ngFor="let data of intern |searchFilter:searchText; let i = index ">
                     <tr>
                         <td>{{i+1}}</td>
-                        <td>{{data.fullName}}</td>
-                        <td>{{data.checkIn}}</td>
-                        <td>{{data.field}}</td>
-                        <td></td>
+                        <td>{{data.full_name}}</td>
+                        <td>{{data.check_in_time | dateFormatter  }}</td>
+                        <td>{{data.field_type}}</td>
+                        <td>{{i + 1}}</td>
                         <td>{{data.task}}</td>
                         <td>{{data.status}}</td>
-                        <td>{{data.timeTaken}}</td>
+                        <td>{{data.time_taken}}</td>
                         <td>{{data.problem}}</td>
-                        <td>{{data.checkOut}}</td>
+                        <td>{{data.check_out_time | dateFormatter |timeFormatter }}</td>
                         <td>
                             <button class="btn btn-outline-warning" (click)="onViewClick()" style="margin:8px"><i
                                     class="fa fa-eye"></i></button>

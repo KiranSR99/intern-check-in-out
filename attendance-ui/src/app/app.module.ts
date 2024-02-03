@@ -16,7 +16,7 @@ import { LoginComponent } from './login/login.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { AddLogComponent } from './interns/add-log/add-log.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { InternLogComponent } from './supervisor/log-details/intern-log/intern-log.component';
+import { InternLogComponent } from './supervisor/intern-log/intern-log.component';
 import { UserProfileComponent } from './common/user-profile/user-profile.component';
 import { AddUsersComponent } from './admin/add-users/add-users.component';
 import { UpdateUsersComponent } from './admin/update-users/update-users.component';
@@ -31,6 +31,11 @@ import { CreateLeaveRequestComponent } from './interns/create-leave-request/crea
 import { SearchFilterPipe } from './pipe/search-filter.pipe';
 import { EditLogComponent } from './interns/edit-log/edit-log.component';
 import { EnterOtpComponent } from './enter-otp/enter-otp.component';
+import { LeaveRequestListComponent } from './supervisor/leave-request-list/leave-request-list.component';
+import { DateFormatterPipe } from './pipe/date-formatter.pipe';
+import { TimeFormatterPipe } from './pipe/time-formatter.pipe';
+import { UserListComponent } from './interns/user-list/user-list.component';
+import { AccessDeniedComponent } from './common/access-denied/access-denied.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +60,12 @@ import { EnterOtpComponent } from './enter-otp/enter-otp.component';
     CreateLeaveRequestComponent,
     SearchFilterPipe,
     UpdateUsersComponent,
-    EnterOtpComponent
+    EnterOtpComponent,
+    LeaveRequestListComponent,
+    DateFormatterPipe,
+    TimeFormatterPipe,
+    UserListComponent,
+    AccessDeniedComponent
 
   ],
   imports: [

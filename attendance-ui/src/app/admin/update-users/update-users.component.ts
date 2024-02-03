@@ -7,9 +7,8 @@ import { ToastService } from '../../services/toast.service';
 @Component({
     selector: 'app-update-users',
     templateUrl: './update-users.component.html',
-    styleUrls: ['./update-users.component.scss']
+    styleUrls: ['./update-users.component.scss'],
 })
-
 export class UpdateUsersComponent implements OnInit {
     userDetails: FormGroup;
     userId: any;
@@ -17,7 +16,7 @@ export class UpdateUsersComponent implements OnInit {
     roles: any[] = [
         { id: 'ADMIN', name: 'Admin' },
         { id: 'SUPERVISOR', name: 'Supervisor' },
-        { id: 'INTERN', name: 'Intern' }
+        { id: 'INTERN', name: 'Intern' },
     ];
 
     constructor(
@@ -28,34 +27,30 @@ export class UpdateUsersComponent implements OnInit {
         private activatedRoute: ActivatedRoute
     ) {
         this.userDetails = this.fb.group({
+            id: null,
             fullName: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
             phone: ['', Validators.required],
-            password: ['', Validators.required],
-            role: ['', Validators.required],
-            fieldType: ['']
+            fieldType: [''],
         });
     }
 
     ngOnInit(): void {
         this.activatedRoute.params.subscribe((params: any) => {
-            this.userId = params['id'];
-            this.http.getUserById(this.userId).subscribe(
-                (response) => {
-                    this.patchingData(response.data);
-                }
-            );
+            this.userId = +params['id'];
+            this.http.getUserById(this.userId).subscribe((response) => {
+                this.patchingData(response.data);
+            });
         });
     }
 
     patchingData(data: any) {
         this.userDetails.patchValue({
+            id: this.userId,
             fullName: data.fullName,
             email: data.email,
             phone: data.phone,
-            password: data.password,
-            role: data.role,
-            fieldType: data.fieldType
+            fieldType: data.fieldType,
         });
     }
 
@@ -63,14 +58,9 @@ export class UpdateUsersComponent implements OnInit {
         this.router.navigate(['/app/user-mgnt/user-list']);
     }
 
-    onSubmit() {
+    onSubmit(data: any) {
         if (this.userDetails.valid) {
-            const updatedUserData = {
-                userId: this.userId,
-                userDetails: this.userDetails.value
-            };
-    
-            this.http.updateUser(updatedUserData).subscribe({
+            this.http.updateUser(data).subscribe({
                 next: (response: any) => {
                     console.log('User updated successfully');
                     this.toast.showSuccess('User updated successfully');
@@ -79,13 +69,12 @@ export class UpdateUsersComponent implements OnInit {
                 error: (err) => {
                     console.error('Error updating user:', err);
                     this.toast.showError('Error updating user');
-                }
+                },
             });
         } else {
             this.userDetails.markAllAsTouched();
         }
     }
-    
 
     onRoleChange(event: Event) {
         const roleId = (event.target as HTMLSelectElement).value;

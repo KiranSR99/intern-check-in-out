@@ -10,6 +10,7 @@ import { HttpHandlerService } from '../../services/http-handler.service';
   styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent implements OnInit{
+
   constructor(private http:HttpHandlerService,
               private formbuilder: FormBuilder,
               private toast: ToastrService,
@@ -40,6 +41,8 @@ export class ForgotPasswordComponent implements OnInit{
     );
   }
   
-  
+  back(){
+    this.router.navigate(['/login']);
+  }
   
 }

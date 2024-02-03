@@ -1,27 +1,30 @@
 <div class="body">
-    <div class="from-container">
-      <form (ngSubmit)="testOtp(otpDetails.value)">
-        <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-          <div class="rounded-4 border border-light border-3 p-5" style="height: 300px; width: 480px; background: #FFFFFF">
-            <form [formGroup]="otpDetails">
-              <h4 class="text-center">Enter OTP</h4>
-              <label class="mt-3">Enter your 6-digit OTP</label>
-              <input type="number" formControlName="otp" class="form-control" name="otp" placeholder="Please enter OTP sent to your E-mail">
-              <div *ngIf="otpDetails.get('otp').invalid && otpDetails.get('otp').touched" class="text-danger">
-                <small>Please enter your OTP</small>
-              </div>
-  
-              
+  <div class="from-container">
+    <form (ngSubmit)="testOtp(otpDetails.value)">
+      <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="rounded-4 border border-light border-3 p-5" style="height: 350px; width: 480px; background: white">
+          <form [formGroup]="otpDetails">
+            <h4 class="text-center">Enter OTP</h4>
+            <label class="mt-3">Enter your 6-digit OTP</label>
+            <input type="number" formControlName="otp" class="form-control" name="otp" placeholder="6-digit code">
+            <div *ngIf="otpDetails.get('otp').invalid && otpDetails.get('otp').touched" class="text-danger">
+              <small>Please enter your OTP</small>
+            </div>
+
+            
+         
            
-             
-  
-              <div class="text-center">
-                <button class="btn btn-warning text-light mt-2 mx-auto w-100" (click)="testOtp(otpDetails.value)">Reset</button>
-              </div>
-            </form>
-          </div>
+
+            <div class="text-center">
+              <button class="btn btn-primary text-light mt-3 mx-auto w-100" (click)="testOtp(otpDetails.value)">Submit</button>
+            </div>
+            <div class="message mt-3">
+            <p>If you don't see a code in your inbox, check your spam folder. If it's not there, the email address may not be confirmed.</p>
+           
+            </div>
+          </form>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
-  
+</div>

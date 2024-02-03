@@ -9,13 +9,12 @@ import { HttpHandlerService } from '../../services/http-handler.service';
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
 })
-export class ForgotPasswordComponent implements OnInit {
-  constructor(
-    private http: HttpHandlerService,
-    private formbuilder: FormBuilder,
-    private toast: ToastrService,
-    private router: Router
-  ) {}
+export class ForgotPasswordComponent implements OnInit{
+
+  constructor(private http:HttpHandlerService,
+              private formbuilder: FormBuilder,
+              private toast: ToastrService,
+              private router: Router){}
   emailDeatil: any;
   ngOnInit(): void {
     this.emailDeatil = this.formbuilder.group({
@@ -40,4 +39,9 @@ export class ForgotPasswordComponent implements OnInit {
       }
     );
   }
+
+  back(){
+    this.router.navigate(['/login']);
+  }
+  
 }

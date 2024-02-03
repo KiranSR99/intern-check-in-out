@@ -111,6 +111,15 @@ public class LeaveServiceImpl implements LeaveService {
     }
 
     @Override
+    public LeaveResponse setDeclineStatus(Integer id){
+        log.info("Setting leave status to Decline");
+        Leave leave = leaveRepository.getReferenceById(id);
+        leave.setStatus("Decline");
+        log.info("Leave status Decline successfully");
+        return new LeaveResponse(leaveRepository.save(leave));
+    }
+
+    @Override
     public String deleteLeave(Integer id) {
         Leave leave = leaveRepository.getReferenceById(id);
         leave.setActive(false);

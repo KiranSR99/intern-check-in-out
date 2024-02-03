@@ -168,6 +168,7 @@ public class UserServiceImpl implements UserService {
             } else if (role.toString().equals(SUPERVISOR_ROLE)) {
                 Supervisor supervisor = supervisorRepository.findSupervisorByUserId(user.getId());
                 if (supervisor != null) {
+                    userResponse.setUserId(supervisor.getId());
                     userResponse.setFullName(supervisor.getFullName());
                     userResponse.setPhone(supervisor.getPhone());
                 }

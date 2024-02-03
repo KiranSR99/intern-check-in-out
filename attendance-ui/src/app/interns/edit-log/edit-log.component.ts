@@ -77,11 +77,13 @@ export class EditLogComponent {
       }
     );
   }
+  
 
   populateForm(data: any) {
     // Set the values for the main form
+    
     this.logDetails.patchValue({
-      id: data.id,
+      userId: data.userId,
       task: data.task,
       status: data.status,
       timeTaken: data.timeTaken,
@@ -95,7 +97,7 @@ export class EditLogComponent {
     // Add a new group for each another detail
     data.multiLogDetails.forEach((multiLogDetails: any) => {
       logDetailsArray.push(this.formBuilder.group({
-        id: multiLogDetails.id,
+        userId: multiLogDetails.userId,
         task: multiLogDetails.task,
         status: multiLogDetails.status,
         timeTaken: multiLogDetails.timeTaken,

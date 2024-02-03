@@ -1,26 +1,8 @@
-/* Add some margin and padding for better spacing */
-.d-flex {
-  margin-top: 20px;
-}
-
-/* Style for the OTP input */
-.otp-input {
-  width: 40px; /* Adjust the width as needed */
-  height: 40px; /* Adjust the height as needed */
-  text-align: center;
-  font-size: 18px;
-  margin: 0 5px;
-  border: 2px solid #3498db; /* Add a border color */
-  border-radius: 5px; /* Add some border radius for rounded corners */
-  outline: none; /* Remove the default blue outline */
-}
-
-/* Add focus style for better user experience */
-.otp-input:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-.message{
-  color:dimgrey;
-
+.body {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #6e3098;
 }

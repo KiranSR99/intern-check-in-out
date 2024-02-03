@@ -83,7 +83,7 @@ export class EditLogComponent {
     // Set the values for the main form
     
     this.logDetails.patchValue({
-      userId: data.userId,
+      id: data.id,
       task: data.task,
       status: data.status,
       timeTaken: data.timeTaken,
@@ -97,7 +97,7 @@ export class EditLogComponent {
     // Add a new group for each another detail
     data.multiLogDetails.forEach((multiLogDetails: any) => {
       logDetailsArray.push(this.formBuilder.group({
-        userId: multiLogDetails.userId,
+        id: multiLogDetails.id,
         task: multiLogDetails.task,
         status: multiLogDetails.status,
         timeTaken: multiLogDetails.timeTaken,
@@ -123,6 +123,8 @@ export class EditLogComponent {
     );
       this.location.back();
   }
+
+  
 
   onDeleteButtonClick(i: number) {
     if (this.multiLogDetails.length > 0) {

@@ -25,6 +25,7 @@ public class InitDBConfig {
                     .role(Role.valueOf("ADMIN"))
                     .isActive(true)
                     .build();
+            dbUser.setCreatedBy("0");
             userRepository.save(dbUser);
             log.info("Super Admin created");
         }

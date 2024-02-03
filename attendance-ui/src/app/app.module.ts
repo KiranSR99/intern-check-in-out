@@ -33,6 +33,8 @@ import { EditLogComponent } from './interns/edit-log/edit-log.component';
 import { EnterOtpComponent } from './enter-otp/enter-otp.component';
 
 import { LeaveRequestListComponent } from './supervisor/leave-request-list/leave-request-list.component';
+import { DateFormatterPipe } from './pipe/date-formatter.pipe';
+import { TimeFormatterPipe } from './pipe/time-formatter.pipe';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import { LeaveRequestListComponent } from './supervisor/leave-request-list/leave
     SearchFilterPipe,
     UpdateUsersComponent,
     EnterOtpComponent,
-    LeaveRequestListComponent
+    LeaveRequestListComponent,
+    DateFormatterPipe,
+    TimeFormatterPipe
 
   ],
   imports: [

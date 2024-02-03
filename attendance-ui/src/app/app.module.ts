@@ -29,6 +29,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { LeaveRequestComponent } from './interns/leave-request/leave-request.component';
 import { CreateLeaveRequestComponent } from './interns/create-leave-request/create-leave-request.component';
 import { SearchFilterPipe } from './pipe/search-filter.pipe';
+import { EditLogComponent } from './interns/edit-log/edit-log.component';
+import { EnterOtpComponent } from './enter-otp/enter-otp.component';
 
 @NgModule({
   declarations: [
@@ -48,10 +50,12 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
     EditProfileComponent,
     ChangePasswordComponent,
     ForgotPasswordComponent,
+    EditLogComponent,
     LeaveRequestComponent,
     CreateLeaveRequestComponent,
     SearchFilterPipe,
-    UpdateUsersComponent
+    UpdateUsersComponent,
+    EnterOtpComponent
 
   ],
   imports: [

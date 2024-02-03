@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "leaves")
-public class Leave {
+public class Leave extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

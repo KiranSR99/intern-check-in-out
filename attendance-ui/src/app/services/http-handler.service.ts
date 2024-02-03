@@ -47,6 +47,11 @@ export class HttpHandlerService {
     );
   }
 
+  //To show all tasks
+  showAllTasks(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/task/getAllTasks`);
+  }
+
   addUser(data: any): Observable<GlobalApiHandler<UserList>> {
     return this.http.post<GlobalApiHandler<UserList>>(
       `${this.apiUrl}/users/saveUser`,
@@ -59,6 +64,16 @@ export class HttpHandlerService {
     return this.http.get<GlobalApiHandler<UserList>>(
       `${this.apiUrl}/users/getAll`
     );
+  }
+
+  //To show all interns
+  getAllInters(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/users/getAllInterns`);
+  }
+
+  //To get Check-in and Check-out time
+  getCheckInOutTime(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/schedule/fetchAll`);
   }
 
   //To show all the details of Intern including tasks, check-in, check-out, etc...

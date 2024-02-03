@@ -36,6 +36,8 @@ import { DateFormatterPipe } from './pipe/date-formatter.pipe';
 import { TimeFormatterPipe } from './pipe/time-formatter.pipe';
 import { UserListComponent } from './interns/user-list/user-list.component';
 import { AccessDeniedComponent } from './common/access-denied/access-denied.component';
+import { CustomDateTimeFormatterPipe } from './pipe/date-time-formatter.pipe';
+import { FieldFormatterPipe } from './pipe/field-formatter.pipe';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,9 @@ import { AccessDeniedComponent } from './common/access-denied/access-denied.comp
     DateFormatterPipe,
     TimeFormatterPipe,
     UserListComponent,
-    AccessDeniedComponent
+    AccessDeniedComponent,
+    CustomDateTimeFormatterPipe,
+    FieldFormatterPipe
 
   ],
   imports: [

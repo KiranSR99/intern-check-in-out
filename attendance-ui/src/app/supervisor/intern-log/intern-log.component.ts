@@ -16,11 +16,19 @@ export class InternLogComponent implements OnInit {
   id: any;
   userId: any;
   internLogs: any;
+  internDetails: any;
+  internTasks: any;
+  internCheckInOut: any;
+  combinedData: any[] = [];
 
-  constructor(private http: HttpHandlerService, private route: Router, private toast: ToastService) {}
+  constructor(
+    private http: HttpHandlerService,
+    private route: Router,
+    private toast: ToastService
+  ) {}
 
   ngOnInit(): void {
-    this.showInternLog();
+    // this.showInternLog();
     this.userId = localStorage.getItem('userId');
     this.userRole = localStorage.getItem('role');
 
@@ -31,6 +39,17 @@ export class InternLogComponent implements OnInit {
     if (this.userRole) {
       this.userRole = JSON.parse(this.userRole);
     }
+
+    // //showing intern name
+    // this.showInternDetails();
+
+    // //showing intern tasks
+    // this.showInternTasks();
+
+    //Showing intern Check-in check-out
+    this.showCheckInOut();
+
+    this.showInternLog();
   }
 
   showInternLog() {
@@ -45,10 +64,38 @@ export class InternLogComponent implements OnInit {
     );
   }
 
-  onCheckInClick() {
-    this.isCheckedIn = true;
-    localStorage.setItem('isCheckedIn', 'true');
+  //To show intern name
+  showInternDetails() {
+    this.http.getAllInters().subscribe({
+      next: (response: any) => {
+        this.internDetails = response.data;
+        console.log(this.internDetails);
+      },
+    });
+  }
 
+  //To show intern tasks
+  showInternTasks() {
+    this.http.showAllTasks().subscribe({
+      next: (response: any) => {
+        this.internTasks = response.data;
+        console.log(this.internTasks);
+      },
+    });
+  }
+
+  //To show intern Check-in Check-out time
+  showCheckInOut() {
+    this.http.getCheckInOutTime().subscribe({
+      next: (response: any) => {
+        this.internCheckInOut = response.data;
+        console.log(this.internCheckInOut);
+      },
+      error: (error: any) => {},
+    });
+  }
+
+  onCheckInClick() {
     const checkInReqBody = {
       userId: this.userId,
     };
@@ -57,9 +104,15 @@ export class InternLogComponent implements OnInit {
       (result: any) => {
         this.toast.showSuccess('Check-in successful.');
         this.showInternLog();
+        this.showCheckInOut();
+
+        this.isCheckedIn = true;
+        localStorage.setItem('isCheckedIn', 'true');
       },
       (error: any) => {
-        console.error('Error', error);
+        this.toast.showError(
+          "You can't check in again on the same day you have checked out."
+        );
       }
     );
   }
@@ -69,13 +122,15 @@ export class InternLogComponent implements OnInit {
     localStorage.removeItem('isCheckedIn');
 
     const checkOutReqBody = {
-      userId: this.userId
+      userId: this.userId,
     };
 
     this.http.checkOut(checkOutReqBody).subscribe(
       (result: any) => {
         this.toast.showSuccess('Checked out successfully.');
         this.showInternLog();
+        this;
+        this.showCheckInOut();
       },
       (error: any) => {
         console.error('Error during check-out', error);

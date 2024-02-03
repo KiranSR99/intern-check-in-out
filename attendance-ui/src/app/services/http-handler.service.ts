@@ -95,6 +95,21 @@ export class HttpHandlerService {
     return this.http.get(`${this.apiUrl}/leave/getIntern/${userId}`);
   }
 
+  //To show all the leave request for Supervisor
+  showAllLeaveRequests(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/leave/get`);
+  }
+
+  //To approve the leave request by Supervisor
+  approveLeaveRequest(id: any): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/leave/approved-leave/`, id);
+  }
+
+  //To decline the leave request by Supervisor
+  declineLeaveRequest(id: any): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/decline-leave/${id}`, id);
+  }
+
   //To implement the forget password functionality
   forgotPassword(email: any): Observable<any> {
     return this.http.post<any>(

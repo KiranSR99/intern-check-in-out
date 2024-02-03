@@ -5,16 +5,25 @@ import { HttpHandlerService } from '../../services/http-handler.service';
 @Component({
   selector: 'app-leave-request',
   templateUrl: './leave-request.component.html',
-  styleUrl: './leave-request.component.scss'
+  styleUrl: './leave-request.component.scss',
 })
 export class LeaveRequestComponent implements OnInit {
   userId: any;
+  userRole: any;
   responseData: any;
 
-  constructor(private router: Router, private httpHandler: HttpHandlerService){}
+  constructor(
+    private router: Router,
+    private httpHandler: HttpHandlerService
+  ) {}
 
   ngOnInit(): void {
     this.userId = localStorage.getItem('userId');
+    this.userRole = localStorage.getItem('role');
+
+    if(this.userRole){
+      this.userRole = JSON.parse(this.userRole);
+    }
 
     // To show leave requests of an intern
     this.httpHandler.showInternLeaveRequests(this.userId).subscribe({
@@ -23,12 +32,16 @@ export class LeaveRequestComponent implements OnInit {
       },
       error: (error: any) => {
         console.error('Error fetching leave requests:', error);
-      }
+      },
     });
   }
 
-onComposeNewClick(userId: any){
-  this.router.navigate(['/app/log-mgnt/create-new/', userId]);
-}
+  onComposeNewClick(userId: any) {
+    this.router.navigate(['/app/log-mgnt/create-new/', userId]);
+  }
+
+  onApproveClick(id: any){
+
+  }
 
 }

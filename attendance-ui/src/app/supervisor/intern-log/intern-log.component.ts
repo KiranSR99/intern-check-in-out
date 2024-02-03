@@ -23,7 +23,7 @@ constructor( private http : HttpHandlerService, private route: Router){}
 
   ngOnInit(): void {
     this.showInternLog();
-    this.showInternName(this.id);
+    // this.showInternName(this.id);
     this.userId = localStorage.getItem('userId');
     this.userRole = localStorage.getItem('role');
     if (this.userRole) {
@@ -32,22 +32,11 @@ constructor( private http : HttpHandlerService, private route: Router){}
   }
 
   showInternLog() {
+    
     this.http.getAllLog().subscribe(
       (result: any) => {
-        this.intern = result.data;
+        this.intern = result;
         console.log('fetch data successfully', result);
-      },
-      (error: any) => {
-        console.error('Error fetching data', error);
-      }
-    );
-  }
-
-  showInternName(id: any) {
-    this.http.getUserById(id).subscribe(
-      (result: any) => {
-        this.intern = result.data.fullName;
-        console.log('Fetch data successfully', result);
       },
       (error: any) => {
         console.error('Error fetching data', error);
@@ -58,11 +47,11 @@ constructor( private http : HttpHandlerService, private route: Router){}
   onCheckInClick() {
     this.isCheckedIn = true;
 
-    const chekckInReqBody = {
+    const checkInReqBody = {
       userId: this.userId
     }
 
-    this.http.checkIn(chekckInReqBody).subscribe(
+    this.http.checkIn(checkInReqBody).subscribe(
       (result: any)=>{
         console.log("Check in successfully", result);
       },
@@ -74,6 +63,21 @@ constructor( private http : HttpHandlerService, private route: Router){}
 
   onCheckOutClick() {
     this.isCheckedIn = false;
+
+    const checkOutReqBody = {
+      userId: this.userId
+    }
+
+    this.http.checkOut(checkOutReqBody).subscribe(
+      (result: any) => {
+        console.log("Checked out successfully", result);
+        this.isCheckedIn = false;
+        this.showInternLog(); // Refresh the log to show the updated check-out time
+      },
+      (error: any) => {
+        console.error('Error during check-out', error);
+      }
+    );
   }
 
   onClickAddTask() {
@@ -86,5 +90,5 @@ constructor( private http : HttpHandlerService, private route: Router){}
     this.route.navigate(['app/log-mgnt/edit-log/', id]);
   }
 
-  onDeleteClick() {}
+  
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -25,4 +26,5 @@ public class ScheduleResponse {
         this.checkOutTime = schedule.getCheckOutTime();
         this.internId = schedule.getIntern().getId();
     }
+
 }

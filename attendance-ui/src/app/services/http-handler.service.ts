@@ -35,11 +35,16 @@ export class HttpHandlerService {
   }
 
   getLogById(id: number): Observable<GlobalApiHandler<LogsDetails>> {
-    return this.http.get<GlobalApiHandler<LogsDetails>>(`${this.apiUrl}/task/getTaskById/` + id);
+    return this.http.get<GlobalApiHandler<LogsDetails>>(
+      `${this.apiUrl}/task/getTaskById/` + id
+    );
   }
 
   updateLog(data: any): Observable<GlobalApiHandler<LogsDetails>> {
-    return this.http.put<GlobalApiHandler<LogsDetails>>(`${this.apiUrl}/task/updateTask`, data);
+    return this.http.put<GlobalApiHandler<LogsDetails>>(
+      `${this.apiUrl}/task/updateTask`,
+      data
+    );
   }
 
   addUser(data: any): Observable<GlobalApiHandler<UserList>> {
@@ -67,9 +72,6 @@ export class HttpHandlerService {
       `${this.apiUrl}/users/delete/${id}`
     );
   }
-
-
- 
 
   updateUser(data: any): Observable<GlobalApiHandler<any>> {
     return this.http.put<GlobalApiHandler<any>>(
@@ -102,12 +104,12 @@ export class HttpHandlerService {
 
   //To approve the leave request by Supervisor
   approveLeaveRequest(id: any): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/leave/approved-leave/`, id);
+    return this.http.patch(`${this.apiUrl}/leave/approved-leave/${id}`, id);
   }
 
   //To decline the leave request by Supervisor
   declineLeaveRequest(id: any): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/decline-leave/${id}`, id);
+    return this.http.patch(`${this.apiUrl}/leave/decline-leave/${id}`, id);
   }
 
   //To implement the forget password functionality
@@ -138,6 +140,4 @@ export class HttpHandlerService {
   checkIn(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/schedule/checkIn`, data);
   }
-
-  
 }

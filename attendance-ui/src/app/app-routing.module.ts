@@ -7,7 +7,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AddUsersComponent } from './admin/add-users/add-users.component';
 import { UserDetailsComponent } from './admin/user-details/user-details.component';
 import { AddLogComponent } from './interns/add-log/add-log.component';
-import { InternLogComponent } from './supervisor/log-details/intern-log/intern-log.component';
+import { InternLogComponent } from './supervisor/intern-log/intern-log.component';
 import { UserProfileComponent } from './common/user-profile/user-profile.component';
 import { EditProfileComponent } from './common/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './common/change-password/change-password.component';

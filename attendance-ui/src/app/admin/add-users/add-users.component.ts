@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from '../../services/http-handler.service';
@@ -7,14 +7,16 @@ import { ToastService } from '../../services/toast.service';
 @Component({
   selector: 'app-add-users',
   templateUrl: './add-users.component.html',
-  styleUrls: ['./add-users.component.scss']
+  styleUrls: ['./add-users.component.scss'],
 })
-export class AddUsersComponent {
+export class AddUsersComponent implements OnInit {
   userDetails: FormGroup;
+  supervisors: any;
+
   roles: any[] = [
     { id: 'ADMIN', name: 'Admin' },
     { id: 'SUPERVISOR', name: 'Supervisor' },
-    { id: 'INTERN', name: 'Intern' }
+    { id: 'INTERN', name: 'Intern' },
   ];
 
   constructor(
@@ -31,8 +33,13 @@ export class AddUsersComponent {
       role: ['', Validators.required],
       fieldType: [''],
       primarySupervisor: [''],
-      secondarySupervisor: ['']
+      secondarySupervisor: [''],
     });
+  }
+
+  ngOnInit(): void {
+    //to get all supervisors
+    this.showAllSupervisors();
   }
 
   cancel() {
@@ -49,17 +56,26 @@ export class AddUsersComponent {
         error: (err) => {
           console.error('Error adding user:', err);
           this.toast.showError('Error adding user');
-        }
+        },
       });
     } else {
       this.userDetails.markAllAsTouched();
     }
   }
 
+  //To get all supervisors
+  showAllSupervisors() {
+    this.http.getAllSupervisors().subscribe({
+      next: (response: any) => {
+        this.supervisors = response.data;
+        console.log(this.supervisors);
+      },
+    });
+  }
 
   onRoleChange(event: Event) {
     const roleId = (event.target as HTMLSelectElement).value;
-    if (roleId !== 'INTERN') { 
+    if (roleId !== 'INTERN') {
       this.userDetails.patchValue({ fieldType: null });
       this.userDetails.patchValue({ primarySupervisor: null });
       this.userDetails.patchValue({ secondarySupervisor: null });
@@ -81,5 +97,3 @@ export class AddUsersComponent {
     return roleId === 'INTERN';
   }
 }
-
-

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from '../../services/http-handler.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-intern-log',
@@ -16,7 +17,7 @@ export class InternLogComponent implements OnInit {
   userId: any;
   internLogs: any;
 
-  constructor(private http: HttpHandlerService, private route: Router) {}
+  constructor(private http: HttpHandlerService, private route: Router, private toast: ToastService) {}
 
   ngOnInit(): void {
     this.showInternLog();
@@ -54,7 +55,8 @@ export class InternLogComponent implements OnInit {
 
     this.http.checkIn(checkInReqBody).subscribe(
       (result: any) => {
-        console.log('Check in successfully', result);
+        this.toast.showSuccess('Check-in successful.');
+        this.showInternLog();
       },
       (error: any) => {
         console.error('Error', error);
@@ -72,8 +74,8 @@ export class InternLogComponent implements OnInit {
 
     this.http.checkOut(checkOutReqBody).subscribe(
       (result: any) => {
-        console.log("Checked out successfully", result);
-        this.showInternLog(); // Refresh the log to show the updated check-out time
+        this.toast.showSuccess('Checked out successfully.');
+        this.showInternLog();
       },
       (error: any) => {
         console.error('Error during check-out', error);

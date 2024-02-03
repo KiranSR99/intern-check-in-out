@@ -25,12 +25,11 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
             select i.full_name , i.field_type , s.check_in_time, s.check_out_time,
            t.task , t.status ,t.time_taken , t.problem
            from intern i
-           join users u on u.id  = i.user_id
-           join tasks t on u.id  = t.user_id
-           join schedule s on s.intern_id = i.id
-           where i.user_id  = :userId;
+           full join users u on u.id  = i.user_id
+           full join tasks t on u.id  = t.user_id
+           full join schedule s on s.intern_id = i.id
             """)
-    List<InternDetailResponse> getInternDetail(@Param("userId") Integer userId);
+    List<Map<String, Object>> getInternDetail();
 
 
 

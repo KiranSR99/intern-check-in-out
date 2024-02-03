@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/schedule")
 @RequiredArgsConstructor
@@ -33,9 +36,14 @@ public class ScheduleController extends BaseController {
     }
 
 
-    @GetMapping("/fetchAll/{userId}")
-    public ResponseEntity<GlobalApiResponse> fetchAllByUserId(@PathVariable Integer userId){
-        return successResponse(scheduleService.fetchAllByUserId(userId), "Data fetched successfully");
-    }
+//    @GetMapping("/fetchAll/{userId}")
+//    public ResponseEntity<GlobalApiResponse> fetchAllByUserId(@PathVariable Integer userId){
+//        return successResponse(scheduleService.fetchAllByUserId(userId), "Data fetched successfully");
+//    }
 
+
+    @GetMapping("/details")
+    public List<Map<String, Object>> getInternDetail() {
+        return scheduleService.getInternDetail();
+    }
 }

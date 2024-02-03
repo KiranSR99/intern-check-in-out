@@ -98,7 +98,7 @@ public class LeaveServiceImpl implements LeaveService {
         if(leave == null){
             throw new NullPointerException("Leave record not found");
         }
-        return new LeaveResponse();
+        return new LeaveResponse(leaveRepository.findLeaveById(id));
     }
 
     @Override

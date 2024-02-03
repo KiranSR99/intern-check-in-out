@@ -1,56 +1,54 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { HttpHandlerService } from '../../services/http-handler.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
-  styleUrls: ['./user-details.component.scss'] 
+  styleUrls: ['./user-details.component.scss'],
 })
 export class UserDetailsComponent {
-  userDetailsData: any[] = []; 
+  userDetailsData: any[] = [];
 
   constructor(
     private httpHandler: HttpHandlerService,
-    private toastr: ToastrService,
+    private toast: ToastService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.fetchUserDetails();
   }
-  
+
   fetchUserDetails() {
     this.httpHandler.getAllUsers().subscribe(
       (data: any) => {
-        console.log("Data fetched successfully");
+        console.log('Data fetched successfully');
         this.userDetailsData = data.data;
       },
-      (error:any) => {
+      (error: any) => {
         console.error('Error fetching user details:', error);
       }
     );
   }
 
-  deleteID(id: number) {
+  onDeleteUserClick(id: number) {
     if (confirm('Do you want to delete data?')) {
-      this.httpHandler.deleteID(id).subscribe({
-        next: (response: any)  => {
-          this.toastr.success('Data Deleted Successfully');
+      this.httpHandler.deleteUserById(id).subscribe({
+        next: (response: any) => {
+          this.toast.showSuccess('Data Deleted Successfully');
           console.log('Data Deleted successfully:', response);
 
-          this.fetchUserDetails(); 
+          this.fetchUserDetails();
         },
         error: (error: any) => {
-          this.toastr.error(error.error.data);
+          this.toast.showError(error.error.data);
           console.log('Error deleting data:', error.error.data);
-        }
+        },
       });
     }
   }
- 
-
 
   addUser() {
     this.router.navigate(['app/user-mgnt/add-user']);

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Admin {
+public class Admin extends Auditable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

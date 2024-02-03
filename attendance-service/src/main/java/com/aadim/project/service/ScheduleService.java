@@ -5,6 +5,7 @@ import com.aadim.project.dto.request.ScheduleUpdateRequest;
 import com.aadim.project.dto.response.ScheduleResponse;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ScheduleService {
 
@@ -14,8 +15,7 @@ public interface ScheduleService {
 
     List<ScheduleResponse> fetchAll();
 
-//    @Transactional
-//    ScheduleResponse updateUserCheckoutTime(Integer userId);
-//
-//    void updateCheckOutTime(Intern intern);
+
+    List<Map<String, Object>> getInternDetail();
 }
+

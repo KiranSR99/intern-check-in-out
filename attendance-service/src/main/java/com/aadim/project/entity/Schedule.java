@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Schedule {
+public class Schedule extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

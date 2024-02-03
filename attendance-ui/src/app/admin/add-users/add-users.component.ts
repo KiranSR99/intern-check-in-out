@@ -29,7 +29,9 @@ export class AddUsersComponent {
       phone: ['', Validators.required],
       password: ['', Validators.required],
       role: ['', Validators.required],
-      fieldType: ['']
+      fieldType: [''],
+      primarySupervisor: [''],
+      secondarySupervisor: ['']
     });
   }
 
@@ -54,16 +56,30 @@ export class AddUsersComponent {
     }
   }
 
+
   onRoleChange(event: Event) {
     const roleId = (event.target as HTMLSelectElement).value;
-    if (roleId !== 'INTERN') {
+    if (roleId !== 'INTERN') { 
       this.userDetails.patchValue({ fieldType: null });
+      this.userDetails.patchValue({ primarySupervisor: null });
+      this.userDetails.patchValue({ secondarySupervisor: null });
     }
   }
-  
 
   showFieldInput(): boolean {
     const roleId = this.userDetails.get('role')?.value;
-    return roleId == 'INTERN';
+    return roleId === 'INTERN';
+  }
+
+  showPrimarySupervisor(): boolean {
+    const roleId = this.userDetails.get('role')?.value;
+    return roleId === 'INTERN';
+  }
+
+  showSecondarySupervisor(): boolean {
+    const roleId = this.userDetails.get('role')?.value;
+    return roleId === 'INTERN';
   }
 }
+
+

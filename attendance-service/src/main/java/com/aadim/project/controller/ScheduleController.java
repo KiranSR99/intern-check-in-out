@@ -32,4 +32,10 @@ public class ScheduleController extends BaseController {
         return successResponse(scheduleService.fetchAll(), "Data fetched successfully");
     }
 
+
+    @GetMapping("/fetchAll/{userId}")
+    public ResponseEntity<GlobalApiResponse> fetchAllByUserId(@PathVariable Integer userId){
+        return successResponse(scheduleService.fetchAllByUserId(userId), "Data fetched successfully");
+    }
+
 }

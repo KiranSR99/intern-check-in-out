@@ -20,16 +20,20 @@ import { CreateLeaveRequestComponent } from './interns/create-leave-request/crea
 import { EditLogComponent } from './interns/edit-log/edit-log.component';
 import { EnterOtpComponent } from './enter-otp/enter-otp.component';
 import { LeaveRequestListComponent } from './supervisor/leave-request-list/leave-request-list.component';
+import { UserListComponent } from './interns/user-list/user-list.component';
+import { AccessDeniedComponent } from './common/access-denied/access-denied.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '', pathMatch: 'full' },
   { path: '', component: LandingPageComponent, canActivate: [negateAuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [negateAuthGuard] },
+  { path:'access-denied', component: AccessDeniedComponent },
   { path: 'change-password', component: ChangePasswordComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   {
     path: 'enter-otp',
-    component: EnterOtpComponent},
+    component: EnterOtpComponent,
+  },
   {
     path: 'app',
     component: BaseComponent,
@@ -42,8 +46,9 @@ const routes: Routes = [
           { path: 'user-list', component: UserDetailsComponent },
           { path: 'add-user', component: AddUsersComponent },
           { path: 'update-user/:id', component: UpdateUsersComponent },
-          { path: 'user-profile', component: UserProfileComponent },
-          { path: 'edit-profile', component: EditProfileComponent },
+          { path: 'user-profile/:id', component: UserProfileComponent },
+          { path: 'edit-profile/:id', component: EditProfileComponent },
+          { path: 'show-user', component: UserListComponent },
           { path: '**', redirectTo: 'user-list', pathMatch: 'full' },
         ],
       },
@@ -52,7 +57,7 @@ const routes: Routes = [
         children: [
           { path: 'add-log', component: AddLogComponent },
           { path: 'intern-log', component: InternLogComponent },
-          { path: 'edit-log/:id', component: EditLogComponent},
+          { path: 'edit-log/:id', component: EditLogComponent },
           { path: 'leave-request', component: LeaveRequestComponent },
           { path: 'create-new/:id', component: CreateLeaveRequestComponent },
           { path: 'leave-request-list', component: LeaveRequestListComponent },

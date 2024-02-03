@@ -17,20 +17,21 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
 
             nativeQuery = true,
             value = """
-            SELECT * FROM schedule s WHERE s.intern_id = :internId AND s.check_out_time IS NULL
-            """)
+                    SELECT * FROM schedule s WHERE s.intern_id = :internId AND s.check_out_time IS NULL
+                    """)
     Optional<Schedule> findByInternIdAndCheckOutTimeIsNull(Integer internId);
 
     @Query(
             nativeQuery = true,
             value = """
-            select i.full_name , i.field_type , s.check_in_time, s.check_out_time,
-           t.task , t.status ,t.time_taken , t.problem
-           from intern i
-            join users u on u.id  = i.user_id 
-         join tasks t on u.id  = t.user_id 
-            join schedule s on s.intern_id = i.id 
-            """)
+
+                     select i.full_name , i.field_type , s.check_in_time, s.check_out_time,
+                    t.task , t.status ,t.time_taken , t.problem
+                    from intern i
+                    full join users u on u.id  = i.user_id
+                    full join tasks t on u.id  = t.user_id
+                    full join schedule s on s.intern_id = i.id
+                     """)
     List<Map<String, Object>> getInternDetail();
 
     @Query(

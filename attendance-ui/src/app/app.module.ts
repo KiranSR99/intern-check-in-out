@@ -34,6 +34,8 @@ import { EnterOtpComponent } from './enter-otp/enter-otp.component';
 import { LeaveRequestListComponent } from './supervisor/leave-request-list/leave-request-list.component';
 import { DateFormatterPipe } from './pipe/date-formatter.pipe';
 import { TimeFormatterPipe } from './pipe/time-formatter.pipe';
+import { UserListComponent } from './interns/user-list/user-list.component';
+import { AccessDeniedComponent } from './common/access-denied/access-denied.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,9 @@ import { TimeFormatterPipe } from './pipe/time-formatter.pipe';
     EnterOtpComponent,
     LeaveRequestListComponent,
     DateFormatterPipe,
-    TimeFormatterPipe
+    TimeFormatterPipe,
+    UserListComponent,
+    AccessDeniedComponent
 
   ],
   imports: [

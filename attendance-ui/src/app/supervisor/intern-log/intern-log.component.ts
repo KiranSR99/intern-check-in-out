@@ -20,7 +20,7 @@ export class InternLogComponent implements OnInit {
 
   ngOnInit(): void {
     this.showInternLog();
-    this.showInternName(this.id);
+    // this.showInternName(this.id);
     this.userId = localStorage.getItem('userId');
     this.userRole = localStorage.getItem('role');
     if (this.userRole) {
@@ -29,22 +29,11 @@ export class InternLogComponent implements OnInit {
   }
 
   showInternLog() {
+    
     this.http.getAllLog().subscribe(
       (result: any) => {
-        this.intern = result.data;
+        this.intern = result;
         console.log('fetch data successfully', result);
-      },
-      (error: any) => {
-        console.error('Error fetching data', error);
-      }
-    );
-  }
-
-  showInternName(id: any) {
-    this.http.getUserById(id).subscribe(
-      (result: any) => {
-        this.intern = result.data.fullName;
-        console.log('Fetch data successfully', result);
       },
       (error: any) => {
         console.error('Error fetching data', error);
@@ -71,6 +60,21 @@ export class InternLogComponent implements OnInit {
 
   onCheckOutClick() {
     this.isCheckedIn = false;
+
+    const checkOutReqBody = {
+      userId: this.userId
+    }
+
+    this.http.checkOut(checkOutReqBody).subscribe(
+      (result: any) => {
+        console.log("Checked out successfully", result);
+        this.isCheckedIn = false;
+        this.showInternLog(); // Refresh the log to show the updated check-out time
+      },
+      (error: any) => {
+        console.error('Error during check-out', error);
+      }
+    );
   }
 
   onClickAddTask() {
@@ -83,5 +87,5 @@ export class InternLogComponent implements OnInit {
     this.route.navigate(['app/log-mgnt/edit-log/', id]);
   }
 
-  onDeleteClick() {}
+  
 }

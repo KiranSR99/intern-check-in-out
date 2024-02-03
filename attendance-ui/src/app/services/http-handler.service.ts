@@ -63,7 +63,7 @@ export class HttpHandlerService {
 
   //To get the tasks of all Inters
   getAllLog(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/task/getAllTasks`);
+    return this.http.get<any>(`${this.apiUrl}/schedule/details`);
   }
 
   //To delete user by Id
@@ -140,4 +140,10 @@ export class HttpHandlerService {
   checkIn(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/schedule/checkIn`, data);
   }
+
+  //To check-out by the Intern
+  checkOut(data: any): Observable<any>{
+    return this.http.put<any>(`${this.apiUrl}/schedule/checkOut`, data)
+  }
+
 }

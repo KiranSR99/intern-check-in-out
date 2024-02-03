@@ -1,1 +1,30 @@
-<p>user-profile works!</p>
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="card">
+        <div class="card-body p-5" style="width: 500px;">
+            <div *ngIf="userProfile">
+                <div class="text-center">
+                    <img src="assets/images/cat.png" alt="User Profile" class="img-fluid mb-2"
+                        style="height: 50px; width: 50px" />
+                </div>
+                <h2 class="card-title text-center mb-3">Your Profile</h2>
+                <div>
+                    <p><b>Name: </b> {{ userProfile.fullName }}</p>
+                </div>
+                <div>
+                    <p><b>Email: </b> {{ userProfile.email }}</p>
+                </div>
+                <div>
+                    <p><b>Contact: </b> {{ userProfile.phone }}</p>
+                </div>
+                <div>
+                    <p><b>Role: </b> {{ this.roleName }}</p>
+                </div>
+                <button class="btn btn-outline-danger mt-3 float-start" (click)="cancel()"> <i
+                        class="fa fa-backward"></i> Back </button>
+                <button class="btn btn-outline-primary mt-3 float-end" (click)="editProfileById(userProfile.userId)">
+                    <i class="fa fa-pen-to-square"></i> Edit profile
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

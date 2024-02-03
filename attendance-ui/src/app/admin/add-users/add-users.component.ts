@@ -47,20 +47,16 @@ export class AddUsersComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.userDetails.valid) {
-      this.http.addUser(this.userDetails.value).subscribe({
-        next: (response: any) => {
-          this.toast.showSuccess('User added successfully');
-          this.router.navigate(['/app/user-mgnt/user-list']);
-        },
-        error: (err) => {
-          console.error('Error adding user:', err);
-          this.toast.showError('Error adding user');
-        },
-      });
-    } else {
-      this.userDetails.markAllAsTouched();
-    }
+    this.http.addUser(this.userDetails.value).subscribe({
+      next: (response: any) => {
+        this.toast.showSuccess('User added successfully');
+        this.router.navigate(['/app/user-mgnt/user-list']);
+      },
+      error: (err) => {
+        console.error('Error adding user:', err);
+        this.toast.showError('Error adding user');
+      },
+    });
   }
 
   //To get all supervisors

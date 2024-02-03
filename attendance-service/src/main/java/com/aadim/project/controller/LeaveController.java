@@ -32,10 +32,15 @@ public class LeaveController extends BaseController {
         return successResponse(leaveService.getLeaveById(id));
     }
 
-    @PatchMapping("/update/{id}")
+    @PatchMapping("/approved-leave/{id}")
     public ResponseEntity<GlobalApiResponse> updateLeave(@PathVariable Integer id) {
 
         return successResponse(leaveService.setLeaveStatus(id));
+    }
+
+    @PatchMapping("decline-leave/{id}")
+    public ResponseEntity<GlobalApiResponse> setDeclineStatus(@PathVariable Integer id){
+        return successResponse(leaveService.setDeclineStatus(id));
     }
 
     @DeleteMapping("/delete/{id}")

@@ -1,0 +1,35 @@
+<div class="wrapper mt-3">
+    <div class="d-flex  justify-content-between">
+        <h2 class="text-warning">Leave Requests</h2>
+    </div>
+    <hr>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center">
+            <thead class="table-primary">
+                <tr>
+                    <th>S.N</th>
+                    <th>Leave Id</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of responseData; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ data.id }}</td>
+                    <td>{{ data.reason }}</td>
+                    <td>{{ data.status }}</td>
+                    <td>
+                        <div>
+                            <button class="btn btn-success mx-2"><i class="fa-solid fa-check"
+                                    (click)="onApproveClick(data.id)"></i></button>
+                            <button class="btn btn-danger"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

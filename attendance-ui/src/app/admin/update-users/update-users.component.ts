@@ -39,57 +39,63 @@ export class UpdateUsersComponent implements OnInit {
 
     ngOnInit(): void {
         this.activatedRoute.params.subscribe((params: any) => {
-            this.userId = params['userId'];
+            this.userId = params['id'];
             this.http.getUserById(this.userId).subscribe(
                 (response) => {
                     this.patchingData(response.data);
-                    // this.userId(response.data)
                 }
             );
         });
     }
-
 
     patchingData(data: any) {
         this.userDetails.patchValue({
             fullName: data.fullName,
             email: data.email,
             phone: data.phone,
-            password: data.password
-        })
+            password: data.password,
+            role: data.role,
+            fieldType: data.fieldType
+        });
     }
 
     cancel() {
-        this.router.navigate(['/']);
+        this.router.navigate(['/app/user-mgnt/user-list']);
     }
 
     onSubmit() {
         if (this.userDetails.valid) {
-            this.http.updateUser(this.userDetails.value).subscribe({
+            const updatedUserData = {
+                userId: this.userId,
+                userDetails: this.userDetails.value
+            };
+    
+            this.http.updateUser(updatedUserData).subscribe({
                 next: (response: any) => {
-                    console.log('User added successfully');
-                    this.toast.showSuccess('User added successfully');
+                    console.log('User updated successfully');
+                    this.toast.showSuccess('User updated successfully');
                     this.router.navigate(['/app/user-mgnt/user-list']);
                 },
                 error: (err) => {
-                    console.error('Error adding user:', err);
-                    this.toast.showError('Error adding user');
+                    console.error('Error updating user:', err);
+                    this.toast.showError('Error updating user');
                 }
             });
         } else {
             this.userDetails.markAllAsTouched();
         }
     }
+    
 
     onRoleChange(event: Event) {
         const roleId = (event.target as HTMLSelectElement).value;
         if (roleId !== 'INTERN') {
-            this.userDetails.patchValue({ fieldType: '' });
+            this.userDetails.patchValue({ fieldType: null });
         }
     }
 
     showFieldInput(): boolean {
         const roleId = this.userDetails.get('role')?.value;
-        return roleId == 'INTERN';
+        return roleId === 'INTERN';
     }
 }

@@ -3,21 +3,27 @@ package com.aadim.project.service.impl;
 import com.aadim.project.dto.request.ScheduleRequest;
 import com.aadim.project.dto.request.ScheduleUpdateRequest;
 //import com.aadim.project.dto.response.ScheduleDetailResponse;
+import com.aadim.project.dto.response.InternDetailResponse;
 import com.aadim.project.dto.response.ScheduleResponse;
+import com.aadim.project.dto.response.TaskResponse;
 import com.aadim.project.entity.Intern;
 import com.aadim.project.entity.Schedule;
-import com.aadim.project.entity.User;
+import com.aadim.project.entity.Task;
 import com.aadim.project.repository.InternRepository;
 import com.aadim.project.repository.ScheduleRepository;
 import com.aadim.project.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,10 +36,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private InternRepository internRepository;
 
-    //save the check in time
+
     @Override
     public ScheduleResponse saveCheckIn(ScheduleRequest request){
-        //create a condition to check if the checkInTime has already been set
         Intern intern = internRepository.findInternByUserId(request.getUserId());
         if (intern == null) {
             throw new RuntimeException("User not found");
@@ -53,26 +58,17 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public ScheduleResponse updateCheckOut(ScheduleUpdateRequest request){
-        // Find the intern by userId
         Intern intern = internRepository.findInternByUserId(request.getUserId());
         if (intern == null) {
             throw new RuntimeException("User not found");
         }
-
-        // Find the schedule by internId and checkOutTime is null
         Optional<Schedule> existingSchedule = scheduleRepository.findByInternIdAndCheckOutTimeIsNull(intern.getId());
         if (!existingSchedule.isPresent()) {
             throw new RuntimeException("User has not checked in or has already checked out");
         }
-
-        // Update the check out time
         Schedule schedule = existingSchedule.get();
         schedule.setCheckOutTime(LocalDateTime.now());
-
-        // Save the Schedule object to the database
         Schedule savedSchedule = scheduleRepository.save(schedule);
-
-        // Return a ScheduleResponse object
         return new ScheduleResponse(savedSchedule);
     }
 
@@ -80,6 +76,13 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<ScheduleResponse> fetchAll(){
         List<Schedule> schedules = scheduleRepository.findAll();
         return schedules.stream().map(ScheduleResponse::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<InternDetailResponse> fetchAllByUserId(Integer userId){
+        List<InternDetailResponse> userDetailList = scheduleRepository.getInternDetail(userId);
+
+        return userDetailList;
     }
 
 

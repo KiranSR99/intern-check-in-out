@@ -59,4 +59,6 @@ public class GlobalExceptionHandler extends BaseController {
         return errorResponse(HttpStatus.FORBIDDEN, "Access denied: " + ex.getMessage(), ex);
     }
 
+
+
 }

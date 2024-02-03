@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { GlobalApiHandler } from '../models/global-api-handler.model';
@@ -34,22 +34,14 @@ export class HttpHandlerService {
     );
   }
 
-  //To get a task by id
   getLogById(id: number): Observable<GlobalApiHandler<LogsDetails>> {
-    return this.http.get<GlobalApiHandler<LogsDetails>>(
-      `${this.apiUrl}/task/getTaskById/` + id
-    );
+    return this.http.get<GlobalApiHandler<LogsDetails>>(`${this.apiUrl}/task/getTaskById/` + id);
   }
 
-  //To update the task
   updateLog(data: any): Observable<GlobalApiHandler<LogsDetails>> {
-    return this.http.put<GlobalApiHandler<LogsDetails>>(
-      `${this.apiUrl}/task/updateTask`,
-      data
-    );
+    return this.http.put<GlobalApiHandler<LogsDetails>>(`${this.apiUrl}/task/updateTask`, data);
   }
 
-  //To add the user by the admin
   addUser(data: any): Observable<GlobalApiHandler<UserList>> {
     return this.http.post<GlobalApiHandler<UserList>>(
       `${this.apiUrl}/users/saveUser`,
@@ -76,7 +68,9 @@ export class HttpHandlerService {
     );
   }
 
-  //To update the user details
+
+ 
+
   updateUser(data: any): Observable<GlobalApiHandler<any>> {
     return this.http.put<GlobalApiHandler<any>>(
       `${this.apiUrl}/users/update`,
@@ -141,18 +135,9 @@ export class HttpHandlerService {
   }
 
   //To check-in by the Intern
-  checkIn(userId: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/schedule/checkIn`, userId);
+  checkIn(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/schedule/checkIn`, data);
   }
 
-  // checkIn(userId: any): Observable<any> {
-  //   // Ensure userId is an integer
-  //   const userIdInt = Number(userId);
-
-  //   // Construct the request body as a JSON object with the integer userId
-  //   const body = { userId: userIdInt };
-
-  //   // Directly pass the object to the POST method
-  //   return this.http.post(`${this.apiUrl}/schedule/checkIn`, body);
-  // }
+  
 }

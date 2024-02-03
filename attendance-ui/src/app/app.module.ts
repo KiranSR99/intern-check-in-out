@@ -16,6 +16,7 @@ import { LoginComponent } from './login/login.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { AddLogComponent } from './interns/add-log/add-log.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InternLogComponent } from './supervisor/intern-log/intern-log.component';
 import { UserProfileComponent } from './common/user-profile/user-profile.component';
 import { AddUsersComponent } from './admin/add-users/add-users.component';
 import { UpdateUsersComponent } from './admin/update-users/update-users.component';

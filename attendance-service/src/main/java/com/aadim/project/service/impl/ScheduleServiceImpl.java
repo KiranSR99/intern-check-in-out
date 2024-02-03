@@ -3,29 +3,25 @@ package com.aadim.project.service.impl;
 import com.aadim.project.dto.request.ScheduleRequest;
 import com.aadim.project.dto.request.ScheduleUpdateRequest;
 //import com.aadim.project.dto.response.ScheduleDetailResponse;
-import com.aadim.project.dto.response.InternDetailResponse;
 import com.aadim.project.dto.response.ScheduleResponse;
-import com.aadim.project.dto.response.TaskResponse;
 import com.aadim.project.entity.Intern;
 import com.aadim.project.entity.Schedule;
-import com.aadim.project.entity.Task;
 import com.aadim.project.repository.InternRepository;
 import com.aadim.project.repository.ScheduleRepository;
 import com.aadim.project.service.ScheduleService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
+@Configuration
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -38,7 +34,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 
     @Override
-    public ScheduleResponse saveCheckIn(ScheduleRequest request){
+    public ScheduleResponse saveCheckIn(ScheduleRequest request) {
         Intern intern = internRepository.findInternByUserId(request.getUserId());
         if (intern == null) {
             throw new RuntimeException("User not found");
@@ -57,7 +53,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 
     @Override
-    public ScheduleResponse updateCheckOut(ScheduleUpdateRequest request){
+    public ScheduleResponse updateCheckOut(ScheduleUpdateRequest request) {
         Intern intern = internRepository.findInternByUserId(request.getUserId());
         if (intern == null) {
             throw new RuntimeException("User not found");
@@ -73,17 +69,18 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleResponse> fetchAll(){
+    public List<ScheduleResponse> fetchAll() {
         List<Schedule> schedules = scheduleRepository.findAll();
         return schedules.stream().map(ScheduleResponse::new).collect(Collectors.toList());
     }
 
-    @Override
-    public List<InternDetailResponse> fetchAllByUserId(Integer userId){
-        List<InternDetailResponse> userDetailList = scheduleRepository.getInternDetail(userId);
-
-        return userDetailList;
+    @Transactional
+    public List<Map<String, Object>> getInternDetail() {
+        return scheduleRepository.getInternDetail();
     }
+
+
+
 
 
 }

@@ -31,7 +31,6 @@ import { CreateLeaveRequestComponent } from './interns/create-leave-request/crea
 import { SearchFilterPipe } from './pipe/search-filter.pipe';
 import { EditLogComponent } from './interns/edit-log/edit-log.component';
 import { EnterOtpComponent } from './enter-otp/enter-otp.component';
-
 import { LeaveRequestListComponent } from './supervisor/leave-request-list/leave-request-list.component';
 import { DateFormatterPipe } from './pipe/date-formatter.pipe';
 import { TimeFormatterPipe } from './pipe/time-formatter.pipe';

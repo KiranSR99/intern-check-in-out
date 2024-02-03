@@ -2,7 +2,6 @@ package com.aadim.project.service.impl;
 
 import com.aadim.project.dto.request.ScheduleRequest;
 import com.aadim.project.dto.request.ScheduleUpdateRequest;
-//import com.aadim.project.dto.response.ScheduleDetailResponse;
 import com.aadim.project.dto.response.ScheduleResponse;
 import com.aadim.project.entity.Intern;
 import com.aadim.project.entity.Schedule;
@@ -16,12 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-@Configuration
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -39,17 +38,27 @@ public class ScheduleServiceImpl implements ScheduleService {
         if (intern == null) {
             throw new RuntimeException("User not found");
         }
+
+        Optional<LocalDateTime> lastScheduleOpt = scheduleRepository.findTopByInternOrderByCheckOutTimeDesc(request.getUserId());
+            if (lastScheduleOpt.isPresent()) {
+                LocalDateTime lastCheckOutTime = lastScheduleOpt.get();
+                if (lastCheckOutTime.toLocalDate().equals(LocalDate.now())) {
+                    throw new RuntimeException("You can't check in again on the same day you have checked out.");
+                }
+            }
         Optional<Schedule> existingSchedule = scheduleRepository.findByInternIdAndCheckOutTimeIsNull(intern.getId());
         if (existingSchedule.isPresent()) {
             throw new RuntimeException("User has already checked in");
         }
-        Schedule schedule = new Schedule();
-        schedule.setCheckInTime(LocalDateTime.now());
-        schedule.setCheckOutTime(request.getCheckOutTime());
-        schedule.setIntern(intern);
-        Schedule savedSchedule = scheduleRepository.save(schedule);
-        return new ScheduleResponse(savedSchedule);
-    }
+
+            Schedule schedule = new Schedule();
+            schedule.setCheckInTime(LocalDateTime.now());
+            schedule.setCheckOutTime(request.getCheckOutTime());
+            schedule.setIntern(intern);
+            Schedule savedSchedule = scheduleRepository.save(schedule);
+            return new ScheduleResponse(savedSchedule);
+        }
+
 
 
     @Override

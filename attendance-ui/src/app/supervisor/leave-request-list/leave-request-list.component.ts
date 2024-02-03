@@ -43,6 +43,21 @@ export class LeaveRequestListComponent {
       next: (response: any) => {
         this.toast.showSuccess('Leave request approved.');
       },
+      error: (error: any) => {
+        this.toast.showError("Unable to approve leave request");
+      }
     });
   }
+
+  onDeclineClick(id: any){
+    this.httpHandler.declineLeaveRequest(id).subscribe({
+      next: (response: any) => {
+        this.toast.showSuccess('Leave request declined.')
+      },
+      error: (error: any) => {
+        this.toast.showError("Unable ot decline leave request.");
+      }
+    })
+  }
+
 }

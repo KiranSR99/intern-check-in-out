@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "tbl_otp")
-public class Otp extends Auditable{
+public class Otp{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

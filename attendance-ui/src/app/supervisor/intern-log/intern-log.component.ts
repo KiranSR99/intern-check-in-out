@@ -16,10 +16,7 @@ export class InternLogComponent implements OnInit {
   userId: any;
   internLogs: any;
 
-
-constructor( private http : HttpHandlerService, private route: Router){}
-  
- 
+  constructor(private http: HttpHandlerService, private route: Router) {}
 
   ngOnInit(): void {
     this.showInternLog();
@@ -47,13 +44,13 @@ constructor( private http : HttpHandlerService, private route: Router){}
   onCheckInClick() {
     this.isCheckedIn = true;
 
-    const checkInReqBody = {
-      userId: this.userId
-    }
+    const chekckInReqBody = {
+      userId: this.userId,
+    };
 
-    this.http.checkIn(checkInReqBody).subscribe(
-      (result: any)=>{
-        console.log("Check in successfully", result);
+    this.http.checkIn(chekckInReqBody).subscribe(
+      (result: any) => {
+        console.log('Check in successfully', result);
       },
       (error: any) => {
         console.error('Error', error);

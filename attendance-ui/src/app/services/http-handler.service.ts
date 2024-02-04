@@ -35,9 +35,17 @@ export class HttpHandlerService {
     );
   }
 
+  //To get the task according to task Id
   getLogById(id: number): Observable<GlobalApiHandler<LogsDetails>> {
     return this.http.get<GlobalApiHandler<LogsDetails>>(
       `${this.apiUrl}/task/getTaskById/` + id
+    );
+  }
+
+  //To get tasks of a single Intern
+  getLogOfOneUser(id: number): Observable<GlobalApiHandler<LogsDetails>> {
+    return this.http.get<GlobalApiHandler<LogsDetails>>(
+      `${this.apiUrl}/task/getTaskOfOneUser/` + id
     );
   }
 

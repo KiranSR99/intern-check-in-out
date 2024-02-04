@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpHandlerService } from '../../services/http-handler.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-log',
@@ -9,18 +10,29 @@ import { HttpHandlerService } from '../../services/http-handler.service';
 export class MyLogComponent implements OnInit {
   userId: any;
   taskDetails: any;
+  checkInOutDetail: any;
 
-  constructor(private httpHandler: HttpHandlerService) {}
+  constructor(private httpHandler: HttpHandlerService, private router: Router) {}
 
   ngOnInit(): void {
     this.userId = localStorage.getItem('userId');
 
-    this.httpHandler.getLogById(this.userId).subscribe({
+    this.httpHandler.getLogOfOneUser(this.userId).subscribe({
       next: (response: any) => {
         this.taskDetails = response.data;
         console.log(this.taskDetails);
-        
+      },
+    });
+
+    //to get intern check in and out time
+    this.httpHandler.getCheckInOutTime().subscribe({
+      next: (response: any) => {
+        this.checkInOutDetail = response.data;
       }
-    })
+    });
+  }
+
+  onEditClick(taskId: any){
+    this.router.navigate(['/app/log-mgnt/edit-log/', taskId]);
   }
 }

@@ -34,7 +34,7 @@ export class EnterOtpComponent {
   this.http.checkOtp(data).subscribe({
     next: (response: any) => {
       this.otpDetails.reset();
-      this.toast.success(response.data.message);
+      this.toast.success("Otp Valid");
       this.router.navigate(['/change-password']);
     },
     error: (error: any) => {

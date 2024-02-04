@@ -24,12 +24,13 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     @Query(
             nativeQuery = true,
             value = """
-            select i.full_name , i.field_type , s.check_in_time, s.check_out_time,
-           t.task , t.status ,t.time_taken , t.problem
-           from intern i
-            join users u on u.id  = i.user_id 
-         join tasks t on u.id  = t.user_id 
-            join schedule s on s.intern_id = i.id 
+
+                    select i.full_name , i.field_type , s.check_in_time, s.check_out_time,
+                       t.task , t.status ,t.time_taken , t.problem
+                       from intern i
+                        join users u on u.id  = i.user_id
+                        join schedule s on s.intern_id = i.id
+                       join tasks t on s.id  = t.schedule_id
             """)
     List<Map<String, Object>> getInternDetail();
 
@@ -49,6 +50,13 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
                     select * from schedule s where s.intern_id = :internId order by s.check_out_time desc limit 1;
             """)
     Schedule getLatestScheduleByInternId(@Param("internId") Integer internId);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select * from schedule s where intern_id =:intern_id order by created_date desc limit 1;
+            """)
+    Schedule getLatestScheduleForTasksByInternId(Integer intern_id);
 }
 
 

@@ -20,7 +20,7 @@ export class EditLogComponent {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpHandlerService,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private location: Location,
     private toastr: ToastService
@@ -29,13 +29,14 @@ export class EditLogComponent {
   ngOnInit(): void {
     this.onInitLogDetails();
 
-    //this.userId = localStorage.getItem('userId');
+    this.userId = localStorage.getItem('userId');
   
-    this.route.params.subscribe(params => {
+    this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
       this.editLog(this.id);
       console.log("Fetched id:", this.id);
     });
+  
   }
 
   onInitLogDetails() {
@@ -80,65 +81,31 @@ export class EditLogComponent {
     );
   }
   
-
   
-  // populateForm(data: any) {
-  //   // Set the values for the main form
-    
-  //   this.logDetails.patchValue({
-  //     id: data.id,
-  //     task: data.task,
-  //     status: data.status,
-  //     timeTaken: data.timeTaken,
-  //     problem: data.problem,
-  //   });
-
- 
-  //   const logDetailsArray = this.logDetails.get('multiLogDetails') as FormArray;
-    
-
-  //   // Add a new group for each another detail
-  //   data.multiLogDetails.forEach((multiLogDetails: any) => {
-  //     logDetailsArray.push(this.formBuilder.group({
-  //       id: multiLogDetails.id,
-  //       task: multiLogDetails.task,
-  //       status: multiLogDetails.status,
-  //       timeTaken: multiLogDetails.timeTaken,
-  //       problem: multiLogDetails.problem,
-        
-  //     }));
-  //   });
-  // }
-
   populateForm(data: any) {
-  // Set the values for the main form
-  this.logDetails.patchValue({
-    id: data.data.task.id, 
-    task: data.data.task.task,
-    status: data.data.task.status,
-    timeTaken: data.data.task.timeTaken,
-    problem: data.data.task.problem,
-  });
+    // Set the values for the main form
+    
+    this.logDetails.patchValue({
+      id: data.id,
+      task: data.task,
+      status: data.status,
+      timeTaken: data.timeTaken,
+      problem: data.problem,
+    });
 
-  const logDetailsArray = this.logDetails.get('multiLogDetails') as FormArray;
-
-  // Remove existing controls in the form array
-  while (logDetailsArray.length !== 0) {
-    logDetailsArray.removeAt(0);
+    const logDetailsArray = this.logDetails.get('multiLogDetails') as FormArray;
+    
+    // Add a new group for each another detail
+    data.multiLogDetails.forEach((multiLogDetails: any) => {
+      logDetailsArray.push(this.formBuilder.group({
+        id: multiLogDetails.id,
+        task: multiLogDetails.task,
+        status: multiLogDetails.status,
+        timeTaken: multiLogDetails.timeTaken,
+        problem: multiLogDetails.problem,
+      }));
+    });
   }
-
-  // Add a new group for each additional detail
-  data.data.multiLogDetails.forEach((multiLogDetails: any) => {
-    logDetailsArray.push(this.formBuilder.group({
-      id: multiLogDetails.id,
-      task: multiLogDetails.task,
-      status: multiLogDetails.status,
-      timeTaken: multiLogDetails.timeTaken,
-      problem: multiLogDetails.problem,
-    }));
-  });
-}
-
 
   onClickUpdateLog(data: any){
     console.log(data.value);

@@ -20,10 +20,13 @@ public class UserController extends BaseController {
 
     private final UserService userService;
 
+// to-read    mapStruct
+
     @PostMapping("/saveUser")
     public ResponseEntity<GlobalApiResponse> saveUser(@RequestBody UserRequest request){
         return successResponse(userService.saveUser(request), "User saved successfully");
     }
+
 
 
     @GetMapping("/getAll")

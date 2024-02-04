@@ -8,9 +8,11 @@ import com.aadim.project.dto.response.UserResponse;
 import com.aadim.project.entity.*;
 import com.aadim.project.repository.*;
 import com.aadim.project.service.UserService;
+import com.aadim.project.validator.EmailValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,10 +29,17 @@ public class UserServiceImpl implements UserService {
     private final InternRepository internRepository;
     private final SupervisorRepository supervisorRepository;
     private final UserRepository userRepository;
+    
+    private static final String ADMIN_ROLE = "ADMIN";
+    private static final String SUPERVISOR_ROLE = "SUPERVISOR";
+    private static final String INTERN_ROLE = "INTERN";
 
     @Override
     @Transactional
     public UserResponse saveUser(UserRequest request) {
+        if(!EmailValidator.isValidEmail(request.getEmail())) {
+            throw new IllegalArgumentException("Invalid email address");
+        }
         log.info("Saving user");
         User user = new User();
         user.setEmail(request.getEmail());
@@ -38,7 +47,7 @@ public class UserServiceImpl implements UserService {
         user.setRole(request.getRole());
         userRepository.save(user);
 
-        if(request.getRole().toString().equals("ADMIN") ) {
+        if(request.getRole().toString().equals(ADMIN_ROLE) ) {
             log.info("Role is Admin");
             Admin admin = new Admin();
             admin.setFullName(request.getFullName());
@@ -47,7 +56,7 @@ public class UserServiceImpl implements UserService {
             Admin admin1 = adminRepository.save(admin);
             log.info("Admin Saved");
             return new UserResponse(admin1, user);
-        } else if (Objects.equals(request.getRole().toString(), "SUPERVISOR")) {
+        } else if (Objects.equals(request.getRole().toString(), SUPERVISOR_ROLE)) {
             log.info("Role is Supervisor");
             Supervisor supervisor = new Supervisor();
             supervisor.setFullName(request.getFullName());
@@ -56,7 +65,7 @@ public class UserServiceImpl implements UserService {
             Supervisor supervisor1 = supervisorRepository.save(supervisor);
             log.info("Supervisor Saved");
             return new UserResponse(supervisor1, user);
-        } else if (Objects.equals(request.getRole().toString(), "INTERN")) {
+        } else if (Objects.equals(request.getRole().toString(), INTERN_ROLE)) {
             log.info("Role is Intern");
             Intern intern = new Intern();
             intern.setFullName(request.getFullName());
@@ -114,21 +123,21 @@ public class UserServiceImpl implements UserService {
         log.info("Fetching user with id: " + id);
         User user = userRepository.getReferenceById(id);
         if(!user.isActive()) {
-            throw new RuntimeException("User not available");
+            throw new UsernameNotFoundException("User not available");
         }
         UserResponse userResponse = new UserResponse();
         userResponse.setEmail(user.getEmail());
         userResponse.setRole(user.getRole());
         userResponse.setUserId(user.getId());
-        if(user.getRole().toString().equals("ADMIN")) {
+        if(user.getRole().toString().equals(ADMIN_ROLE)) {
             Admin admin = adminRepository.findAdminByUserId(id);
             userResponse.setPhone(admin.getPhone());
             userResponse.setFullName(admin.getFullName());
-        } else if (user.getRole().toString().equals("SUPERVISOR")) {
+        } else if (user.getRole().toString().equals(SUPERVISOR_ROLE)) {
             Supervisor supervisor = supervisorRepository.findSupervisorByUserId(id);
             userResponse.setFullName(supervisor.getFullName());
             userResponse.setPhone(supervisor.getPhone());
-        } else if (user.getRole().toString().equals("INTERN")) {
+        } else if (user.getRole().toString().equals(INTERN_ROLE)) {
             Intern intern = internRepository.findInternByUserId(id);
             userResponse.setPhone(intern.getPhone());
             userResponse.setFullName(intern.getFullName());
@@ -153,20 +162,21 @@ public class UserServiceImpl implements UserService {
             userResponse.setUserId(user.getId());
             userResponse.setEmail(user.getEmail());
             userResponse.setRole(user.getRole());
-            if (role.toString().equals("INTERN")) {
+            if (role.toString().equals(INTERN_ROLE)) {
                 Intern intern = internRepository.findInternByUserId(user.getId());
                 if (intern != null) {
                     userResponse.setFullName(intern.getFullName());
                     userResponse.setPhone(intern.getPhone());
                     userResponse.setFieldType(intern.getFieldType());
                 }
-            } else if (role.toString().equals("SUPERVISOR")) {
+            } else if (role.toString().equals(SUPERVISOR_ROLE)) {
                 Supervisor supervisor = supervisorRepository.findSupervisorByUserId(user.getId());
                 if (supervisor != null) {
+                    userResponse.setUserId(supervisor.getId());
                     userResponse.setFullName(supervisor.getFullName());
                     userResponse.setPhone(supervisor.getPhone());
                 }
-            } else if (role.toString().equals("ADMIN")) {
+            } else if (role.toString().equals(ADMIN_ROLE)) {
                 Admin admin = adminRepository.findAdminByUserId(user.getId());
                 if (admin != null) {
                     userResponse.setFullName(admin.getFullName());
@@ -189,19 +199,19 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("User not available");
         }
         Role role = user.getRole();
-        if(role.toString().equals("ADMIN") ) {
+        if(role.toString().equals(ADMIN_ROLE) ) {
             Admin admin = adminRepository.findAdminByUserId(request.getId());
             admin.setFullName(request.getFullName());
             admin.setPhone(request.getPhone());
             adminRepository.save(admin);
             return new UserResponse(admin, user);
-        } else if (role.toString().equals("SUPERVISOR")) {
+        } else if (role.toString().equals(SUPERVISOR_ROLE)) {
             Supervisor supervisor = supervisorRepository.findSupervisorByUserId(request.getId());
             supervisor.setFullName(request.getFullName());
             supervisor.setPhone(request.getPhone());
             supervisorRepository.save(supervisor);
             return new UserResponse(supervisor, user);
-        } else if(role.toString().equals("INTERN")) {
+        } else if(role.toString().equals(INTERN_ROLE)) {
             Intern intern = internRepository.findInternByUserId(request.getId());
             intern.setFullName(request.getFullName());
             intern.setPhone(request.getPhone());
@@ -228,15 +238,15 @@ public class UserServiceImpl implements UserService {
         }
         user.setActive(false);
         Role role = user.getRole();
-        if(role.toString().equals("ADMIN")) {
+        if(role.toString().equals(ADMIN_ROLE)) {
             Admin admin = adminRepository.findAdminByUserId(user.getId());
             admin.setIsActive(false);
             adminRepository.save(admin);
-        } else if (role.toString().equals("SUPERVISOR")) {
+        } else if (role.toString().equals(SUPERVISOR_ROLE)) {
             Supervisor supervisor = supervisorRepository.findSupervisorByUserId(user.getId());
             supervisor.setIsActive(false);
             supervisorRepository.save(supervisor);
-        } else if (role.toString().equals("INTERN")) {
+        } else if (Objects.equals(role.toString(), INTERN_ROLE)) {
             Intern intern = internRepository.findInternByUserId(user.getId());
             intern.setIsActive(false);
             internRepository.save(intern);

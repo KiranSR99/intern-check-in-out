@@ -32,6 +32,13 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
 import { EditLogComponent } from './interns/edit-log/edit-log.component';
 import { EnterOtpComponent } from './enter-otp/enter-otp.component';
 import { LeaveRequestListComponent } from './supervisor/leave-request-list/leave-request-list.component';
+import { DateFormatterPipe } from './pipe/date-formatter.pipe';
+import { TimeFormatterPipe } from './pipe/time-formatter.pipe';
+import { UserListComponent } from './interns/user-list/user-list.component';
+import { AccessDeniedComponent } from './common/access-denied/access-denied.component';
+import { CustomDateTimeFormatterPipe } from './pipe/date-time-formatter.pipe';
+import { FieldFormatterPipe } from './pipe/field-formatter.pipe';
+import { MyLogComponent } from './interns/my-log/my-log.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +64,14 @@ import { LeaveRequestListComponent } from './supervisor/leave-request-list/leave
     SearchFilterPipe,
     UpdateUsersComponent,
     EnterOtpComponent,
-    LeaveRequestListComponent
+    LeaveRequestListComponent,
+    DateFormatterPipe,
+    TimeFormatterPipe,
+    UserListComponent,
+    AccessDeniedComponent,
+    CustomDateTimeFormatterPipe,
+    FieldFormatterPipe,
+    MyLogComponent
 
   ],
   imports: [

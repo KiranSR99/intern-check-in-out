@@ -77,7 +77,7 @@ export class AddLogComponent {
       this.http.saveLog(logDetailsData).subscribe(
         (response: any) => {
           console.log(response);
-          this.toast.showSuccess('Log Add Successfully');
+          this.toast.showSuccess('Task Added Successfully');
           this.logDetails.reset();
           this.router.navigate(['/app/log-mgnt/intern-log']);
         },

@@ -18,7 +18,7 @@ public class Task extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer taskId;
     private String task;
     private String status;
     private String problem;

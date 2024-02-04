@@ -5,6 +5,7 @@ import { GlobalApiHandler } from '../models/global-api-handler.model';
 import { Observable } from 'rxjs';
 import { LogsDetails } from '../models/logs.model';
 import { UserList } from '../models/UserList.model';
+import { internLog } from '../models/internLog.model';
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +48,11 @@ export class HttpHandlerService {
     );
   }
 
+  //To show all tasks
+  showAllTasks(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/task/getAllTasks`);
+  }
+
   addUser(data: any): Observable<GlobalApiHandler<UserList>> {
     return this.http.post<GlobalApiHandler<UserList>>(
       `${this.apiUrl}/users/saveUser`,
@@ -61,9 +67,19 @@ export class HttpHandlerService {
     );
   }
 
-    //To show all the details of Intern including tasks, check-in, check-out, etc...
-  getAllLog(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/schedule/details`);
+  //To show all interns
+  getAllInters(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/users/getAllInterns`);
+  }
+
+  //To get Check-in and Check-out time
+  getCheckInOutTime(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/schedule/fetchAll`);
+  }
+
+  //To show all the details of Intern including tasks, check-in, check-out, etc...
+  getAllLog(): Observable<GlobalApiHandler<internLog>> {
+    return this.http.get<GlobalApiHandler<internLog>>(`${this.apiUrl}/schedule/details`);
   }
 
   //To delete user by Id
@@ -146,4 +162,8 @@ export class HttpHandlerService {
     return this.http.put<any>(`${this.apiUrl}/schedule/checkOut`, data);
   }
 
+  //To get all supervisors
+  getAllSupervisors(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/users/getAllSupervisors`);
+  }
 }

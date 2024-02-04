@@ -98,7 +98,7 @@ public class LeaveServiceImpl implements LeaveService {
         if(leave == null){
             throw new NullPointerException("Leave record not found");
         }
-        return new LeaveResponse();
+        return new LeaveResponse(leaveRepository.findLeaveById(id));
     }
 
     @Override
@@ -114,7 +114,7 @@ public class LeaveServiceImpl implements LeaveService {
     public LeaveResponse setDeclineStatus(Integer id){
         log.info("Setting leave status to Decline");
         Leave leave = leaveRepository.getReferenceById(id);
-        leave.setStatus("Decline");
+        leave.setStatus("Declined");
         log.info("Leave status Decline successfully");
         return new LeaveResponse(leaveRepository.save(leave));
     }

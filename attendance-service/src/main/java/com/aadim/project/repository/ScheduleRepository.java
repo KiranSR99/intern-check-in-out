@@ -17,7 +17,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
 
             nativeQuery = true,
             value = """
-            SELECT * FROM schedule s WHERE s.intern_id = :internId AND s.check_out_time IS NULL
+            SELECT * FROM schedule s WHERE s.intern_id = :internId ORDER BY DESC LIMIT 1
             """)
     Optional<Schedule> findByInternIdAndCheckOutTimeIsNull(Integer internId);
 
@@ -42,6 +42,13 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
                         order by s.check_out_time desc limit 1;
             """)
     Optional<LocalDateTime> findTopByInternOrderByCheckOutTimeDesc(@Param("userId") Integer userId);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select * from schedule s where s.intern_id = :internId order by s.check_out_time desc limit 1;
+            """)
+    Schedule getLatestScheduleByInternId(@Param("internId") Integer internId);
 }
 
 

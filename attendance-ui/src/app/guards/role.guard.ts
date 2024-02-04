@@ -7,12 +7,8 @@ export const roleGuard: CanActivateFn = (route, state) => {
 
   if (role !== 'ADMIN') {
     router.navigate(['/access-denied']);
+    return false;
   }
-
-  // if (state.url.startsWith('/log-mgnt') && role == 'ADMIN') {
-  //   router.navigate(['/access-denied']);
-  //   return false;
-  // }
 
   return true;
 };

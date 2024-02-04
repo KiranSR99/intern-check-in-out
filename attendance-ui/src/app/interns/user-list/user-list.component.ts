@@ -29,7 +29,7 @@ export class UserListComponent {
         this.userDetailsData = data.data;
       },
       (error: any) => {
-        console.error('Error fetching user details:', error);
+        // console.error('Error fetching user details:', error);
       }
     );
   }

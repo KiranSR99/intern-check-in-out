@@ -28,6 +28,7 @@ public class UserController extends BaseController {
     }
 
 
+
     @GetMapping("/getAll")
     public ResponseEntity<GlobalApiResponse> getAllUser(){
         return successResponse(userService.getAllUser(), "User fetched successfully");

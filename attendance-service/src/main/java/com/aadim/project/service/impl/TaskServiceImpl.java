@@ -7,6 +7,7 @@ import com.aadim.project.dto.response.TaskResponse;
 import com.aadim.project.entity.Task;
 import com.aadim.project.entity.User;
 import com.aadim.project.repository.InternRepository;
+import com.aadim.project.repository.ScheduleRepository;
 import com.aadim.project.repository.TaskRepository;
 import com.aadim.project.repository.UserRepository;
 import com.aadim.project.service.TaskService;
@@ -34,6 +35,8 @@ public class TaskServiceImpl implements TaskService {
 
     private final UserRepository userRepository;
 
+    private final ScheduleRepository scheduleRepository;
+
     @Override
     public List<TaskResponse> saveAllTasks(TaskRequest taskRequest) {
         log.info("Task save request received");
@@ -47,6 +50,7 @@ public class TaskServiceImpl implements TaskService {
             User user = userRepository.findById(t.getUserId()).orElseThrow(()->
                     new RuntimeException("User not found"));
             task.setUser(user);
+            task.setSchedule(scheduleRepository.getLatestScheduleForTasksByInternId(internRepository.findInternByUserId(t.getUserId()).getId()));
             savedTasks.add(task);
             TaskResponse taskResponse = new TaskResponse(task);
             taskResponses.add(taskResponse);
@@ -94,6 +98,7 @@ public class TaskServiceImpl implements TaskService {
         List<TaskResponse> taskResponses = new ArrayList<>();
         for (Task savedTask : tasks) {
             TaskResponse taskResponse = new TaskResponse();
+            taskResponse.setTaskId(savedTask.getTaskId());
             taskResponse.setProblem(savedTask.getProblem());
             taskResponse.setTask(savedTask.getTask());
             taskResponse.setStatus(savedTask.getStatus());
@@ -117,6 +122,7 @@ public class TaskServiceImpl implements TaskService {
         Task task = taskRepository.getReferenceById(id);
 
         TaskResponse taskResponse = new TaskResponse();
+        taskResponse.setTaskId(task.getTaskId());
         taskResponse.setTask(task.getTask());
         taskResponse.setUserId(task.getUser().getId());
         taskResponse.setStatus(task.getStatus());
@@ -128,9 +134,20 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public List<TaskResponse> getTaskOfOneUser(Integer userId) {
+        List<Task> userTasks = taskRepository.findByUserId(userId);
+
+        List<TaskResponse> taskResponses = userTasks.stream()
+                .map(TaskResponse::new)
+                .toList();
+
+        return taskResponses;
+    }
+
+    @Override
     public TaskResponse updateTask(TaskUpdateRequest updateRequest) {
         log.info("Task update request received");
-        Task task = taskRepository.getReferenceById(updateRequest.getId());
+        Task task = taskRepository.getReferenceById(updateRequest.getTaskId());
 
         task.setStatus(updateRequest.getStatus());
         task.setTask(updateRequest.getTask());

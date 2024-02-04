@@ -3,6 +3,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/cico
 
+
     username: postgres
     password: root
 

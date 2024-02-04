@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskResponse {
+    private Integer taskId;
     private String task;
     private String status;
     private String problem;
@@ -18,6 +19,7 @@ public class TaskResponse {
     private Integer userId;
 
     public TaskResponse(Task savedTask){
+        this.setTaskId(savedTask.getTaskId());
         this.task = savedTask.getTask();
         this.status = savedTask.getStatus();
         this.problem = savedTask.getProblem();

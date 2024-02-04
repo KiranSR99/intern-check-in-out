@@ -8,14 +8,14 @@ import { Location } from '@angular/common';
 @Component({
   selector: 'app-edit-log',
   templateUrl: './edit-log.component.html',
-  styleUrl: './edit-log.component.scss'
+  styleUrl: './edit-log.component.scss',
 })
 export class EditLogComponent {
   logDetails: FormGroup = new FormGroup<any>({});
   submitted = false;
   showDeleteButton = false;
   userId: any;
-  id: number = 0;
+  taskId: number = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,10 +30,11 @@ export class EditLogComponent {
     this.onInitLogDetails();
 
     this.userId = localStorage.getItem('userId');
-    this.route.params.subscribe(params => {
-      this.id = params['id'];
-      this.editLog(this.id);
+    this.route.params.subscribe((params) => {
+      this.taskId = params['taskId'];
+      this.editLog(this.taskId);
     });
+
   }
 
   onInitLogDetails() {
@@ -87,38 +88,37 @@ export class EditLogComponent {
       problem: data.problem,
     });
 
- 
     const logDetailsArray = this.logDetails.get('multiLogDetails') as FormArray;
-    
 
     // Add a new group for each another detail
     data.multiLogDetails.forEach((multiLogDetails: any) => {
-      logDetailsArray.push(this.formBuilder.group({
-        id: multiLogDetails.id,
-        task: multiLogDetails.task,
-        status: multiLogDetails.status,
-        timeTaken: multiLogDetails.timeTaken,
-        problem: multiLogDetails.problem,
-        
-      }));
+      logDetailsArray.push(
+        this.formBuilder.group({
+          id: multiLogDetails.id,
+          task: multiLogDetails.task,
+          status: multiLogDetails.status,
+          timeTaken: multiLogDetails.timeTaken,
+          problem: multiLogDetails.problem,
+        })
+      );
     });
   }
 
-  onClickUpdateLog(data: any){
+  onClickUpdateLog(data: any) {
     console.log(data.value);
     this.http.updateLog(this.logDetails.value).subscribe(
       (response: any) => {
-        console.log("Data is updated successfully");
-        this.toastr.showSuccess("Log Update Sucessfully");
+        console.log('Data is updated successfully');
+        this.toastr.showSuccess('Log Update Sucessfully');
         //this.router.navigate(['/app/event-mgnt/view-event']);
         this.onInitLogDetails();
         this.logDetails.reset();
       },
       (error: any) => {
-        console.log("error");
+        console.log('error');
       }
     );
-      this.location.back();
+    this.location.back();
   }
 
   onDeleteButtonClick(i: number) {
@@ -132,5 +132,4 @@ export class EditLogComponent {
   cancel() {
     this.location.back();
   }
-  
 }

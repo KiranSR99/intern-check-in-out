@@ -33,6 +33,12 @@ export class SideNavComponent {
       roleAccess: [RoleEnum.INTERN, RoleEnum.SUPERVISOR],
       url: '/app/log-mgnt',
       icon: 'fa-solid fa-list-check',
+    },
+    {
+      title: 'My Log',
+      roleAccess: [RoleEnum.INTERN],
+      url: '/app/log-mgnt/my-log',
+      icon: 'fa-solid fa-book',
     }
   );
 

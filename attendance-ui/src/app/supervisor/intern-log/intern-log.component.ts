@@ -20,6 +20,7 @@ export class InternLogComponent implements OnInit {
   internTasks: any;
   internCheckInOut: any;
   combinedData: any[] = [];
+  tasks: any[] = [];
 
   constructor(
     private http: HttpHandlerService,
@@ -39,23 +40,13 @@ export class InternLogComponent implements OnInit {
     if (this.userRole) {
       this.userRole = JSON.parse(this.userRole);
     }
-
-    // //showing intern name
-    // this.showInternDetails();
-
-    // //showing intern tasks
-    // this.showInternTasks();
-
-    //Showing intern Check-in check-out
-    // this.showCheckInOut();
-
     this.showInternLog();
   }
 
   showInternLog() {
     this.http.getAllLog().subscribe(
       (result: any) => {
-        this.intern = result;
+         this.intern = result;
         console.log('fetch data successfully', result);
       },
       (error: any) => {
@@ -63,6 +54,8 @@ export class InternLogComponent implements OnInit {
       }
     );
   }
+
+  
 
   // //To show intern name
   // showInternDetails() {
@@ -140,6 +133,8 @@ export class InternLogComponent implements OnInit {
 
   onClickAddTask() {
     this.route.navigate(['app/log-mgnt/add-log']);
+
+    
   }
 
   onViewClick() {}

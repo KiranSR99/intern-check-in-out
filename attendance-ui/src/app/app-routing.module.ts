@@ -22,12 +22,14 @@ import { EnterOtpComponent } from './enter-otp/enter-otp.component';
 import { LeaveRequestListComponent } from './supervisor/leave-request-list/leave-request-list.component';
 import { UserListComponent } from './interns/user-list/user-list.component';
 import { AccessDeniedComponent } from './common/access-denied/access-denied.component';
+import { roleGuard } from './guards/role.guard';
+import { MyLogComponent } from './interns/my-log/my-log.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '', pathMatch: 'full' },
   { path: '', component: LandingPageComponent, canActivate: [negateAuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [negateAuthGuard] },
-  { path:'access-denied', component: AccessDeniedComponent },
+  { path: 'access-denied', component: AccessDeniedComponent },
   { path: 'change-password', component: ChangePasswordComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   {
@@ -61,16 +63,13 @@ const routes: Routes = [
           { path: 'leave-request', component: LeaveRequestComponent },
           { path: 'create-new/:id', component: CreateLeaveRequestComponent },
           { path: 'leave-request-list', component: LeaveRequestListComponent },
+          { path: 'my-log', component: MyLogComponent },
           {
             path: '**',
             redirectTo: 'intern-log',
             pathMatch: 'full',
           },
         ],
-      },
-      {
-        path: 'super-mgnt',
-        children: [],
       },
       {
         path: '**',

@@ -7,7 +7,7 @@ import jakarta.mail.MessagingException;
 public interface MailService {
     void sendHtmlMail(String to, String sub, LeaveRequest leaveRequest, Intern intern) throws MessagingException;
 
-    void sendOtpMail(String to, String sub, String content) throws MessagingException;
+    void sendMail(String to, String sub, String content) throws MessagingException;
 
     void sendMailWithOtp(String toEmail, Integer otp) throws MessagingException;
 }

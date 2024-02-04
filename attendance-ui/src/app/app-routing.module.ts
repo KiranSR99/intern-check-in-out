@@ -22,12 +22,13 @@ import { EnterOtpComponent } from './enter-otp/enter-otp.component';
 import { LeaveRequestListComponent } from './supervisor/leave-request-list/leave-request-list.component';
 import { UserListComponent } from './interns/user-list/user-list.component';
 import { AccessDeniedComponent } from './common/access-denied/access-denied.component';
+import { roleGuard } from './guards/role.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '', pathMatch: 'full' },
   { path: '', component: LandingPageComponent, canActivate: [negateAuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [negateAuthGuard] },
-  { path:'access-denied', component: AccessDeniedComponent },
+  { path: 'access-denied', component: AccessDeniedComponent },
   { path: 'change-password', component: ChangePasswordComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   {
@@ -43,10 +44,10 @@ const routes: Routes = [
       {
         path: 'user-mgnt',
         children: [
-          { path: 'user-list', component: UserDetailsComponent },
-          { path: 'add-user', component: AddUsersComponent },
-          { path: 'update-user/:id', component: UpdateUsersComponent },
-          { path: 'user-profile/:id', component: UserProfileComponent },
+          { path: 'user-list', component: UserDetailsComponent, canActivate: [roleGuard], },
+          { path: 'add-user', component: AddUsersComponent, canActivate: [roleGuard], },
+          { path: 'update-user/:id', component: UpdateUsersComponent, canActivate: [roleGuard], },
+          { path: 'user-profile/:id', component: UserProfileComponent, },
           { path: 'edit-profile/:id', component: EditProfileComponent },
           { path: 'show-user', component: UserListComponent },
           { path: '**', redirectTo: 'user-list', pathMatch: 'full' },
@@ -67,10 +68,6 @@ const routes: Routes = [
             pathMatch: 'full',
           },
         ],
-      },
-      {
-        path: 'super-mgnt',
-        children: [],
       },
       {
         path: '**',

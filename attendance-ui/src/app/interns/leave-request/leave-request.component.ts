@@ -21,7 +21,7 @@ export class LeaveRequestComponent implements OnInit {
     this.userId = localStorage.getItem('userId');
     this.userRole = localStorage.getItem('role');
 
-    if(this.userRole){
+    if (this.userRole) {
       this.userRole = JSON.parse(this.userRole);
     }
 
@@ -29,6 +29,7 @@ export class LeaveRequestComponent implements OnInit {
     this.httpHandler.showInternLeaveRequests(this.userId).subscribe({
       next: (response: any) => {
         this.responseData = response.data;
+        console.log('hello hello' + this.responseData);
       },
       error: (error: any) => {
         console.error('Error fetching leave requests:', error);
@@ -40,8 +41,5 @@ export class LeaveRequestComponent implements OnInit {
     this.router.navigate(['/app/log-mgnt/create-new/', userId]);
   }
 
-  onApproveClick(id: any){
-
-  }
-
+  onApproveClick(id: any) {}
 }

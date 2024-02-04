@@ -8,6 +8,7 @@ import com.aadim.project.dto.response.UserResponse;
 import com.aadim.project.entity.*;
 import com.aadim.project.repository.*;
 import com.aadim.project.service.UserService;
+import com.aadim.project.validator.EmailValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserResponse saveUser(UserRequest request) {
+        if(!EmailValidator.isValidEmail(request.getEmail())) {
+            throw new IllegalArgumentException("Invalid email address");
+        }
         log.info("Saving user");
         User user = new User();
         user.setEmail(request.getEmail());

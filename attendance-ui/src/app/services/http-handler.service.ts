@@ -5,6 +5,7 @@ import { GlobalApiHandler } from '../models/global-api-handler.model';
 import { Observable } from 'rxjs';
 import { LogsDetails } from '../models/logs.model';
 import { UserList } from '../models/UserList.model';
+import { internLog } from '../models/internLog.model';
 
 @Injectable({
   providedIn: 'root',
@@ -77,8 +78,8 @@ export class HttpHandlerService {
   }
 
   //To show all the details of Intern including tasks, check-in, check-out, etc...
-  getAllLog(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/schedule/details`);
+  getAllLog(): Observable<GlobalApiHandler<internLog>> {
+    return this.http.get<GlobalApiHandler<internLog>>(`${this.apiUrl}/schedule/details`);
   }
 
   //To delete user by Id

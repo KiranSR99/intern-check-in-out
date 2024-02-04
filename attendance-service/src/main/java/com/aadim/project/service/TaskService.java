@@ -14,5 +14,7 @@ public interface TaskService {
 
     TaskResponse getTaskById(Integer id);
 
+    List<TaskResponse> getTaskOfOneUser(Integer userId);
+
     TaskResponse updateTask(TaskUpdateRequest updateRequest);
 }

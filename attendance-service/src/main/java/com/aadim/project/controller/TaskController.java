@@ -35,6 +35,11 @@ public class TaskController extends BaseController {
         return successResponse(taskService.getTaskById(id), "Task with Id "+ id +" fetched successfully");
     }
 
+    @GetMapping("/getTaskOfOneUser/{id}")
+    public ResponseEntity<GlobalApiResponse> getTaskOfOneUser(@PathVariable Integer id){
+        return successResponse(taskService.getTaskOfOneUser(id), "Task of one user fetched successfully");
+    }
+
     @PreAuthorize("hasAuthority('INTERN')")
     @PutMapping("/updateTask")
     public ResponseEntity<GlobalApiResponse> updateTask(@RequestBody TaskUpdateRequest updateRequest){

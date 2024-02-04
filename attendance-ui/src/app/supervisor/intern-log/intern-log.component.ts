@@ -47,7 +47,7 @@ export class InternLogComponent implements OnInit {
     // this.showInternTasks();
 
     //Showing intern Check-in check-out
-    this.showCheckInOut();
+    // this.showCheckInOut();
 
     this.showInternLog();
   }

@@ -47,19 +47,19 @@
                     </tr>
                 </thead>
                 <ng-container>
-                    <ng-container *ngFor="let item of internCheckInOut">
+                    <ng-container>
                         <tbody *ngFor="let data of intern |searchFilter:searchText; let i = index ">
                             <tr>
                                 <td>{{i+1}}</td>
                                 <td>{{data.full_name}}</td>
-                                <td>{{item.checkInTime | customDateTimeFormatter }}</td>
+                                <td>{{data.check_in_time | customDateTimeFormatter }}</td>
                                 <td>{{data.field_type |fieldFormatter}}</td>
                                 <td>{{i + 1}}</td>
                                 <td>{{data.task}}</td>
                                 <td>{{data.status}}</td>
                                 <td>{{data.time_taken}}</td>
                                 <td>{{data.problem}}</td>
-                                <td>{{item.checkOutTime | customDateTimeFormatter }}</td>
+                                <td>{{data.check_out_time | customDateTimeFormatter }}</td>
                                 <td *ngIf="userRole == 'INTERN'">
                                     <button class="btn btn-outline-warning" (click)="onViewClick()"
                                         style="margin:8px"><i class="fa fa-eye"></i></button>

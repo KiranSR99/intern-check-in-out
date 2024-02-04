@@ -9,8 +9,8 @@ export class CustomDateTimeFormatterPipe implements PipeTransform {
     if (!value) return value;
 
     try {
-      // Check if the value matches the second format ('YYYY-MM-DDTHH:mm:ss.ssssss')
-      if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+$/.test(value)) {
+      // Check if the value matches the format 'YYYY-MM-DDTHH:mm:ss.sss+00:00'
+      if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}\+\d{2}:\d{2}$/.test(value)) {
         const dateObject = new Date(value);
         return formatDate(dateObject, 'medium', 'en-US');
       } else {

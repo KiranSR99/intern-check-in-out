@@ -64,25 +64,25 @@ export class InternLogComponent implements OnInit {
     );
   }
 
-  //To show intern name
-  showInternDetails() {
-    this.http.getAllInters().subscribe({
-      next: (response: any) => {
-        this.internDetails = response.data;
-        console.log(this.internDetails);
-      },
-    });
-  }
+  // //To show intern name
+  // showInternDetails() {
+  //   this.http.getAllInters().subscribe({
+  //     next: (response: any) => {
+  //       this.internDetails = response.data;
+  //       console.log(this.internDetails);
+  //     },
+  //   });
+  // }
 
-  //To show intern tasks
-  showInternTasks() {
-    this.http.showAllTasks().subscribe({
-      next: (response: any) => {
-        this.internTasks = response.data;
-        console.log(this.internTasks);
-      },
-    });
-  }
+  // //To show intern tasks
+  // showInternTasks() {
+  //   this.http.showAllTasks().subscribe({
+  //     next: (response: any) => {
+  //       this.internTasks = response.data;
+  //       console.log(this.internTasks);
+  //     },
+  //   });
+  // }
 
   //To show intern Check-in Check-out time
   showCheckInOut() {

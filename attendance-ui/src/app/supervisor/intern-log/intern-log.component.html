@@ -14,15 +14,15 @@
     </div>
     <hr>
     <div class="d-flex justify-content-between align-items-center">
-        <div class="input-group col-6" style="width: 400px;">
+        <div class="input-group col-3" style="width: 250px;">
             <input type="search" class="form-control" [(ngModel)]="searchText" placeholder="Search..."
                 aria-label="Search">
             <button class="btn btn-warning" type="button" id="button-addon2">
-                <i class="fa-solid fa-search"></i> Search
+                <i class="fa-solid fa-search"></i>
             </button>
         </div>
         <div class="col-auto mx-2">
-            <a class=""><i class="fa-solid fa-filter"></i> Filter</a>
+            <a class="text-warning" style=" font-size: 24px;"><i class="fa-solid fa-filter"></i></a>
         </div>
     </div>
 
@@ -43,7 +43,7 @@
                         <td>Time Taken</td>
                         <td>Problem</td>
                         <td>Check-out</td>
-                        <td>Action</td>
+                        <td *ngIf="userRole == 'INTERN'">Action</td>
                     </tr>
                 </thead>
                 <ng-container>
@@ -60,13 +60,14 @@
                                 <td>{{data.time_taken}}</td>
                                 <td>{{data.problem}}</td>
                                 <td>{{item.checkOutTime | customDateTimeFormatter }}</td>
-                                <td>
-                                    <button class="btn btn-outline-warning" (click)="onViewClick()" style="margin:8px"><i
-                                            class="fa fa-eye"></i></button>
-    
-                                    <button type="edit" class="btn btn-outline-primary" (click)="onEditClick(this.userId)"
-                                        style="margin:8px"><i class="fa fa-edit"></i></button>
-    
+                                <td *ngIf="userRole == 'INTERN'">
+                                    <button class="btn btn-outline-warning" (click)="onViewClick()"
+                                        style="margin:8px"><i class="fa fa-eye"></i></button>
+
+                                    <button type="edit" class="btn btn-outline-primary"
+                                        (click)="onEditClick(this.userId)" style="margin:8px"><i
+                                            class="fa fa-edit"></i></button>
+
                                 </td>
                             </tr>
                         </tbody>

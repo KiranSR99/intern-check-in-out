@@ -6,11 +6,12 @@
           <h2 class="text-center">Login</h2>
 
           <label class="mt-3">Email</label>
-          <input type="text" formControlName="email" class="form-control" name="email"
-            placeholder="Enter your email">
-          <div *ngIf="loginDetail.get('email')?.invalid && loginDetail.get('email')?.touched" class="text-danger">
-            <small>Please enter your email</small>
-          </div>
+          <input type="text" formControlName="email" class="form-control" name="email" placeholder="Enter your email" 
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+        <div *ngIf="loginDetail.get('email')?.hasError('email') && loginDetail.get('email')?.touched" class="text-danger">
+          <small>Please enter a valid email address</small>
+        </div>
+        
 
           <label class="mt-4">Password</label>
           <input type="password" formControlName="password" class="form-control" name="password"

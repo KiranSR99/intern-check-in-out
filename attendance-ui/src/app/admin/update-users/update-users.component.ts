@@ -60,16 +60,7 @@ export class UpdateUsersComponent implements OnInit {
 
     onSubmit(data: any) {
         if (this.userDetails.valid) {
-<<<<<<< HEAD
-            const updatedUserData = {
-                userId: this.userId,
-                userDetails: this.userDetails.value
-            };
-
-            this.http.updateUser(updatedUserData).subscribe({
-=======
             this.http.updateUser(data).subscribe({
->>>>>>> c00b90e770a8cf1dfab09800fd9c6fc0eaf544a6
                 next: (response: any) => {
                     console.log('User updated successfully');
                     this.toast.showSuccess('User updated successfully');
@@ -84,10 +75,6 @@ export class UpdateUsersComponent implements OnInit {
             this.userDetails.markAllAsTouched();
         }
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> c00b90e770a8cf1dfab09800fd9c6fc0eaf544a6
 
     onRoleChange(event: Event) {
         const roleId = (event.target as HTMLSelectElement).value;

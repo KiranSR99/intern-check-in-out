@@ -1,3 +1,5 @@
+
+
 package com.aadim.project.service.impl;
 
 import com.aadim.project.dto.request.ScheduleRequest;
@@ -40,24 +42,37 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
 
         Optional<LocalDateTime> lastScheduleOpt = scheduleRepository.findTopByInternOrderByCheckOutTimeDesc(request.getUserId());
-            if (lastScheduleOpt.isPresent()) {
-                LocalDateTime lastCheckOutTime = lastScheduleOpt.get();
-                if (lastCheckOutTime.toLocalDate().equals(LocalDate.now())) {
-                    throw new RuntimeException("You can't check in again on the same day you have checked out.");
-                }
+        if (lastScheduleOpt.isPresent()) {
+            LocalDateTime lastCheckOutTime = lastScheduleOpt.get();
+            if (lastCheckOutTime.toLocalDate().equals(LocalDate.now())) {
+                throw new RuntimeException("You can't check in again on the same day you have checked out.");
             }
-        Optional<Schedule> existingSchedule = scheduleRepository.findByInternIdAndCheckOutTimeIsNull(intern.getId());
-        if (existingSchedule.isPresent()) {
-            throw new RuntimeException("User has already checked in");
         }
 
-            Schedule schedule = new Schedule();
-            schedule.setCheckInTime(LocalDateTime.now());
-            schedule.setCheckOutTime(request.getCheckOutTime());
-            schedule.setIntern(intern);
-            Schedule savedSchedule = scheduleRepository.save(schedule);
+//        Optional<Schedule> existingSchedule = scheduleRepository.findByInternIdAndCheckOutTimeIsNull(intern.getId());
+//        if (existingSchedule.isPresent()) {
+//            throw new RuntimeException("User has already checked in");
+//        }
+        if (scheduleRepository.existsById(intern.getId())) {
+            Schedule schedule = scheduleRepository.getLatestScheduleByInternId(intern.getId());
+            if (schedule.getCheckOutTime() == null) {
+                throw new RuntimeException("User has already checked in");
+            }
+            Schedule schedule1 = new Schedule();
+            schedule1.setCheckInTime(LocalDateTime.now());
+            schedule1.setCheckOutTime(null);
+            schedule1.setIntern(intern);
+            Schedule savedSchedule = scheduleRepository.save(schedule1);
+            return new ScheduleResponse(savedSchedule);
+        } else {
+            Schedule schedule1 = new Schedule();
+            schedule1.setCheckInTime(LocalDateTime.now());
+            schedule1.setCheckOutTime(null);
+            schedule1.setIntern(intern);
+            Schedule savedSchedule = scheduleRepository.save(schedule1);
             return new ScheduleResponse(savedSchedule);
         }
+    }
 
 
 
@@ -67,11 +82,14 @@ public class ScheduleServiceImpl implements ScheduleService {
         if (intern == null) {
             throw new RuntimeException("User not found");
         }
-        Optional<Schedule> existingSchedule = scheduleRepository.findByInternIdAndCheckOutTimeIsNull(intern.getId());
-        if (!existingSchedule.isPresent()) {
-            throw new RuntimeException("User has not checked in or has already checked out");
-        }
-        Schedule schedule = existingSchedule.get();
+//        Optional<Schedule> existingSchedule = scheduleRepository.findByInternIdAndCheckOutTimeIsNull(intern.getId());
+//        if (!existingSchedule.isPresent()) {
+//            throw new RuntimeException("User has not checked in or has already checked out");
+//        }
+
+        Schedule schedule = scheduleRepository.getLatestScheduleByInternId(intern.getId());
+
+//        Schedule schedule = existingSchedule.get();
         schedule.setCheckOutTime(LocalDateTime.now());
         Schedule savedSchedule = scheduleRepository.save(schedule);
         return new ScheduleResponse(savedSchedule);

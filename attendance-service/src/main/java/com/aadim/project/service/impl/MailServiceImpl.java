@@ -41,7 +41,7 @@ public class MailServiceImpl implements MailService {
         context.setVariable("name", intern.getFullName());
         context.setVariable("position", intern.getFieldType());
         context.setVariable("phone", intern.getPhone());
-        String htmlContent = templateEngine.process("email-template.html",
+        String htmlContent = templateEngine.process("email-leave-template.html",
                 context);
         helper.setText(htmlContent,true);
         javaMailSender.send(message);
@@ -55,24 +55,24 @@ public class MailServiceImpl implements MailService {
 
         String sub = "Password Verification Code";
         String content = "Hello "+toEmail+" Your Verification code is :" + verificationCode;
-        sendOtpMail(toEmail, sub, content);
+        sendMail(toEmail, sub, content);
 
     }
 
     @Async
     @Override
-    public void sendOtpMail(String to, String sub, String content) throws MessagingException {
-        log.info("Sending mail with otp");
+    public void sendMail(String to, String sub, String content) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message,true,"UTF-8");
         helper.setTo(to);
         helper.setSubject(sub);
         Context context = new Context();
+        context.setVariable("sub", sub);
         context.setVariable("content", content);
-        String htmlContent = templateEngine.process("email-otp-template.html",
+        String htmlContent = templateEngine.process("email-template.html",
                 context);
         helper.setText(htmlContent,true);
         javaMailSender.send(message);
-        log.info("Mail with otp sent successfully");
+        log.info("Mail sent successfully");
     }
 }

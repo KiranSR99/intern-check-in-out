@@ -25,12 +25,24 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
             nativeQuery = true,
             value = """
 
-                     select i.full_name , i.field_type , s.check_in_time, s.check_out_time,
-                    t.task , t.status ,t.time_taken , t.problem
-                    from intern i
-                    full join users u on u.id  = i.user_id
-                    full join tasks t on u.id  = t.user_id
-                    full join schedule s on s.intern_id = i.id
+
+                    SELECT
+                        i.full_name,
+                        i.field_type,
+                        s.check_in_time,
+                        s.check_out_time,
+                        t.task,
+                        t.status,
+                        t.time_taken,
+                        t.problem
+                    FROM
+                        intern i
+                    JOIN
+                        users u ON u.id = i.user_id
+                    JOIN
+                        tasks t ON u.id = t.user_id
+                    JOIN
+                        schedule s ON s.intern_id = i.id;
                      """)
     List<Map<String, Object>> getInternDetail();
 

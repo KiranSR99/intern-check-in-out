@@ -4,8 +4,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/cico
     username: postgres
     password: soniya@4752
-
-
     driver-class-name: org.postgresql.Driver
   jpa:
     show_sql: true

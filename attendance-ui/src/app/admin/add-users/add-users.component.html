@@ -76,23 +76,31 @@
 
             <div class="col-md-6 col-sm-12" *ngIf="showPrimarySupervisor()">
               <label>Primary Supervisor</label>
-              <input type="email" formControlName="primarySupervisor" name="primarySupervisor" id="primarySupervisor"
-                class="form-control" placeholder="Enter primary supervisor email" required />
+              <select formControlName="primarySupervisor" class="form-control" required>
+                <option value="" hidden>Select Primary Supervisor</option>
+                <option *ngFor="let supervisor of supervisors" [ngValue]="supervisor.userId">{{supervisor.fullName}}
+                </option>
+              </select>
               <div class="text-danger"
-                *ngIf="userDetails.get('primarySupervisor')?.invalid && userDetails.get('primarySupervisor')?.touched">
-                <small>Please enter a valid email address for the Primary Supervisor.</small>
+                *ngIf="userDetails.get('primarySupervisor')?.touched && userDetails.get('primarySupervisor')?.invalid">
+                <small>Please select a Primary Supervisor.</small>
               </div>
             </div>
 
             <div class="col-md-6 col-sm-12" *ngIf="showSecondarySupervisor()">
               <label>Secondary Supervisor</label>
-              <input type="email" formControlName="secondarySupervisor" name="secondarySupervisor"
-                id="secondarySupervisor" class="form-control" placeholder="Enter secondary supervisor email" required />
+              <select formControlName="secondarySupervisor" class="form-control" required>
+                <option value="" hidden>Select Secondary Supervisor</option>
+                <option *ngFor="let supervisor of supervisors" [ngValue]="supervisor.userId">{{supervisor.fullName}}
+                </option>
+              </select>
               <div class="text-danger"
-                *ngIf="userDetails.get('secondarySupervisor')?.invalid && userDetails.get('secondarySupervisor')?.touched">
-                <small>Please enter a valid email address for the Secondary Supervisor.</small>
+                *ngIf="userDetails.get('secondarySupervisor')?.touched && userDetails.get('secondarySupervisor')?.invalid">
+                <small>Please select a Secondary Supervisor.</small>
               </div>
             </div>
+
+
 
           </div>
           <hr class="mt-3 mb-3" />

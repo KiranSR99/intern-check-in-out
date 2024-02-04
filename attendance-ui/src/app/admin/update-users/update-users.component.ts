@@ -69,7 +69,7 @@ export class UpdateUsersComponent implements OnInit {
                 userId: this.userId,
                 userDetails: this.userDetails.value
             };
-    
+
             this.http.updateUser(updatedUserData).subscribe({
                 next: (response: any) => {
                     console.log('User updated successfully');
@@ -85,7 +85,7 @@ export class UpdateUsersComponent implements OnInit {
             this.userDetails.markAllAsTouched();
         }
     }
-    
+
 
     onRoleChange(event: Event) {
         const roleId = (event.target as HTMLSelectElement).value;

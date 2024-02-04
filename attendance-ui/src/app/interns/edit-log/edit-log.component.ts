@@ -29,7 +29,8 @@ export class EditLogComponent {
   ngOnInit(): void {
     this.onInitLogDetails();
 
-    this.userId = localStorage.getItem('userId');
+    //this.userId = localStorage.getItem('userId');
+  
     this.route.params.subscribe(params => {
       this.id = params['id'];
       this.editLog(this.id);
@@ -67,6 +68,7 @@ export class EditLogComponent {
   }
 
   editLog(id: number) {
+    console.log('Fetching log data for ID:', id);
     this.http.getLogById(id).subscribe(
       (response: any) => {
         console.log('Individual log fetched successfully:', response);
@@ -79,33 +81,64 @@ export class EditLogComponent {
   }
   
 
-  populateForm(data: any) {
-    // Set the values for the main form
+  
+  // populateForm(data: any) {
+  //   // Set the values for the main form
     
-    this.logDetails.patchValue({
-      id: data.id,
-      task: data.task,
-      status: data.status,
-      timeTaken: data.timeTaken,
-      problem: data.problem,
-    });
+  //   this.logDetails.patchValue({
+  //     id: data.id,
+  //     task: data.task,
+  //     status: data.status,
+  //     timeTaken: data.timeTaken,
+  //     problem: data.problem,
+  //   });
 
  
-    const logDetailsArray = this.logDetails.get('multiLogDetails') as FormArray;
+  //   const logDetailsArray = this.logDetails.get('multiLogDetails') as FormArray;
     
 
-    // Add a new group for each another detail
-    data.multiLogDetails.forEach((multiLogDetails: any) => {
-      logDetailsArray.push(this.formBuilder.group({
-        id: multiLogDetails.id,
-        task: multiLogDetails.task,
-        status: multiLogDetails.status,
-        timeTaken: multiLogDetails.timeTaken,
-        problem: multiLogDetails.problem,
+  //   // Add a new group for each another detail
+  //   data.multiLogDetails.forEach((multiLogDetails: any) => {
+  //     logDetailsArray.push(this.formBuilder.group({
+  //       id: multiLogDetails.id,
+  //       task: multiLogDetails.task,
+  //       status: multiLogDetails.status,
+  //       timeTaken: multiLogDetails.timeTaken,
+  //       problem: multiLogDetails.problem,
         
-      }));
-    });
+  //     }));
+  //   });
+  // }
+
+  populateForm(data: any) {
+  // Set the values for the main form
+  this.logDetails.patchValue({
+    id: data.data.task.id, 
+    task: data.data.task.task,
+    status: data.data.task.status,
+    timeTaken: data.data.task.timeTaken,
+    problem: data.data.task.problem,
+  });
+
+  const logDetailsArray = this.logDetails.get('multiLogDetails') as FormArray;
+
+  // Remove existing controls in the form array
+  while (logDetailsArray.length !== 0) {
+    logDetailsArray.removeAt(0);
   }
+
+  // Add a new group for each additional detail
+  data.data.multiLogDetails.forEach((multiLogDetails: any) => {
+    logDetailsArray.push(this.formBuilder.group({
+      id: multiLogDetails.id,
+      task: multiLogDetails.task,
+      status: multiLogDetails.status,
+      timeTaken: multiLogDetails.timeTaken,
+      problem: multiLogDetails.problem,
+    }));
+  });
+}
+
 
   onClickUpdateLog(data: any){
     console.log(data.value);

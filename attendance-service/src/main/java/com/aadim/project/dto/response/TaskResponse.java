@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskResponse {
+    private Integer taskId;
     private String task;
     private String status;
     private String problem;

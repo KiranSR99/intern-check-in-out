@@ -7,6 +7,7 @@ import com.aadim.project.dto.response.TaskResponse;
 import com.aadim.project.entity.Task;
 import com.aadim.project.entity.User;
 import com.aadim.project.repository.InternRepository;
+import com.aadim.project.repository.ScheduleRepository;
 import com.aadim.project.repository.TaskRepository;
 import com.aadim.project.repository.UserRepository;
 import com.aadim.project.service.TaskService;
@@ -34,6 +35,8 @@ public class TaskServiceImpl implements TaskService {
 
     private final UserRepository userRepository;
 
+    private final ScheduleRepository scheduleRepository;
+
     @Override
     public List<TaskResponse> saveAllTasks(TaskRequest taskRequest) {
         log.info("Task save request received");
@@ -47,6 +50,7 @@ public class TaskServiceImpl implements TaskService {
             User user = userRepository.findById(t.getUserId()).orElseThrow(()->
                     new RuntimeException("User not found"));
             task.setUser(user);
+            task.setSchedule(scheduleRepository.getLatestScheduleForTasksByInternId(internRepository.findInternByUserId(t.getUserId()).getId()));
             savedTasks.add(task);
             TaskResponse taskResponse = new TaskResponse(task);
             taskResponses.add(taskResponse);

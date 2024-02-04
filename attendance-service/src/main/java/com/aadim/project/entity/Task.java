@@ -28,5 +28,9 @@ public class Task extends Auditable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "schedule_id", referencedColumnName = "id")
+    private Schedule schedule;
+
     private Boolean isActive = true;
 }

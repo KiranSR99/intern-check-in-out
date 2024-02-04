@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { GlobalApiHandler } from '../models/global-api-handler.model';
@@ -34,14 +34,12 @@ export class HttpHandlerService {
     );
   }
 
-  //To get a task by id
   getLogById(id: number): Observable<GlobalApiHandler<LogsDetails>> {
     return this.http.get<GlobalApiHandler<LogsDetails>>(
       `${this.apiUrl}/task/getTaskById/` + id
     );
   }
 
-  //To update the task
   updateLog(data: any): Observable<GlobalApiHandler<LogsDetails>> {
     return this.http.put<GlobalApiHandler<LogsDetails>>(
       `${this.apiUrl}/task/updateTask`,
@@ -49,7 +47,11 @@ export class HttpHandlerService {
     );
   }
 
-  //To add the user by the admin
+  //To show all tasks
+  showAllTasks(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/task/getAllTasks`);
+  }
+
   addUser(data: any): Observable<GlobalApiHandler<UserList>> {
     return this.http.post<GlobalApiHandler<UserList>>(
       `${this.apiUrl}/users/saveUser`,
@@ -64,9 +66,19 @@ export class HttpHandlerService {
     );
   }
 
-  //To get the tasks of all Inters
+  //To show all interns
+  getAllInters(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/users/getAllInterns`);
+  }
+
+  //To get Check-in and Check-out time
+  getCheckInOutTime(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/schedule/fetchAll`);
+  }
+
+  //To show all the details of Intern including tasks, check-in, check-out, etc...
   getAllLog(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/task/getAllTasks`);
+    return this.http.get<any>(`${this.apiUrl}/schedule/details`);
   }
 
   //To delete user by Id
@@ -76,7 +88,6 @@ export class HttpHandlerService {
     );
   }
 
-  //To update the user details
   updateUser(data: any): Observable<GlobalApiHandler<any>> {
     return this.http.put<GlobalApiHandler<any>>(
       `${this.apiUrl}/users/update`,
@@ -99,6 +110,21 @@ export class HttpHandlerService {
   //To fetch the leave request of a intern
   showInternLeaveRequests(userId: any): Observable<any> {
     return this.http.get(`${this.apiUrl}/leave/getIntern/${userId}`);
+  }
+
+  //To show all the leave request for Supervisor
+  showAllLeaveRequests(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/leave/get`);
+  }
+
+  //To approve the leave request by Supervisor
+  approveLeaveRequest(id: any): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/leave/approved-leave/${id}`, id);
+  }
+
+  //To decline the leave request by Supervisor
+  declineLeaveRequest(id: any): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/leave/decline-leave/${id}`, id);
   }
 
   //To implement the forget password functionality
@@ -126,18 +152,17 @@ export class HttpHandlerService {
   }
 
   //To check-in by the Intern
-  checkIn(userId: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/schedule/checkIn`, userId);
+  checkIn(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/schedule/checkIn`, data);
   }
 
-  // checkIn(userId: any): Observable<any> {
-  //   // Ensure userId is an integer
-  //   const userIdInt = Number(userId);
+  //To check-out by the Intern
+  checkOut(data: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/schedule/checkOut`, data);
+  }
 
-  //   // Construct the request body as a JSON object with the integer userId
-  //   const body = { userId: userIdInt };
-
-  //   // Directly pass the object to the POST method
-  //   return this.http.post(`${this.apiUrl}/schedule/checkIn`, body);
-  // }
+  //To get all supervisors
+  getAllSupervisors(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/users/getAllSupervisors`);
+  }
 }

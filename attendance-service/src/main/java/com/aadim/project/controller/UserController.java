@@ -10,6 +10,7 @@ import com.aadim.project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,8 +21,9 @@ public class UserController extends BaseController {
 
     private final UserService userService;
 
-// to-read    mapStruct
 
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/saveUser")
     public ResponseEntity<GlobalApiResponse> saveUser(@RequestBody UserRequest request){
         return successResponse(userService.saveUser(request), "User saved successfully");
@@ -29,6 +31,7 @@ public class UserController extends BaseController {
 
 
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/getAll")
     public ResponseEntity<GlobalApiResponse> getAllUser(){
         return successResponse(userService.getAllUser(), "User fetched successfully");
@@ -44,21 +47,25 @@ public class UserController extends BaseController {
         return successResponse(userService.getAllUsersByRole(Role.valueOf("INTERN")));
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/getAllAdmins")
     public ResponseEntity<GlobalApiResponse> getAllAdmins() {
         return successResponse(userService.getAllUsersByRole(Role.valueOf("ADMIN")));
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
     @GetMapping("/getAllSupervisors")
     public ResponseEntity<GlobalApiResponse> getAllSupervisors() {
         return successResponse(userService.getAllUsersByRole(Role.valueOf("SUPERVISOR")));
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/update")
     public ResponseEntity<GlobalApiResponse> updateUser (@RequestBody UserUpdateRequest request) {
         return successResponse(userService.updateUser(request) , "User Updated Successfully.");
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<GlobalApiResponse> deleteUser (@PathVariable Integer id) {
         return successResponse(userService.deleteUser(id));

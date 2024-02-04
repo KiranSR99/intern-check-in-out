@@ -117,6 +117,7 @@ public class TaskServiceImpl implements TaskService {
         Task task = taskRepository.getReferenceById(id);
 
         TaskResponse taskResponse = new TaskResponse();
+        taskResponse.setTaskId(task.getId());
         taskResponse.setTask(task.getTask());
         taskResponse.setUserId(task.getUser().getId());
         taskResponse.setStatus(task.getStatus());
@@ -130,7 +131,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskResponse updateTask(TaskUpdateRequest updateRequest) {
         log.info("Task update request received");
-        Task task = taskRepository.getReferenceById(updateRequest.getId());
+        Task task = taskRepository.getReferenceById(updateRequest.getTaskId());
 
         task.setStatus(updateRequest.getStatus());
         task.setTask(updateRequest.getTask());

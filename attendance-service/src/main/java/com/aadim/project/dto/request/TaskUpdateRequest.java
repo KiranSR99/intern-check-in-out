@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskUpdateRequest {
-    private Integer id;
+    private Integer taskId;
+    private Integer userId;
     private String task;
     private String problem;
     private String timeTaken;

@@ -46,8 +46,7 @@ export class CreateLeaveRequestComponent implements OnInit {
           this.router.navigate(['/app/log-mgnt/leave-request']);
         },
         error: (err) => {
-          console.error('Error adding user:', err);
-          this.toast.showError('Error adding user');
+          this.toast.showError('Leave Request sent failed.');
         },
       });
     } else {

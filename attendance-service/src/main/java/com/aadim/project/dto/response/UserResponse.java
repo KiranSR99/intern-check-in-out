@@ -15,8 +15,8 @@ public class UserResponse {
     private String phone;
     private Role role;
     private FieldType fieldType;
-    private SupervisorResponse primarySupervisor;
-    private SupervisorResponse secondarySupervisor;
+    private SupervisorInfoResponse primarySupervisor;
+    private SupervisorInfoResponse secondarySupervisor;
     private Integer internId;
     private Integer supervisorId;
 
@@ -50,10 +50,10 @@ public class UserResponse {
         this.secondarySupervisor = mapSupervisorInfo(intern1.getSecondarySupervisor());
     }
 
-    //helper method to map Supervisor to SupervisorResponse
-    private SupervisorResponse mapSupervisorInfo(Supervisor supervisor) {
+    //helper method to map Supervisor to SupervisorInfoResponse
+    private SupervisorInfoResponse mapSupervisorInfo(Supervisor supervisor) {
         if (supervisor != null) {
-            return new SupervisorResponse(
+            return new SupervisorInfoResponse(
                     supervisor.getUser().getId(),
                     supervisor.getFullName(),
                     supervisor.getUser().getEmail(),

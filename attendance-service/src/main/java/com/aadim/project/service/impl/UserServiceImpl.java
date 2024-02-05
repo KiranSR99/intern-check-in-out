@@ -4,7 +4,7 @@ import com.aadim.project.dto.request.ForgotPasswordRequest;
 import com.aadim.project.dto.request.PasswordRequest;
 import com.aadim.project.dto.request.UserRequest;
 import com.aadim.project.dto.request.UserUpdateRequest;
-import com.aadim.project.dto.response.SupervisorResponse;
+import com.aadim.project.dto.response.SupervisorInfoResponse;
 import com.aadim.project.dto.response.UserResponse;
 import com.aadim.project.entity.*;
 import com.aadim.project.repository.*;
@@ -49,12 +49,12 @@ public class UserServiceImpl implements UserService {
         if(!EmailValidator.isValidEmail(request.getEmail())) {
             throw new IllegalArgumentException("Invalid email address");
         }
-        if (!PhoneNumberValidator.isValidPhoneNumber(request.getPhone())) {
-            throw  new IllegalArgumentException("Invalid phone number");
-        }
-//        if(!PasswordValidator.isValidPassword(request.getPassword())) {
-//            throw new IllegalArgumentException("Invalid Password");
+//        if (!PhoneNumberValidator.isValidPhoneNumber(request.getPhone())) {
+//            throw  new IllegalArgumentException("Invalid phone number");
 //        }
+        if(!PasswordValidator.isValidPassword(request.getPassword())) {
+            throw new IllegalArgumentException("Invalid Password");
+        }
         log.info("Saving user");
         User user = new User();
         user.setEmail(request.getEmail());
@@ -151,9 +151,9 @@ public class UserServiceImpl implements UserService {
         return userResponses;
     }
 
-    private SupervisorResponse mapSupervisorInfo(Supervisor supervisor) {
+    private SupervisorInfoResponse mapSupervisorInfo(Supervisor supervisor) {
         if (supervisor != null) {
-            SupervisorResponse supervisorInfo = new SupervisorResponse();
+            SupervisorInfoResponse supervisorInfo = new SupervisorInfoResponse();
             supervisorInfo.setUserId(supervisor.getUser().getId());
             supervisorInfo.setSupervisorId(supervisor.getId());
             supervisorInfo.setFullName(supervisor.getFullName());

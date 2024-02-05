@@ -7,6 +7,7 @@ import com.aadim.project.dto.request.UserRequest;
 import com.aadim.project.dto.request.UserUpdateRequest;
 import com.aadim.project.entity.Role;
 import com.aadim.project.service.UserService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class UserController extends BaseController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/saveUser")
-    public ResponseEntity<GlobalApiResponse> saveUser(@RequestBody UserRequest request){
+    public ResponseEntity<GlobalApiResponse> saveUser(@RequestBody UserRequest request) throws MessagingException {
         return successResponse(userService.saveUser(request), "User saved successfully");
     }
 

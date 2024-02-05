@@ -8,13 +8,16 @@ import com.aadim.project.dto.response.SupervisorResponse;
 import com.aadim.project.dto.response.UserResponse;
 import com.aadim.project.entity.*;
 import com.aadim.project.repository.*;
+import com.aadim.project.service.MailService;
 import com.aadim.project.service.UserService;
 import com.aadim.project.validator.EmailValidator;
 import com.aadim.project.validator.PasswordValidator;
 import com.aadim.project.validator.PhoneNumberValidator;
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,6 +35,9 @@ public class UserServiceImpl implements UserService {
     private final InternRepository internRepository;
     private final SupervisorRepository supervisorRepository;
     private final UserRepository userRepository;
+
+    @Autowired
+    private MailService mailService;
     
     private static final String ADMIN_ROLE = "ADMIN";
     private static final String SUPERVISOR_ROLE = "SUPERVISOR";
@@ -39,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserResponse saveUser(UserRequest request) {
+    public UserResponse saveUser(UserRequest request) throws MessagingException {
         if(!EmailValidator.isValidEmail(request.getEmail())) {
             throw new IllegalArgumentException("Invalid email address");
         }
@@ -63,6 +69,9 @@ public class UserServiceImpl implements UserService {
             admin.setPhone(request.getPhone());
             admin.setUser(user);
             Admin admin1 = adminRepository.save(admin);
+
+            mailService.userCreationMail(request.getEmail(), "Your Admin Account has been Created!", request);
+
             log.info("Admin Saved");
             return new UserResponse(admin1, user);
         } else if (request.getRole().equals(Role.SUPERVISOR)) {
@@ -72,6 +81,9 @@ public class UserServiceImpl implements UserService {
             supervisor.setPhone(request.getPhone());
             supervisor.setUser(user);
             Supervisor supervisor1 = supervisorRepository.save(supervisor);
+
+            mailService.userCreationMail(request.getEmail(), "Your Supervisor Account has been Created!", request);
+
             log.info("Supervisor Saved");
             return new UserResponse(supervisor1, user);
         } else if (request.getRole().equals(Role.INTERN)) {
@@ -86,6 +98,9 @@ public class UserServiceImpl implements UserService {
             Supervisor secondarySupervisor = supervisorRepository.findSupervisorById(request.getSecondarySupervisor());
             intern.setSecondarySupervisor(secondarySupervisor);
             Intern intern1= internRepository.save(intern);
+
+            mailService.userCreationMail(request.getEmail(), "Your Intern Account has been Created!", request);
+
             log.info("Intern Saved");
             return new UserResponse(intern1, user);
         }

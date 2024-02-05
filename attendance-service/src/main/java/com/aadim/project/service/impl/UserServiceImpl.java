@@ -326,7 +326,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.getReferenceById(request.getUserId());
         if (new BCryptPasswordEncoder().matches(request.getOldPassword(), user.getPassword())) {
             user.setPassword(new BCryptPasswordEncoder().encode(request.getNewPassword()));
-        } else {git
+        } else {
             log.warn("Old password didnt match");
             throw new RuntimeException("Old password doesn't match.");
         }

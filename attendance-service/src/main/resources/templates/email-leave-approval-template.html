@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aadim Innovation - Intern Leave Approval Confirmation</title>
+</head>
+<body>
+
+
+<p>Subject: Leave Approval Confirmation</p>
+
+<p>Dear <span th:text="${internName}"></span>,</p>
+
+I hope this message finds you well. I wanted to inform you that your leave request has been approved. You are granted leave from <span th:text="${startDate}"></span> to <span th:text="${endDate}"></span>.
+
+<p>If you have any questions or need further assistance, feel free to reach out.</p>
+
+Best regards,
+
+<p th:text="${supervisorEmail}"></p>
+<p>Aadim Innovation Center</p>
+
+</body>
+</html>

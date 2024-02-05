@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Aadim Innovation Center - Your Account has been Created!</title>
+</head>
+<body>
+<p th:text="${sub}"></p>
+
+Dear <span th:text="${name}"></span>,
+
+We are thrilled to welcome you to Aadim Innovation Center! Your account has been successfully created, and you are now part of our community.
+
+Login Details:
+
+Email: <span th:text="${email}"></span>
+Temporary Password: <span th:text="${password}"></span>
+Please log in using the provided credentials. Upon your first login, we recommend updating your password for security purposes.
+
+If you have any questions or encounter any issues, feel free to reach out to our support team.
+
+Thank you for choosing Aadim Innovation Center! We look forward to serving you.
+
+Best regards,
+
+<span th:text="${name}"></span>
+<span th:text="${position}"></span>
+Aadim Innovation Center
+
+</body>
+</html>

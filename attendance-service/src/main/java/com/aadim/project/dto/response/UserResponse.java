@@ -15,6 +15,9 @@ public class UserResponse {
     private String phone;
     private Role role;
     private FieldType fieldType;
+    private Supervisor primarySupervisor;
+    private Supervisor secondarySupervisor;
+    private Integer internId;
 
     public UserResponse(Admin admin1, User user) {
         this.userId = admin1.getId();
@@ -34,11 +37,14 @@ public class UserResponse {
 
 
     public UserResponse(Intern intern1, User login1) {
-        this.userId = intern1.getId();
+        this.userId = login1.getId();
+        this.internId = intern1.getId();
         this.fullName = intern1.getFullName();
         this.email = login1.getEmail();
         this.phone = intern1.getPhone();
         this.role = login1.getRole();
         this.fieldType = intern1.getFieldType();
+        this.primarySupervisor = intern1.getPrimarySupervisor();
+        this.secondarySupervisor = intern1.getSecondarySupervisor();
     }
 }

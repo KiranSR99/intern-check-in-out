@@ -9,6 +9,8 @@ import com.aadim.project.entity.*;
 import com.aadim.project.repository.*;
 import com.aadim.project.service.UserService;
 import com.aadim.project.validator.EmailValidator;
+import com.aadim.project.validator.PasswordValidator;
+import com.aadim.project.validator.PhoneNumberValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +42,12 @@ public class UserServiceImpl implements UserService {
         if(!EmailValidator.isValidEmail(request.getEmail())) {
             throw new IllegalArgumentException("Invalid email address");
         }
+        if (!PhoneNumberValidator.isValidPhoneNumber(request.getPhone())) {
+            throw  new IllegalArgumentException("Invalid phone number");
+        }
+//        if(!PasswordValidator.isValidPassword(request.getPassword())) {
+//            throw new IllegalArgumentException("Invalid Password");
+//        }
         log.info("Saving user");
         User user = new User();
         user.setEmail(request.getEmail());
@@ -81,7 +89,7 @@ public class UserServiceImpl implements UserService {
             return new UserResponse(intern1, user);
         }
         else {
-            throw new RuntimeException("Role not found");
+            throw new IllegalArgumentException("Role not found");
         }
     }
 
@@ -98,8 +106,11 @@ public class UserServiceImpl implements UserService {
             userResponse.setUserId(user.getId());
             Intern intern = internRepository.findInternByUserId(user.getId());
             if(intern != null) {
+                userResponse.setInternId(intern.getId());
                 userResponse.setFullName(intern.getFullName());
                 userResponse.setPhone(intern.getPhone());
+                userResponse.setPrimarySupervisor(intern.getPrimarySupervisor());
+                userResponse.setSecondarySupervisor(intern.getSecondarySupervisor());
                 userResponse.setFieldType(intern.getFieldType());
             }
             Supervisor supervisor = supervisorRepository.findSupervisorByUserId(user.getId());
@@ -139,6 +150,9 @@ public class UserServiceImpl implements UserService {
             userResponse.setPhone(supervisor.getPhone());
         } else if (user.getRole().toString().equals(INTERN_ROLE)) {
             Intern intern = internRepository.findInternByUserId(id);
+            userResponse.setInternId(intern.getId());
+            userResponse.setPrimarySupervisor(intern.getPrimarySupervisor());
+            userResponse.setSecondarySupervisor(intern.getSecondarySupervisor());
             userResponse.setPhone(intern.getPhone());
             userResponse.setFullName(intern.getFullName());
             userResponse.setFieldType(intern.getFieldType());
@@ -165,6 +179,9 @@ public class UserServiceImpl implements UserService {
             if (role.toString().equals(INTERN_ROLE)) {
                 Intern intern = internRepository.findInternByUserId(user.getId());
                 if (intern != null) {
+                    userResponse.setInternId(intern.getId());
+                    userResponse.setPrimarySupervisor(intern.getPrimarySupervisor());
+                    userResponse.setSecondarySupervisor(intern.getSecondarySupervisor());
                     userResponse.setFullName(intern.getFullName());
                     userResponse.setPhone(intern.getPhone());
                     userResponse.setFieldType(intern.getFieldType());

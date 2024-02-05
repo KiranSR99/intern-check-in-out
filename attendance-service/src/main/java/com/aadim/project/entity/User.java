@@ -31,6 +31,9 @@ public class User extends Auditable implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
+
 
     private boolean isActive = true;
 

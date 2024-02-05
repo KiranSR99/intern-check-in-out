@@ -1,7 +1,9 @@
 package com.aadim.project.security;
 
 import com.aadim.project.auditing.ApplicationAuditingAware;
+import com.aadim.project.service.LogoutService;
 import com.aadim.project.service.impl.UserDetailServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,37 +17,70 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
-    @Autowired
-    public JwtAuthFilter jwtAuthFilter;
+    public final JwtAuthFilter jwtAuthFilter;
+
+    private final LogoutHandler logoutHandler;
 
     @Bean
     public UserDetailsService userDetailsService(){return new UserDetailServiceImpl();}
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session->{
-                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-                }).authorizeHttpRequests(auth->{
-                    auth.requestMatchers("/api/v1/forgot-password/**").permitAll();
-                    auth.requestMatchers("/api/v1/login").permitAll();
-                    auth.requestMatchers("/api/v1/**").authenticated();
-                })
+        http.csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth ->
+                        auth
+                                .requestMatchers("/api/v1/forgot-password/**").permitAll()
+                                .requestMatchers("/api/v1/login").permitAll()
+                                .requestMatchers("/api/v1/**").authenticated()
+                )
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .logout(logout -> logout.logoutUrl("/api/v1/logout")
+                        .addLogoutHandler(logoutHandler)
+                        .logoutSuccessHandler(
+                                (request, response, authentication) -> SecurityContextHolder.clearContext()
+                        ));
+
+        return http.build();
     }
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http.csrf(AbstractHttpConfigurer::disable)
+//                .sessionManagement(session->{
+//                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//                }).authorizeHttpRequests(auth->{
+//                    auth.requestMatchers("/api/v1/forgot-password/**").permitAll();
+//                    auth.requestMatchers("/api/v1/login").permitAll();
+//                    auth.requestMatchers("/api/v1/**").authenticated();
+//                })
+//                .authenticationProvider(authenticationProvider())
+//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+//                .logout()
+//                .logoutUrl("api/vi/logout")
+//                .addLogoutHandler(logoutHandler)
+//                .logoutSuccessHandler(
+//                        (request, response, authentication) ->
+//                                SecurityContextHolder.clearContext()
+//                );
+//
+//        return http.build();
+//    }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

@@ -7,6 +7,7 @@ import com.aadim.project.dto.request.UserRequest;
 import com.aadim.project.dto.request.UserUpdateRequest;
 import com.aadim.project.entity.Role;
 import com.aadim.project.service.UserService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +26,13 @@ public class UserController extends BaseController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/saveUser")
-    public ResponseEntity<GlobalApiResponse> saveUser(@RequestBody UserRequest request){
+    public ResponseEntity<GlobalApiResponse> saveUser(@RequestBody UserRequest request) throws MessagingException {
         return successResponse(userService.saveUser(request), "User saved successfully");
     }
 
 
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+
     @GetMapping("/getAll")
     public ResponseEntity<GlobalApiResponse> getAllUser(){
         return successResponse(userService.getAllUser(), "User fetched successfully");
@@ -74,5 +75,10 @@ public class UserController extends BaseController {
     @PutMapping("/changePassword")
     public ResponseEntity<GlobalApiResponse> changePassword (@RequestBody PasswordRequest request) {
         return successResponse(userService.changePassword(request), "Password Reset Successful");
+    }
+
+    @GetMapping("/getInternsOfSupervisor")
+    public ResponseEntity<GlobalApiResponse> getInternsOfSupervisor() {
+        return successResponse(userService.getAllInternsOfSupervisor());
     }
 }

@@ -4,6 +4,7 @@ import com.aadim.project.dto.request.ForgotPasswordRequest;
 import com.aadim.project.dto.request.PasswordRequest;
 import com.aadim.project.dto.request.UserRequest;
 import com.aadim.project.dto.request.UserUpdateRequest;
+import com.aadim.project.dto.response.SupervisorResponse;
 import com.aadim.project.dto.response.UserResponse;
 import com.aadim.project.entity.*;
 import com.aadim.project.repository.*;
@@ -55,7 +56,7 @@ public class UserServiceImpl implements UserService {
         user.setRole(request.getRole());
         userRepository.save(user);
 
-        if(request.getRole().toString().equals(ADMIN_ROLE) ) {
+        if(request.getRole().equals(Role.ADMIN) ) {
             log.info("Role is Admin");
             Admin admin = new Admin();
             admin.setFullName(request.getFullName());
@@ -64,7 +65,7 @@ public class UserServiceImpl implements UserService {
             Admin admin1 = adminRepository.save(admin);
             log.info("Admin Saved");
             return new UserResponse(admin1, user);
-        } else if (Objects.equals(request.getRole().toString(), SUPERVISOR_ROLE)) {
+        } else if (request.getRole().equals(Role.SUPERVISOR)) {
             log.info("Role is Supervisor");
             Supervisor supervisor = new Supervisor();
             supervisor.setFullName(request.getFullName());
@@ -73,7 +74,7 @@ public class UserServiceImpl implements UserService {
             Supervisor supervisor1 = supervisorRepository.save(supervisor);
             log.info("Supervisor Saved");
             return new UserResponse(supervisor1, user);
-        } else if (Objects.equals(request.getRole().toString(), INTERN_ROLE)) {
+        } else if (request.getRole().equals(Role.INTERN)) {
             log.info("Role is Intern");
             Intern intern = new Intern();
             intern.setFullName(request.getFullName());
@@ -99,35 +100,56 @@ public class UserServiceImpl implements UserService {
         List<UserResponse> userResponses = new ArrayList<>();
         List<User> users = userRepository.findActiveUsers();
 
-        for( User user : users) {
+        for (User user : users) {
             UserResponse userResponse = new UserResponse();
             userResponse.setEmail(user.getEmail());
             userResponse.setRole(user.getRole());
             userResponse.setUserId(user.getId());
-            Intern intern = internRepository.findInternByUserId(user.getId());
-            if(intern != null) {
-                userResponse.setInternId(intern.getId());
-                userResponse.setFullName(intern.getFullName());
-                userResponse.setPhone(intern.getPhone());
-                userResponse.setPrimarySupervisor(intern.getPrimarySupervisor());
-                userResponse.setSecondarySupervisor(intern.getSecondarySupervisor());
-                userResponse.setFieldType(intern.getFieldType());
+
+            if (user.getRole().equals(Role.INTERN)) {
+                Intern intern = internRepository.findInternByUserId(user.getId());
+                if (intern != null) {
+                    userResponse.setInternId(intern.getId());
+                    userResponse.setFullName(intern.getFullName());
+                    userResponse.setPhone(intern.getPhone());
+                    userResponse.setPrimarySupervisor((mapSupervisorInfo(intern.getPrimarySupervisor())));
+                    userResponse.setSecondarySupervisor((mapSupervisorInfo(intern.getPrimarySupervisor())));
+                    userResponse.setFieldType(intern.getFieldType());
+                }
+            } else if (user.getRole().equals(Role.SUPERVISOR)) {
+                Supervisor supervisor = supervisorRepository.findSupervisorByUserId(user.getId());
+                if (supervisor != null) {
+                    userResponse.setFullName(supervisor.getFullName());
+                    userResponse.setPhone(supervisor.getPhone());
+                }
+            } else if (user.getRole().equals(Role.ADMIN)) {
+                Admin admin = adminRepository.findAdminByUserId(user.getId());
+                if (admin != null) {
+                    userResponse.setFullName(admin.getFullName());
+                    userResponse.setPhone(admin.getPhone());
+                }
             }
-            Supervisor supervisor = supervisorRepository.findSupervisorByUserId(user.getId());
-            if(supervisor != null) {
-                userResponse.setFullName(supervisor.getFullName());
-                userResponse.setPhone(supervisor.getPhone());
-            }
-            Admin admin = adminRepository.findAdminByUserId(user.getId());
-            if(admin != null) {
-                userResponse.setFullName(admin.getFullName());
-                userResponse.setPhone(admin.getPhone());
-            }
+
             userResponses.add(userResponse);
         }
         log.info("All users fetched successfully");
         return userResponses;
     }
+
+    private SupervisorResponse mapSupervisorInfo(Supervisor supervisor) {
+        if (supervisor != null) {
+            SupervisorResponse supervisorInfo = new SupervisorResponse();
+            supervisorInfo.setUserId(supervisor.getUser().getId());
+            supervisorInfo.setSupervisorId(supervisor.getId());
+            supervisorInfo.setFullName(supervisor.getFullName());
+            supervisorInfo.setEmail(supervisor.getUser().getEmail());
+            supervisorInfo.setPhone(supervisor.getPhone());
+            supervisorInfo.setRole(supervisor.getUser().getRole());
+            return supervisorInfo;
+        }
+        return null;
+    }
+
 
     @Override
     public UserResponse getUserById(Integer id) {
@@ -140,19 +162,19 @@ public class UserServiceImpl implements UserService {
         userResponse.setEmail(user.getEmail());
         userResponse.setRole(user.getRole());
         userResponse.setUserId(user.getId());
-        if(user.getRole().toString().equals(ADMIN_ROLE)) {
+        if(user.getRole().equals(Role.ADMIN)) {
             Admin admin = adminRepository.findAdminByUserId(id);
             userResponse.setPhone(admin.getPhone());
             userResponse.setFullName(admin.getFullName());
-        } else if (user.getRole().toString().equals(SUPERVISOR_ROLE)) {
+        } else if (user.getRole().equals(Role.SUPERVISOR)) {
             Supervisor supervisor = supervisorRepository.findSupervisorByUserId(id);
             userResponse.setFullName(supervisor.getFullName());
             userResponse.setPhone(supervisor.getPhone());
-        } else if (user.getRole().toString().equals(INTERN_ROLE)) {
+        } else if (user.getRole().equals(Role.INTERN)) {
             Intern intern = internRepository.findInternByUserId(id);
             userResponse.setInternId(intern.getId());
-            userResponse.setPrimarySupervisor(intern.getPrimarySupervisor());
-            userResponse.setSecondarySupervisor(intern.getSecondarySupervisor());
+            userResponse.setPrimarySupervisor((mapSupervisorInfo(intern.getPrimarySupervisor())));
+            userResponse.setSecondarySupervisor((mapSupervisorInfo(intern.getSecondarySupervisor())));
             userResponse.setPhone(intern.getPhone());
             userResponse.setFullName(intern.getFullName());
             userResponse.setFieldType(intern.getFieldType());
@@ -176,24 +198,24 @@ public class UserServiceImpl implements UserService {
             userResponse.setUserId(user.getId());
             userResponse.setEmail(user.getEmail());
             userResponse.setRole(user.getRole());
-            if (role.toString().equals(INTERN_ROLE)) {
+            if (role.equals(Role.INTERN)) {
                 Intern intern = internRepository.findInternByUserId(user.getId());
                 if (intern != null) {
                     userResponse.setInternId(intern.getId());
-                    userResponse.setPrimarySupervisor(intern.getPrimarySupervisor());
-                    userResponse.setSecondarySupervisor(intern.getSecondarySupervisor());
+                    userResponse.setPrimarySupervisor((mapSupervisorInfo(intern.getPrimarySupervisor())));
+                    userResponse.setSecondarySupervisor((mapSupervisorInfo(intern.getSecondarySupervisor())));
                     userResponse.setFullName(intern.getFullName());
                     userResponse.setPhone(intern.getPhone());
                     userResponse.setFieldType(intern.getFieldType());
                 }
-            } else if (role.toString().equals(SUPERVISOR_ROLE)) {
+            } else if (role.equals(Role.SUPERVISOR)) {
                 Supervisor supervisor = supervisorRepository.findSupervisorByUserId(user.getId());
                 if (supervisor != null) {
                     userResponse.setUserId(supervisor.getId());
                     userResponse.setFullName(supervisor.getFullName());
                     userResponse.setPhone(supervisor.getPhone());
                 }
-            } else if (role.toString().equals(ADMIN_ROLE)) {
+            } else if (role.equals(Role.ADMIN)) {
                 Admin admin = adminRepository.findAdminByUserId(user.getId());
                 if (admin != null) {
                     userResponse.setFullName(admin.getFullName());
@@ -216,19 +238,19 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("User not available");
         }
         Role role = user.getRole();
-        if(role.toString().equals(ADMIN_ROLE) ) {
+        if(role.equals(Role.ADMIN) ) {
             Admin admin = adminRepository.findAdminByUserId(request.getId());
             admin.setFullName(request.getFullName());
             admin.setPhone(request.getPhone());
             adminRepository.save(admin);
             return new UserResponse(admin, user);
-        } else if (role.toString().equals(SUPERVISOR_ROLE)) {
+        } else if (role.equals(Role.SUPERVISOR)) {
             Supervisor supervisor = supervisorRepository.findSupervisorByUserId(request.getId());
             supervisor.setFullName(request.getFullName());
             supervisor.setPhone(request.getPhone());
             supervisorRepository.save(supervisor);
             return new UserResponse(supervisor, user);
-        } else if(role.toString().equals(INTERN_ROLE)) {
+        } else if(role.equals(Role.INTERN)) {
             Intern intern = internRepository.findInternByUserId(request.getId());
             intern.setFullName(request.getFullName());
             intern.setPhone(request.getPhone());

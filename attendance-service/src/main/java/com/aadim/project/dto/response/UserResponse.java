@@ -15,9 +15,10 @@ public class UserResponse {
     private String phone;
     private Role role;
     private FieldType fieldType;
-    private Supervisor primarySupervisor;
-    private Supervisor secondarySupervisor;
+    private SupervisorResponse primarySupervisor;
+    private SupervisorResponse secondarySupervisor;
     private Integer internId;
+    private Integer supervisorId;
 
     public UserResponse(Admin admin1, User user) {
         this.userId = admin1.getId();
@@ -33,6 +34,7 @@ public class UserResponse {
         this.email = login1.getEmail();
         this.phone = supervisor1.getPhone();
         this.role = login1.getRole();
+        this.supervisorId = supervisor1.getId();
     }
 
 
@@ -44,7 +46,22 @@ public class UserResponse {
         this.phone = intern1.getPhone();
         this.role = login1.getRole();
         this.fieldType = intern1.getFieldType();
-        this.primarySupervisor = intern1.getPrimarySupervisor();
-        this.secondarySupervisor = intern1.getSecondarySupervisor();
+        this.primarySupervisor = mapSupervisorInfo(intern1.getPrimarySupervisor());
+        this.secondarySupervisor = mapSupervisorInfo(intern1.getSecondarySupervisor());
+    }
+
+    //helper method to map Supervisor to SupervisorResponse
+    private SupervisorResponse mapSupervisorInfo(Supervisor supervisor) {
+        if (supervisor != null) {
+            return new SupervisorResponse(
+                    supervisor.getUser().getId(),
+                    supervisor.getFullName(),
+                    supervisor.getUser().getEmail(),
+                    supervisor.getPhone(),
+                    supervisor.getUser().getRole(),
+                    supervisor.getId()
+            );
+        }
+        return null;
     }
 }

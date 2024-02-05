@@ -9,10 +9,10 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GlobalApiResponse<T> {
+public class GlobalApiResponse {
     private LocalDateTime timestamp;
     private String message;
-    private T data;
+    private Object data;
     private String status;
 
 }

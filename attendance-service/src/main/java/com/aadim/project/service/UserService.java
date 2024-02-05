@@ -4,6 +4,8 @@ import com.aadim.project.dto.request.ForgotPasswordRequest;
 import com.aadim.project.dto.request.PasswordRequest;
 import com.aadim.project.dto.request.UserRequest;
 import com.aadim.project.dto.request.UserUpdateRequest;
+import com.aadim.project.dto.response.SupervisorInfoResponse;
+import com.aadim.project.dto.response.SupervisorResponse;
 import com.aadim.project.dto.response.UserResponse;
 import com.aadim.project.entity.Role;
 import jakarta.mail.MessagingException;
@@ -30,4 +32,8 @@ public interface UserService {
 
     String changePasswordByEmail (ForgotPasswordRequest request);
 
+
+//    List<SupervisorResponse> getAllInternsBySupervisor();
+
+    List<SupervisorInfoResponse> getAllInternsOfSupervisor();
 }

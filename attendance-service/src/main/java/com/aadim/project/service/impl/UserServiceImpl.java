@@ -4,7 +4,9 @@ import com.aadim.project.dto.request.ForgotPasswordRequest;
 import com.aadim.project.dto.request.PasswordRequest;
 import com.aadim.project.dto.request.UserRequest;
 import com.aadim.project.dto.request.UserUpdateRequest;
+import com.aadim.project.dto.response.InternInfoResponse;
 import com.aadim.project.dto.response.SupervisorInfoResponse;
+import com.aadim.project.dto.response.SupervisorResponse;
 import com.aadim.project.dto.response.UserResponse;
 import com.aadim.project.entity.*;
 import com.aadim.project.repository.*;
@@ -12,7 +14,6 @@ import com.aadim.project.service.MailService;
 import com.aadim.project.service.UserService;
 import com.aadim.project.validator.EmailValidator;
 import com.aadim.project.validator.PasswordValidator;
-import com.aadim.project.validator.PhoneNumberValidator;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private MailService mailService;
-    
+
     private static final String ADMIN_ROLE = "ADMIN";
     private static final String SUPERVISOR_ROLE = "SUPERVISOR";
     private static final String INTERN_ROLE = "INTERN";
@@ -46,13 +47,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserResponse saveUser(UserRequest request) throws MessagingException {
-        if(!EmailValidator.isValidEmail(request.getEmail())) {
+        if (!EmailValidator.isValidEmail(request.getEmail())) {
             throw new IllegalArgumentException("Invalid email address");
         }
 //        if (!PhoneNumberValidator.isValidPhoneNumber(request.getPhone())) {
 //            throw  new IllegalArgumentException("Invalid phone number");
 //        }
-        if(!PasswordValidator.isValidPassword(request.getPassword())) {
+        if (!PasswordValidator.isValidPassword(request.getPassword())) {
             throw new IllegalArgumentException("Invalid Password");
         }
         log.info("Saving user");
@@ -62,7 +63,7 @@ public class UserServiceImpl implements UserService {
         user.setRole(request.getRole());
         userRepository.save(user);
 
-        if(request.getRole().equals(Role.ADMIN) ) {
+        if (request.getRole().equals(Role.ADMIN)) {
             log.info("Role is Admin");
             Admin admin = new Admin();
             admin.setFullName(request.getFullName());
@@ -97,14 +98,13 @@ public class UserServiceImpl implements UserService {
             intern.setPrimarySupervisor(primarySupervisor);
             Supervisor secondarySupervisor = supervisorRepository.findSupervisorById(request.getSecondarySupervisor());
             intern.setSecondarySupervisor(secondarySupervisor);
-            Intern intern1= internRepository.save(intern);
+            Intern intern1 = internRepository.save(intern);
 
             mailService.userCreationMail(request.getEmail(), "Your Intern Account has been Created!", request);
 
             log.info("Intern Saved");
             return new UserResponse(intern1, user);
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Role not found");
         }
     }
@@ -165,19 +165,33 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    private InternInfoResponse mapInternInfo(Intern intern) {
+        if (intern != null) {
+            InternInfoResponse internInfo = new InternInfoResponse();
+            internInfo.setUserId(intern.getUser().getId());
+            internInfo.setInternId(intern.getId());
+            internInfo.setFullName(intern.getFullName());
+            internInfo.setEmail(intern.getUser().getEmail());
+            internInfo.setPhone(intern.getPhone());
+            internInfo.setRole(intern.getUser().getRole());
+            return internInfo;
+        }
+        return null;
+    }
+
 
     @Override
     public UserResponse getUserById(Integer id) {
         log.info("Fetching user with id: " + id);
         User user = userRepository.getReferenceById(id);
-        if(!user.isActive()) {
+        if (!user.isActive()) {
             throw new UsernameNotFoundException("User not available");
         }
         UserResponse userResponse = new UserResponse();
         userResponse.setEmail(user.getEmail());
         userResponse.setRole(user.getRole());
         userResponse.setUserId(user.getId());
-        if(user.getRole().equals(Role.ADMIN)) {
+        if (user.getRole().equals(Role.ADMIN)) {
             Admin admin = adminRepository.findAdminByUserId(id);
             userResponse.setPhone(admin.getPhone());
             userResponse.setFullName(admin.getFullName());
@@ -202,13 +216,12 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
     public List<UserResponse> getAllUsersByRole(Role role) {
         log.info("Fetching all users of " + role);
         List<UserResponse> userResponses = new ArrayList<>();
         List<User> users = userRepository.findActiveUsersByRole(role);
-        for (User user: users) {
+        for (User user : users) {
             UserResponse userResponse = new UserResponse();
             userResponse.setUserId(user.getId());
             userResponse.setEmail(user.getEmail());
@@ -244,16 +257,14 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
-
     @Override
     public UserResponse updateUser(UserUpdateRequest request) {
         User user = userRepository.getReferenceById(request.getId());
-        if(!user.isActive()) {
+        if (!user.isActive()) {
             throw new RuntimeException("User not available");
         }
         Role role = user.getRole();
-        if(role.equals(Role.ADMIN) ) {
+        if (role.equals(Role.ADMIN)) {
             Admin admin = adminRepository.findAdminByUserId(request.getId());
             admin.setFullName(request.getFullName());
             admin.setPhone(request.getPhone());
@@ -265,7 +276,7 @@ public class UserServiceImpl implements UserService {
             supervisor.setPhone(request.getPhone());
             supervisorRepository.save(supervisor);
             return new UserResponse(supervisor, user);
-        } else if(role.equals(Role.INTERN)) {
+        } else if (role.equals(Role.INTERN)) {
             Intern intern = internRepository.findInternByUserId(request.getId());
             intern.setFullName(request.getFullName());
             intern.setPhone(request.getPhone());
@@ -273,7 +284,7 @@ public class UserServiceImpl implements UserService {
             internRepository.save(intern);
             return new UserResponse(intern, user);
         }
-        log.warn("Cannot update user with id : "+ request.getId());
+        log.warn("Cannot update user with id : " + request.getId());
         return null;
     }
 
@@ -281,18 +292,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public String deleteUser(Integer id) {
         log.info("Deleting user with id :" + id);
-        if(!userRepository.existsById(id)) {
+        if (!userRepository.existsById(id)) {
             log.warn("User with id " + id + "doesnt exist.");
             return "User doesnt exist.";
         }
         User user = userRepository.getReferenceById(id);
-        if(!user.isActive()) {
+        if (!user.isActive()) {
             log.warn("User with id " + id + "isn't active.");
             return "User is not active.";
         }
         user.setActive(false);
         Role role = user.getRole();
-        if(role.toString().equals(ADMIN_ROLE)) {
+        if (role.toString().equals(ADMIN_ROLE)) {
             Admin admin = adminRepository.findAdminByUserId(user.getId());
             admin.setIsActive(false);
             adminRepository.save(admin);
@@ -311,11 +322,10 @@ public class UserServiceImpl implements UserService {
 
 
     @Transactional
-    public String changePassword(PasswordRequest request)
-    {
+    public String changePassword(PasswordRequest request) {
         log.info("Changing Password");
         User user = userRepository.getReferenceById(request.getUserId());
-        if(new BCryptPasswordEncoder().matches(request.getOldPassword(), user.getPassword()) ) {
+        if (new BCryptPasswordEncoder().matches(request.getOldPassword(), user.getPassword())) {
             user.setPassword(new BCryptPasswordEncoder().encode(request.getNewPassword()));
         } else {
             log.warn("Old password didnt match");
@@ -326,19 +336,85 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public String changePasswordByEmail (ForgotPasswordRequest request) {
+    public String changePasswordByEmail(ForgotPasswordRequest request) {
         log.info("Changing Password by Email.");
-        if(userRepository.existsByEmail(request.getEmail())) {
+        if (userRepository.existsByEmail(request.getEmail())) {
             User user = userRepository.getUserByEmail(request.getEmail());
             if (user.isActive()) {
                 user.setPassword(new BCryptPasswordEncoder().encode(request.getNewPassword()));
                 log.info("Password updated successfully");
                 return "Password updated successfully";
-            }
-            else return "User is inActive. Couldn't change password.";
+            } else return "User is inActive. Couldn't change password.";
         }
         log.warn("User with email " + request.getEmail() + " doesn't exist.");
         return "User with email " + request.getEmail() + " doesn't exist.";
     }
+
+
+//    @Override
+//    public List<SupervisorResponse> getAllInternsBySupervisor() {
+//        log.info("Fetching All Interns by Supervisor");
+//        List<SupervisorResponse> supervisorResponses = new ArrayList<>();
+//        List<Supervisor> supervisorList = supervisorRepository.findActiveSupervisors();
+//
+//        for (Supervisor supervisor : supervisorList) {
+//            SupervisorResponse supervisorResponse = new SupervisorResponse();
+//            supervisorResponse.setSupervisorInfoResponse(mapSupervisorInfo(supervisor));
+//
+//            List<Intern> internList = internRepository.findActiveInternsBySupervisor(supervisor);
+//            List<InternInfoResponse> internInfoResponses = new ArrayList<>();
+//
+//            for (Intern intern : internList) {
+//                InternInfoResponse internInfoResponse = new InternInfoResponse();
+//                internInfoResponse.setUserId(intern.getUser().getId());
+//                internInfoResponse.setInternId(intern.getId());
+//                internInfoResponse.setEmail(intern.getUser().getEmail());
+//                internInfoResponse.setPhone(intern.getPhone());
+//                internInfoResponse.setRole(intern.getUser().getRole());
+//                internInfoResponse.setFieldType(intern.getFieldType());
+//                internInfoResponses.add(internInfoResponse);
+//            }
+//
+//            supervisorResponse.setInternInfoResponses(internInfoResponses);
+//            supervisorResponses.add(supervisorResponse);
+//        }
+//
+//        log.info("Fetched All Interns by Supervisor");
+//        return supervisorResponses;
+//    }
+
+
+    @Override
+    public List<SupervisorInfoResponse> getAllInternsOfSupervisor() {
+        log.info("Fetching All Interns by Supervisor");
+        List<SupervisorInfoResponse> supervisorResponses = new ArrayList<>();
+        List<Supervisor> supervisorList = supervisorRepository.findActiveSupervisors();
+
+        for (Supervisor supervisor : supervisorList) {
+            SupervisorInfoResponse supervisorResponse = mapSupervisorInfo(supervisor); // Corrected line
+
+            List<Intern> internList = internRepository.findActiveInternsBySupervisor(supervisor);
+            List<InternInfoResponse> internInfoResponses = new ArrayList<>();
+
+            for (Intern intern : internList) {
+                InternInfoResponse internInfoResponse = new InternInfoResponse();
+                internInfoResponse.setUserId(intern.getUser().getId());
+                internInfoResponse.setFullName(intern.getFullName());
+                internInfoResponse.setInternId(intern.getId());
+                internInfoResponse.setEmail(intern.getUser().getEmail());
+                internInfoResponse.setPhone(intern.getPhone());
+                internInfoResponse.setRole(intern.getUser().getRole());
+                internInfoResponse.setFieldType(intern.getFieldType());
+                internInfoResponses.add(internInfoResponse);
+            }
+
+            supervisorResponse.setInternInfoResponses(internInfoResponses);
+            supervisorResponses.add(supervisorResponse);
+        }
+
+        log.info("Fetched All Interns by Supervisor");
+        return supervisorResponses;
+    }
+
 
 }

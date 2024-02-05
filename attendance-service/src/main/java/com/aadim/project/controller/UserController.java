@@ -76,4 +76,9 @@ public class UserController extends BaseController {
     public ResponseEntity<GlobalApiResponse> changePassword (@RequestBody PasswordRequest request) {
         return successResponse(userService.changePassword(request), "Password Reset Successful");
     }
+
+    @GetMapping("/getInternsOfSupervisor")
+    public ResponseEntity<GlobalApiResponse> getInternsOfSupervisor() {
+        return successResponse(userService.getAllInternsOfSupervisor());
+    }
 }

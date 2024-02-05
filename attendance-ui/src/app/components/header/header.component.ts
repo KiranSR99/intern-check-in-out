@@ -46,14 +46,6 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
-  onLeaveRequestClick() {
-    if (this.userRole == 'INTERN') {
-      this.router.navigate(['/app/log-mgnt/leave-request']);
-    } else {
-      this.router.navigate(['/app/log-mgnt/leave-request-list']);
-    }
-  }
-
   onProfileClick(userId: any){
     this.router.navigate(['/app/user-mgnt/user-profile/', userId])
   }

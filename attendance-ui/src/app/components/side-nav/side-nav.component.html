@@ -9,7 +9,7 @@
                 <ul class="menu-items">
                     <ng-container *ngFor="let m of menus">
                         <!-- <li class="sub-menu-btn" (click)="onClickMenu(m.url)"> -->
-                        <li class="sub-menu-btn" routerLinkActive="active" [routerLink]="[m.url]">
+                        <li class="sub-menu-btn" (click)="onClickMenu(m)" routerLinkActive="active" [routerLink]="[m.url]">
                             <i [class]="m.icon"></i>
                             <span class="ms-2">{{m.title}}</span>
                         </li>

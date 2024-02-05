@@ -1,7 +1,9 @@
 package com.aadim.project.service.impl;
 
 import com.aadim.project.dto.request.LeaveRequest;
+import com.aadim.project.dto.request.UserRequest;
 import com.aadim.project.entity.Intern;
+import com.aadim.project.entity.Leave;
 import com.aadim.project.service.MailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -74,5 +76,45 @@ public class MailServiceImpl implements MailService {
         helper.setText(htmlContent,true);
         javaMailSender.send(message);
         log.info("Mail sent successfully");
+    }
+
+    @Async
+    @Override
+    public void leaveResponseMail(String to, String sub, Leave leave) throws MessagingException {
+        log.info("Sending leave response mail to Intern");
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message,true,"UTF-8");
+        helper.setTo(to);
+        helper.setSubject(sub);
+        Context context = new Context();
+        context.setVariable("startDate", leave.getStartDate());
+        context.setVariable("endDate", leave.getEndDate());
+        context.setVariable("internName", leave.getInternId().getFullName());
+        context.setVariable("supervisorEmail", leave.getUpdatedBy());
+        String htmlContent = templateEngine.process("email-leave-approval-template.html",
+                context);
+        helper.setText(htmlContent,true);
+        javaMailSender.send(message);
+        log.info("Mail sent successfully");
+    }
+
+    @Async
+    @Override
+    public void userCreationMail(String to, String sub, UserRequest userRequest) throws MessagingException {
+        log.info("Sending user creation mail..");
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
+        helper.setTo(to);
+        helper.setSubject(sub);
+        Context context = new Context();
+        context.setVariable("name", userRequest.getFullName());
+        context.setVariable("email", to);
+        context.setVariable("password", userRequest.getPassword());
+        context.setVariable("position", userRequest.getRole());
+        String htmlContent = templateEngine.process("user-creation-mail-template.html",
+                context);
+        helper.setText(htmlContent,true);
+        javaMailSender.send(message);
+        log.info("Mail sent to user successfully");
     }
 }

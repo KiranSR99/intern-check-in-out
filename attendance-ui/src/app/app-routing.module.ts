@@ -59,7 +59,7 @@ const routes: Routes = [
         children: [
           { path: 'add-log', component: AddLogComponent },
           { path: 'intern-log', component: InternLogComponent },
-          { path: 'edit-log/:id', component: EditLogComponent },
+          { path: 'edit-log/:taskId', component: EditLogComponent },
           { path: 'leave-request', component: LeaveRequestComponent },
           { path: 'create-new/:id', component: CreateLeaveRequestComponent },
           { path: 'leave-request-list', component: LeaveRequestListComponent },

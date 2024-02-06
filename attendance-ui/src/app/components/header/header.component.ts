@@ -42,19 +42,16 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     // Remove token from local storage
-    localStorage.clear();
-    this.router.navigate(['/']);
+    this.httpHandler.logout().subscribe({
+      next: (response: any) => {
+        localStorage.clear();
+        console.log('Logout successful.');
+        this.router.navigate(['/login']);
+      },
+    });
   }
 
-  onLeaveRequestClick() {
-    if (this.userRole == 'INTERN') {
-      this.router.navigate(['/app/log-mgnt/leave-request']);
-    } else {
-      this.router.navigate(['/app/log-mgnt/leave-request-list']);
-    }
-  }
-
-  onProfileClick(userId: any){
-    this.router.navigate(['/app/user-mgnt/user-profile/', userId])
+  onProfileClick(userId: any) {
+    this.router.navigate(['/app/user-mgnt/user-profile/', userId]);
   }
 }

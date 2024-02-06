@@ -1,0 +1,10 @@
+@media (max-width: 768px) {
+    .buttons {
+        display: grid;
+        grid-template-columns: 30% 70%;
+    }
+
+    .title-text {
+        font-size: 20px;
+    }
+}

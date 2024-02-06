@@ -1,7 +1,12 @@
 .header {
+  width: calc(100% - 280px);
   height: 60px;
+  float: right;
+  position: fixed;
+  top: 0;
+  right: 0;
   z-index: 1;
-  background-color: #6E3098;
+  background-color: #6e3098;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -26,14 +31,27 @@
   margin-right: 10px;
 }
 
-li, .dropdown-item {
+li,
+.dropdown-item {
   cursor: pointer;
 }
 
 .dropdown-item:hover {
-  color: #6E3098 !important;
+  color: #6e3098 !important;
 }
 
-.user-profile a{
+.user-profile a {
   text-decoration: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .header {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .header {
+    width: 100%;
+  }
 }

@@ -4,6 +4,8 @@ import com.aadim.project.entity.Supervisor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface SupervisorRepository extends JpaRepository<Supervisor, Integer> {
     @Query("SELECT s FROM Supervisor s WHERE s.isActive = true")
     Supervisor getSupervisorByIsActive();
@@ -12,4 +14,7 @@ public interface SupervisorRepository extends JpaRepository<Supervisor, Integer>
     Supervisor findSupervisorByUserId(Integer id);
 
     Supervisor findSupervisorById(Integer primarySupervisor);
+
+    @Query("SELECT s FROM Supervisor s WHERE s.isActive = true ")
+    List<Supervisor> findActiveSupervisors();
 }

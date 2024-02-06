@@ -11,6 +11,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,6 +54,11 @@ public class GlobalExceptionHandler extends BaseController {
     public ResponseEntity<GlobalApiResponse> handleException(Exception e){
         return errorResponse(HttpStatus.BAD_REQUEST, e.getMessage(), e);
     }
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<GlobalApiResponse> handleExpiredTokenException(Exception e){
+        return errorResponse(HttpStatus.FORBIDDEN, e.getMessage(), e);
+    }
+
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<GlobalApiResponse> handleAccessDenied(AccessDeniedException ex) {

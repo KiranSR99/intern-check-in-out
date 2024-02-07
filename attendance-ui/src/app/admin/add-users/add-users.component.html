@@ -49,38 +49,52 @@
 
             <div class="col-md-6 col-sm-12">
               <label>Role</label>
-              <select formControlName="role" name="role" id="role" class="form-control" (change)="onRoleChange($event)"
-                required>
-                <option value="" hidden>Select Role</option>
-                <option *ngFor="let getRole of roles" [ngValue]="getRole.id">{{getRole.name}}</option>
-              </select>
-
+              <div class="dropdown">
+                <button class="btn dropdown-toggle form-control" type="button" id="roleDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                  Select Role
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="roleDropdown">
+                  <li *ngFor="let getRole of roles">
+                    <button class="dropdown-item" type="button" (click)="userDetails.patchValue({ role: getRole.id })">{{getRole.name}}</button>
+                  </li>
+                </ul>
+              </div>
               <div class="text-danger" *ngIf="userDetails.get('role')?.invalid && userDetails.get('role')?.touched">
                 <small>Please select a role.</small>
               </div>
             </div>
 
-
             <div class="col-md-6 col-sm-12" *ngIf="showFieldInput()">
               <label>Field</label>
-              <select formControlName="fieldType" name="fieldType" id="fieldType" class="form-control" required>
-                <option value="" hidden>Select Field</option>
-                <option value="FRONTEND">Frontend</option>
-                <option value="BACKEND">Backend</option>
-              </select>
-              <div class="text-danger"
-                *ngIf="userDetails.get('fieldType')?.invalid && userDetails.get('fieldType')?.touched">
+              <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="fieldDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                  Select Field
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="fieldDropdown">
+                  <li>
+                    <button class="dropdown-item" type="button" (click)="userDetails.patchValue({ fieldType: 'FRONTEND' })">Frontend</button>
+                  </li>
+                  <li>
+                    <button class="dropdown-item" type="button" (click)="userDetails.patchValue({ fieldType: 'BACKEND' })">Backend</button>
+                  </li>
+                </ul>
+              </div>
+              <div class="text-danger" *ngIf="userDetails.get('fieldType')?.invalid && userDetails.get('fieldType')?.touched">
                 <small>Please select a field.</small>
               </div>
             </div>
 
             <div class="col-md-6 col-sm-12" *ngIf="showPrimarySupervisor()">
               <label>Primary Supervisor</label>
-              <select formControlName="primarySupervisor" class="form-control" required>
-                <option value="" hidden>Select Primary Supervisor</option>
-                <option *ngFor="let supervisor of supervisors" [ngValue]="supervisor.userId">{{supervisor.fullName}}
-                </option>
-              </select>
+              <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="roleDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                </button>
+                <select formControlName="primarySupervisor" class="form-control" required>
+                  <option value="" hidden>Select Primary Supervisor</option>
+                  <option *ngFor="let supervisor of supervisors" [ngValue]="supervisor.userId">{{supervisor.fullName}}
+                  </option>
+                </select>
+              </div>
               <div class="text-danger"
                 *ngIf="userDetails.get('primarySupervisor')?.touched && userDetails.get('primarySupervisor')?.invalid">
                 <small>Please select a Primary Supervisor.</small>
@@ -100,20 +114,16 @@
               </div>
             </div>
 
-
-
           </div>
           <hr class="mt-3 mb-3" />
 
-          <div class="row">
-            <div class="col-sm-6">
+          <div class="row buttons">
+            <div class="col-sm-12 col-md-6">
               <button class="btn btn-outline-danger btn-sm" type="button" (click)="cancel()">Cancel</button>
             </div>
-            <div class="col-sm-6 text-end">
+            <div class="col-sm-12 col-md-6 text-end">
               <button class="btn btn-outline-success btn-sm mx-3" type="button" (click)="onSubmit()">Submit</button>
-
             </div>
-
           </div>
         </div>
       </form>

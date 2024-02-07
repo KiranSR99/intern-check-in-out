@@ -23,6 +23,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
             """)
     Optional<Schedule> findByInternIdAndCheckOutTimeIsNull(Integer internId);
 
+
 //    @Query(
 //            nativeQuery = true,
 //            value = """
@@ -35,6 +36,14 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
 //                       join tasks t on s.id  = t.schedule_id
 //            """)
 //    List<Map<String, Object>> getInternDetail(Pageable pageable);
+
+    @Query(value = "select i.id, i.full_name, i.field_type, s.check_in_time, s.check_out_time,\n" +
+            "                       t.task, t.status ,t.time_taken , t.problem\n" +
+            "                       from intern i\n" +
+            "                        join users u on u.id  = i.user_id\n" +
+            "                        join schedule s on s.intern_id = i.id\n" +
+            "                       join tasks t on s.id  = t.schedule_id", nativeQuery = true)
+    List<Map<String, Object>> getInternDetail();
 
     @Query(
             nativeQuery = true,

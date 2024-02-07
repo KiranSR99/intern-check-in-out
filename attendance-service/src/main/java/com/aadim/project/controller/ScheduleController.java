@@ -40,6 +40,7 @@ public class ScheduleController extends BaseController {
 //        return successResponse(scheduleService.fetchAllByUserId(userId), "Data fetched successfully");
 //    }
 
+
 //    @PreAuthorize("hasAuthority('INTERN')")
 //    @GetMapping("/details")
 //    public List<Map<String, Object>> getInternDetail(
@@ -49,5 +50,12 @@ public class ScheduleController extends BaseController {
 //         return scheduleService.getInternDetail(page, size);
 //
 //    }
+
+
+    @GetMapping("/details")
+    public ResponseEntity<?> getInternDetail() {
+        return ResponseEntity.ok(scheduleService.getInternDetail());
+    }
+
 }
 

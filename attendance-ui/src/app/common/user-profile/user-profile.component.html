@@ -1,29 +1,56 @@
-<div class="container d-flex justify-content-center align-items-center">
-    <div class="card">
-        <div class="card-body p-5" style="width: 500px;">
-            <div *ngIf="userProfile">
-                <div class="text-center">
-                    <img src="assets/images/cat.png" alt="User Profile" class="img-fluid mb-2"
-                        style="height: 50px; width: 50px" />
+<div class="container d-flex justify-content-center align-items-center mt-4">
+    <div class="rounded bg-light p-3 p-md-5" style="max-width: 700px;">
+        <div *ngIf="userProfile">
+            <div class="text-center">
+                <img src="assets/images/cat.png" alt="User Profile" class="img-fluid mb-2"
+                    style="height: 50px; width: 50px" />
+            </div>
+            <h3 class="card-title text-center mb-4 text-warning">My Profile</h3>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><b>Name:</b> {{ userProfile.fullName }}</p>
                 </div>
-                <h2 class="card-title text-center mb-3">Your Profile</h2>
-                <div>
-                    <p><b>Name: </b> {{ userProfile.fullName }}</p>
+                <div class="col-md-6">
+                    <p><b>Email:</b> {{ userProfile.email }}</p>
                 </div>
-                <div>
-                    <p><b>Email: </b> {{ userProfile.email }}</p>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><b>Contact:</b> {{ userProfile.phone }}</p>
                 </div>
-                <div>
-                    <p><b>Contact: </b> {{ userProfile.phone }}</p>
+                <div class="col-md-6">
+                    <p><b>Role:</b> {{ userProfile.role }}</p>
                 </div>
-                <div>
-                    <p><b>Role: </b> {{ this.roleName }}</p>
+            </div>
+
+            <div class="row mb-3" *ngIf="roleName == 'INTERN'">
+                <div class="col-md-6">
+                    <p><b>Field:</b> {{ userProfile.fieldType }}</p>
                 </div>
-                <button class="btn btn-outline-danger mt-3 float-start" (click)="cancel()"> <i
-                        class="fa fa-backward"></i> Back </button>
-                <button class="btn btn-outline-primary mt-3 float-end" (click)="editProfileById(userProfile.userId)">
-                    <i class="fa fa-pen-to-square"></i> Edit profile
-                </button>
+            </div>
+
+            <div class="row mb-3" *ngIf="roleName == 'INTERN'">
+                <div class="col-md-6">
+                    <p><b>Primary Supervisor:</b> {{ userProfile.primarySupervisor.fullName }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><b>Secondary Supervisor:</b> {{ userProfile.secondarySupervisor.fullName }}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <button class="btn mb-3  btn-outline-primary w-100 float-md-end"
+                        (click)="editProfileById(userProfile.userId)">
+                        <i class="fa fa-pen-to-square"></i> Edit profile
+                    </button>
+                </div>
+
+                <div class="col-md-6 mb-md-0">
+                    <button class="btn btn-outline-danger w-100" (click)="cancel()"> <i
+                            class="fa-solid fa-arrow-left"></i> Back </button>
+                </div>
             </div>
         </div>
     </div>

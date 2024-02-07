@@ -1,12 +1,11 @@
-<!-- user-details.component.html -->
 <div class="wrapper">
     <!-- User details table -->
     <div class="container">
         <div class="row">
             <div class="col">
-                <div class="d-flex justify-content-between">
-                    <h3 class="text-warning">Users List</h3>
-                    <div class="input-group col-3" style="width: 250px;">
+                <div class="header-box d-flex flex-wrap justify-content-between align-items-center">
+                    <h3 class="text-warning mb-0 col-lg-6 col-md-12">Users List</h3>
+                    <div class="input-group col-lg-6 col-md-12 search-field" style="max-width: 250px;">
                         <input type="search" class="form-control" [(ngModel)]="searchText" placeholder="Search..."
                             aria-label="Search">
                         <button class="btn btn-warning" type="button" id="button-addon2">
@@ -16,31 +15,33 @@
                 </div>
                 <hr>
 
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover text-center">
-                        <thead class="table-primary">
-                            <tr>
-                                <th>S.N</th>
-                                <th>Full Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Role</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <ng-container
-                                *ngFor="let item of userDetailsData |searchFilter:searchText; let per_i = index">
-                                <!-- User details -->
-                                <tr *ngIf="item.role !== 'ADMIN'">
-                                    <td>{{ per_i + 1 }}</td>
-                                    <td>{{ item.fullName }}</td>
-                                    <td>{{ item.email }}</td>
-                                    <td>{{ item.phone }}</td>
-                                    <td>{{ item.role }}</td>
+                <div class="table-container custom-tbl">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover text-center">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>S.N</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Role</th>
                                 </tr>
-                            </ng-container>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <ng-container
+                                    *ngFor="let item of userDetailsData | searchFilter:searchText; let per_i = index">
+                                    <!-- User details -->
+                                    <tr *ngIf="item.role !== 'ADMIN'">
+                                        <td>{{ per_i + 1 }}</td>
+                                        <td>{{ item.fullName }}</td>
+                                        <td>{{ item.email }}</td>
+                                        <td>{{ item.phone }}</td>
+                                        <td>{{ item.role }}</td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

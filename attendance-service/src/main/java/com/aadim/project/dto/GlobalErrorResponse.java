@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GlobalErrorResponse<T> {
+public class GlobalErrorResponse {
     private LocalDateTime timestamp;
     private String message;
-    private T data;
+    private Object data;
     private String status;
 }

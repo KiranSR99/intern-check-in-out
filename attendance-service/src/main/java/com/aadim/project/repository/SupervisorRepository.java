@@ -1,6 +1,8 @@
 package com.aadim.project.repository;
 
 import com.aadim.project.entity.Supervisor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -16,5 +18,5 @@ public interface SupervisorRepository extends JpaRepository<Supervisor, Integer>
     Supervisor findSupervisorById(Integer primarySupervisor);
 
     @Query("SELECT s FROM Supervisor s WHERE s.isActive = true ")
-    List<Supervisor> findActiveSupervisors();
+    Page<Supervisor> findActiveSupervisors(Pageable pageable);
 }

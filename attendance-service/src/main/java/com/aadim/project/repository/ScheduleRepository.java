@@ -70,13 +70,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     Schedule getLatestScheduleForTasksByInternId(Integer intern_id);
 
 
-//    @Query(
-//            nativeQuery = true,
-//           value = """
-//select isActive from schedule s where s.is_active=true
-//"""
-//    )
-//        Boolean getStatus();
 
     
 

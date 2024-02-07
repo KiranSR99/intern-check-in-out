@@ -60,10 +60,11 @@ public class ScheduleController extends BaseController {
         return ResponseEntity.ok(scheduleService.getInternDetail( page, size));
     }
 
-//    @GetMapping("/checkStatus")
-//    public ResponseEntity<GlobalApiResponse> getStatus(){
-//        return ResponseEntity.ok(scheduleService.getStatus());
-//    }
+
+    @GetMapping("/getStatusOfCheckin/{userId}")
+    public ResponseEntity<GlobalApiResponse> getStatusOfCheckin (@PathVariable Integer userId) {
+        return successResponse(scheduleService.getStatusOfSchedule(userId));
+    }
 
 }
 

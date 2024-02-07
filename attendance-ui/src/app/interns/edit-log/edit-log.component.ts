@@ -54,20 +54,6 @@ export class EditLogComponent {
     return this.logDetails.get('multiLogDetails') as FormArray;
   }
 
-  addmultiLogDetails() {
-    this.multiLogDetails.push(
-      this.formBuilder.group({
-        task: ['', Validators.required],
-        status: ['', Validators.required],
-        timeTaken: ['', Validators.required],
-        problem: ['', Validators.required],
-        userId: this.userId,
-        taskId: this.taskId,
-      })
-    );
-    console.log('form details:', this.logDetails.value);
-    this.showDeleteButton = true;
-  }
 
   editLog(id: number) {
     console.log('Fetching log data for ID:', id);

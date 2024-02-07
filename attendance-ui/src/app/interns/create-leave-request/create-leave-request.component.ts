@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from '../../services/http-handler.service';
 import { ToastService } from '../../services/toast.service';
@@ -26,8 +26,8 @@ export class CreateLeaveRequestComponent implements OnInit {
     //Initialization
     this.leaveDetail = this.fb.group({
       noOfDays: ['', Validators.required],
-      startDate: ['', [Validators.required]],
-      endDate: ['', Validators.required],
+      startDate: ['', [Validators.required, this.dateValidator]],
+      endDate: ['',[ Validators.required, this.dateValidator]],
       reason: ['', Validators.required],
       internId: this.internId
     });
@@ -53,4 +53,18 @@ export class CreateLeaveRequestComponent implements OnInit {
       this.leaveDetail.markAllAsTouched();
     }
   }
+
+  dateValidator(control: FormControl): { [key: string]: boolean } | null {
+    const selectedDate: Date = new Date(control.value);
+    const today: Date = new Date();
+    today.setHours(0, 0, 0, 0);
+  
+    // Check if selected date is a future date (excluding weekends)
+    if (selectedDate > today && selectedDate.getDay() !== 0 && selectedDate.getDay() !== 6) {
+      return null; // Valid date
+    }
+  
+    return { invalidDate: true }; // Invalid date
+  }
+  
 }

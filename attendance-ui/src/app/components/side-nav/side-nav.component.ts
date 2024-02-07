@@ -32,7 +32,7 @@ export class SideNavComponent {
     },
     {
       title: 'Log Management',
-      roleAccess: [RoleEnum.INTERN, RoleEnum.SUPERVISOR],
+      roleAccess: [RoleEnum.ALL],
       url: '/app/log-mgnt',
       icon: 'fa-solid fa-list-check',
     },
@@ -44,7 +44,7 @@ export class SideNavComponent {
     },
     {
       title: 'Leave Request',
-      roleAccess: [RoleEnum.INTERN, RoleEnum.SUPERVISOR],
+      roleAccess: [RoleEnum.ALL],
       url: '/app/log-mgnt/leave-request',
       icon: 'fa-regular fa-calendar-xmark',
     }

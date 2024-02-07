@@ -107,6 +107,16 @@ public class LeaveServiceImpl implements LeaveService {
         Leave leave = leaveRepository.getReferenceById(id);
         leave.setStatus("Approved");
         log.info("Leave status Approved successfully");
+
+        try{
+            log.info("Responding Leave Request Approved Mail");
+            mailServiceImpl.sendMail(
+                    leave.getCreatedBy(),
+                    "Leave Approval Confirmation", "Dear "+leave.getCreatedBy()+"\n I hope this message finds you well. I wanted to inform you that your leave request has been approved."
+            );
+        }catch (MessagingException msg){
+            log.error("Error while responding leave request approved mail");
+        }
         return new LeaveResponse(leaveRepository.save(leave));
     }
 
@@ -116,6 +126,16 @@ public class LeaveServiceImpl implements LeaveService {
         Leave leave = leaveRepository.getReferenceById(id);
         leave.setStatus("Declined");
         log.info("Leave status Decline successfully");
+
+        try{
+            log.info("Responding Leave Request Declined Mail");
+            mailServiceImpl.sendMail(
+                    leave.getCreatedBy(),
+                    "Leave Approval Confirmation", "Dear "+leave.getCreatedBy()+"\nI hope this message finds you well. I wanted to inform you that your leave request has been declined."
+            );
+        }catch (MessagingException msg){
+            log.error("Error while responding leave request Declined mail");
+        }
         return new LeaveResponse(leaveRepository.save(leave));
     }
 

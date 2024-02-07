@@ -19,9 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 @Service
 @Slf4j
@@ -102,9 +100,43 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Transactional
-    public List<Map<String, Object>> getInternDetail() {
-        return scheduleRepository.getInternDetail();
+    public List<Object> getInternDetail() {
+        List<Map<String, Object>> internDetails = scheduleRepository.getInternDetail();
+        Map<String, Map<String, Object>> responseMap = new HashMap<>();
+
+        internDetails.forEach(detail -> {
+            String id = String.valueOf(detail.get("id"));
+            String checkInTime = String.valueOf(detail.get("check_in_time"));
+            String uniqueKey = id + "_" + checkInTime; // Unique key for id and check-in time combination
+
+            responseMap.computeIfAbsent(uniqueKey, k -> createNewEntry(detail))
+                    .computeIfAbsent("assignedTasks", k -> new ArrayList<>());
+            ((List<Map<String, Object>>) responseMap.get(uniqueKey).get("assignedTasks")).add(createTask(detail));
+        });
+
+        return new ArrayList<>(responseMap.values());
     }
+
+    private Map<String, Object> createNewEntry(Map<String, Object> detail) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", detail.get("id"));
+        data.put("full_name", detail.get("full_name"));
+        data.put("check_in_time", detail.get("check_in_time"));
+        data.put("check_out_time", detail.get("check_out_time"));
+        return data;
+    }
+
+    private Map<String, Object> createTask(Map<String, Object> detail) {
+        Map<String, Object> task = new HashMap<>();
+        task.put("task", detail.get("task"));
+        task.put("field_type", detail.get("field_type"));
+        task.put("problem", detail.get("problem"));
+        task.put("status", detail.get("status"));
+        task.put("time_taken", detail.get("time_taken"));
+        return task;
+    }
+
+
 
 
 

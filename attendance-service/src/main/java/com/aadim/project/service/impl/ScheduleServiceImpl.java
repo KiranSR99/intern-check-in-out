@@ -110,8 +110,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 //    }
 
     @Transactional
-    public List<Object> getInternDetail() {
-        List<Map<String, Object>> internDetails = scheduleRepository.getInternDetail();
+    public List<Object> getInternDetail( int page, int size) {
+//        LocalDateTime now = LocalDateTime.now();
+    PageRequest request = PageRequest.of(page, size);
+        List<Map<String, Object>> internDetails = scheduleRepository.getInternDetail(request);
+
         Map<String, Map<String, Object>> responseMap = new HashMap<>();
 
         internDetails.forEach(detail -> {

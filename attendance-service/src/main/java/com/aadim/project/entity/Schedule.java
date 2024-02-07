@@ -19,6 +19,8 @@ public class Schedule extends Auditable {
 
     private LocalDateTime checkInTime;
     private LocalDateTime checkOutTime;
+
+//    private boolean isActive;
 //    @PrePersist
 //    public void prePersist() {
 //        this.checkInTime = LocalDateTime.now();

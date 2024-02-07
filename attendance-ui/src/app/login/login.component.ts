@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   button: any;
   loginDetail!: FormGroup;
   token: string = '';
+  passwordVisibility: boolean = false;
 
   constructor(
     private router: Router,
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit {
   
   ngOnInit(): void {
     this.loginDetail = this.formBuilder.group({
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
   }
@@ -49,7 +50,9 @@ export class LoginComponent implements OnInit {
     );
     
   }
-
+  togglePasswordVisibility(): void {
+    this.passwordVisibility = !this.passwordVisibility;
+  }
 
   
 }

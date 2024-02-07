@@ -3,15 +3,9 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/cico
 
-
     username: postgres
     password: root
-<<<<<<< HEAD
 
-
-
-=======
->>>>>>> 922068e0a1cb0b1d5b8d75bb0a1d1b41bffb7807
     driver-class-name: org.postgresql.Driver
   jpa:
     show_sql: true

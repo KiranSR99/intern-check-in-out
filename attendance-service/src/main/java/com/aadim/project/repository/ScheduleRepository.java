@@ -3,6 +3,8 @@ package com.aadim.project.repository;
 import com.aadim.project.dto.response.InternDetailResponse;
 import com.aadim.project.entity.Intern;
 import com.aadim.project.entity.Schedule;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -32,7 +34,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
                         join schedule s on s.intern_id = i.id
                        join tasks t on s.id  = t.schedule_id
             """)
-    List<Map<String, Object>> getInternDetail();
+    List<Map<String, Object>> getInternDetail(Pageable pageable);
 
     @Query(
             nativeQuery = true,
@@ -54,9 +56,11 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     @Query(
             nativeQuery = true,
             value = """
-                    select * from schedule s where intern_id =:intern_id order by created_date desc limit 1;
+                    select * from schedule s where intern_id =:intern_id order by check_in_time desc limit 1;
             """)
     Schedule getLatestScheduleForTasksByInternId(Integer intern_id);
+
+
 }
 
 

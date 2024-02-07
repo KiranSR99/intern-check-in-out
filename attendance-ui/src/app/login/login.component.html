@@ -13,12 +13,15 @@
         </div>
         
 
-          <label class="mt-4">Password</label>
-          <input type="password" formControlName="password" class="form-control" name="password"
-            placeholder="Enter your password">
-          <div *ngIf="loginDetail.get('password')?.invalid && loginDetail.get('password')?.touched" class="text-danger">
-            <small>Please enter your password</small>
-          </div>
+           <label class="mt-3">Password</label>
+            <div class="input-group">
+              <input type="{{ passwordVisibility ? 'text' : 'password' }}" formControlName="password" class="form-control"
+                name="password" placeholder="Enter your password" />
+              <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility()">
+                <i class="fa" [ngClass]="passwordVisibility ? 'fa-eye-slash' : 'fa-eye'"></i>
+              </button>
+            </div>
+            
 
           <p class="float-end mt-3">
             <a routerLink="/forgot-password" class="text-muted" style="text-decoration: none;">Forgot password?</a>

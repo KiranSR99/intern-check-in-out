@@ -13,7 +13,11 @@ import { HttpHandlerService } from '../../services/http-handler.service';
 export class ChangePasswordComponent implements OnInit {
 
   passwordDetails: any;
-  isLoggedIn: boolean = true; // Assume user is already logged in, set to false if old password is entered
+  isLoggedIn: boolean = true;
+  passwordStrengthSuggestions: string[] = [];
+  passwordVisibility: boolean = false;
+  confirmPasswordVisibility: boolean = false;
+
 
   constructor(private formbuilder: FormBuilder,
               private http: HttpHandlerService,
@@ -30,6 +34,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   confirmPasswordValidator(control: AbstractControl): Promise<{ [key: string]: boolean } | null> {
+    this.passwordStrengthSuggestions = this.checkPasswordStrength(control.value);
     const newPassword = this.passwordDetails.get('newPassword').value;
     const confirmPassword = control.value;
 
@@ -68,5 +73,50 @@ export class ChangePasswordComponent implements OnInit {
         this.toast.error(err.error.message);
       }
     });
+  }
+  
+  checkPasswordStrength(password: string): string[] {
+    const suggestions: string[] = [];
+
+    if (!/(?=.*[a-z])(?=.*[A-Z])/.test(password)) {
+      suggestions.push('Add Uppercase and one lowercase letter');
+    }
+    if (!/\d/.test(password)) {
+      suggestions.push('Minimum one digit');
+    }
+
+    if (!/[@#$%^&*-_+={}:;"'|<,>.?/~]/.test(password)) {
+      suggestions.push('Special character ');
+    }
+
+    if (password.length < 8) {
+      suggestions.push('Must be 8 characters');
+    }
+
+    return suggestions;
+  }
+
+  togglePasswordVisibility(): void {
+    this.passwordVisibility = !this.passwordVisibility;
+  }
+ 
+  toggleConfirmPasswordVisibility(): void {
+    this.confirmPasswordVisibility = !this.confirmPasswordVisibility;
+  }
+
+  isChangePasswordEnabled(): boolean {
+    // Check if the form is valid
+    if (!this.passwordDetails.valid) {
+      return false;
+    }
+
+    // Check if the password meets specific criteria
+    const password = this.passwordDetails.get('newPassword')?.value;
+    if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*-_+={}:;"'|<,>.?/~])/.test(password)) {
+      return false;
+    }
+
+    // If all conditions are met, enable the change password button
+    return true;
   }
 }

@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
   styleUrl: './side-nav.component.scss',
 })
 export class SideNavComponent {
+  role: any;
+
   menus: Array<any> = new Array<any>(
     {
       title: 'Dashboard',
@@ -39,33 +41,49 @@ export class SideNavComponent {
       roleAccess: [RoleEnum.INTERN],
       url: '/app/log-mgnt/my-log',
       icon: 'fa-solid fa-book',
+    },
+    {
+      title: 'Leave Request',
+      roleAccess: [RoleEnum.INTERN, RoleEnum.SUPERVISOR],
+      url: '/app/log-mgnt/leave-request',
+      icon: 'fa-regular fa-calendar-xmark',
     }
   );
 
   constructor(private router: Router, private toast: ToastService) {}
 
   ngOnInit() {
-    let role = localStorage.getItem('role');
+    this.role = localStorage.getItem('role');
 
-    if (role) {
-      role = JSON.parse(role);
+    if (this.role) {
+      this.role = JSON.parse(this.role);
     }
 
-    if (!role) return;
-    console.log(role);
+    if (!this.role) return;
+    console.log(this.role);
     // Filter main menus based on role
     this.menus = this.menus.filter(
-      (v) => v.roleAccess.includes(RoleEnum.ALL) || v.roleAccess.includes(role)
+      (v) =>
+        v.roleAccess.includes(RoleEnum.ALL) || v.roleAccess.includes(this.role)
     );
-  }
-
-  onClickMenu(url: any) {
-    this.router.navigate([url]);
   }
 
   onLogout() {
     this.toast.showSuccess('Logout Successful');
     localStorage.clear();
     this.router.navigate(['/login']);
+  }
+
+  onClickMenu(menu: any) {
+    if (menu.title === 'Leave Request' && this.role === RoleEnum.INTERN) {
+      this.router.navigate(['/app/log-mgnt/leave-request']);
+    } else if (
+      menu.title === 'Leave Request' &&
+      this.role === RoleEnum.SUPERVISOR
+    ) {
+      this.router.navigate(['/app/log-mgnt/leave-request-list']);
+    } else {
+      this.router.navigate([menu.url]);
+    }
   }
 }

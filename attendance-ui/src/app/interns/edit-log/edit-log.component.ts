@@ -32,9 +32,10 @@ export class EditLogComponent {
     this.userId = localStorage.getItem('userId');
     this.route.params.subscribe((params) => {
       this.taskId = params['taskId'];
+      console.log('My task id ' + this.taskId);
+
       this.editLog(this.taskId);
     });
-
   }
 
   onInitLogDetails() {

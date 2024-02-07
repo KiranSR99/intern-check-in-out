@@ -1,27 +1,24 @@
-<div class="header">
-    <div class="flex-fill">
-        <div class="p-2 d-md-none d-flex text-white">
-            <a href="#" class="text-white" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar">
-                <i class="fa-solid fa-bars"></i>
-            </a>
+<div class="header navbar navbar-dark">
+    <div class="container-fluid">
+        <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="d-flex justify-content-end align-items-center flex-grow-1">
+            <div class="user-profile dropdown">
+                <a class="d-flex" href="javascript:void(0)" role="button" id="userDropdown" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <p class="mt-1 text-light fw-bold">{{userName}}</p>
+                    <img src="../../../assets/images/cat.png" alt="User Profile" class="img-fluid mx-2">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" (click)="onProfileClick(userId)">My Profile</a></li>
+                    <li><a class="dropdown-item" routerLink="/change-password">Change Password</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+                </ul>
+            </div>
         </div>
     </div>
-
-    <div class="user-profile mt-2 dropdown">
-        <a class="d-flex" href="javascript:void(0)" role="button" id="userDropdown" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            <p class="mt-1 text-light fw-bold">{{userName}}</p>
-            <img src="../../../assets/images/cat.png" alt="User Profile" class="img-fluid mx-2">
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-            <li><a class="dropdown-item" (click)="onProfileClick(userId)">My Profile</a></li>
-            <li><a class="dropdown-item" (click)="onLeaveRequestClick()">Leave Request</a></li>
-            <li><a class="dropdown-item" routerLink="/change-password">Change Password</a></li>
-            <li>
-                <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
-        </ul>
-    </div>
-
 </div>

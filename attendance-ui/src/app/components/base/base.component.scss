@@ -1,4 +1,25 @@
+.main {
+  width: calc(100% - 280px);
+  height: calc(100% - 157px);
+  position: relative;
+  top: 54px;
+  left: 280px;
+  margin-bottom: 110px;
+  padding: 20px;
+}
 
-.main{
-    height: calc(100% - 120px);
+@media only screen and (max-width: 768px) {
+  .main {
+    width: 100%;
+    left: 0;
+    padding: 10px 5px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .main {
+    width: 100%;
+    left: 0;
+    padding: 10px 5px;
+  }
 }

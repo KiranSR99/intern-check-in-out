@@ -106,18 +106,20 @@ public class LeaveServiceImpl implements LeaveService {
         log.info("Setting leave status to Approved");
         Leave leave = leaveRepository.getReferenceById(id);
         leave.setStatus("Approved");
+        Leave leave1 = leaveRepository.save(leave);
         log.info("Leave status Approved successfully");
 
         try{
             log.info("Responding Leave Request Approved Mail");
-            mailServiceImpl.sendMail(
+            mailServiceImpl.leaveResponseMail(
                     leave.getCreatedBy(),
-                    "Leave Approval Confirmation", "Dear "+leave.getCreatedBy()+"\n I hope this message finds you well. I wanted to inform you that your leave request has been approved."
-            );
+                    "Leave Approval Confirmation",
+                    leave
+                    );
         }catch (MessagingException msg){
             log.error("Error while responding leave request approved mail");
         }
-        return new LeaveResponse(leaveRepository.save(leave));
+        return new LeaveResponse(leave1);
     }
 
     @Override
@@ -126,17 +128,19 @@ public class LeaveServiceImpl implements LeaveService {
         Leave leave = leaveRepository.getReferenceById(id);
         leave.setStatus("Declined");
         log.info("Leave status Decline successfully");
+        Leave leave1 = leaveRepository.save(leave);
 
         try{
             log.info("Responding Leave Request Declined Mail");
-            mailServiceImpl.sendMail(
+            mailServiceImpl.leaveResponseMail(
                     leave.getCreatedBy(),
-                    "Leave Approval Confirmation", "Dear "+leave.getCreatedBy()+"\nI hope this message finds you well. I wanted to inform you that your leave request has been declined."
-            );
+                    "Leave Approval Confirmation",
+                    leave
+                    );
         }catch (MessagingException msg){
             log.error("Error while responding leave request Declined mail");
         }
-        return new LeaveResponse(leaveRepository.save(leave));
+        return new LeaveResponse(leave1);
     }
 
     @Override

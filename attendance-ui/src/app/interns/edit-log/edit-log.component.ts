@@ -45,6 +45,7 @@ export class EditLogComponent {
       timeTaken: ['', Validators.required],
       problem: ['', Validators.required],
       userId: this.userId,
+     taskId: this.taskId,
      // multiLogDetails: this.formBuilder.array([]),
     });
   }
@@ -61,6 +62,7 @@ export class EditLogComponent {
         timeTaken: ['', Validators.required],
         problem: ['', Validators.required],
         userId: this.userId,
+        taskId: this.taskId,
       })
     );
     console.log('form details:', this.logDetails.value);
@@ -85,7 +87,7 @@ export class EditLogComponent {
     // Set the values for the main form
     
     this.logDetails.patchValue({
-      id: data.taskId,
+      taskId: data.taskId,
       task: data.task,
       status: data.status,
       timeTaken: data.timeTaken,

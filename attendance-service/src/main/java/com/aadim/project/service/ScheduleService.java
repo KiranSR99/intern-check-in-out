@@ -17,6 +17,6 @@ public interface ScheduleService {
     List<ScheduleResponse> fetchAll();
 
 
-    List<Map<String, Object>> getInternDetail();
+    List<Object> getInternDetail();
 }
 

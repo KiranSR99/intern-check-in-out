@@ -41,13 +41,13 @@ public class ScheduleController extends BaseController {
 //    }
 
 //    @PreAuthorize("hasAuthority('INTERN')")
-    @GetMapping("/details")
-    public List<Map<String, Object>> getInternDetail(
-            @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "6") int size
-    ) throws Exception {
-         return scheduleService.getInternDetail(page, size);
-
-    }
+//    @GetMapping("/details")
+//    public List<Map<String, Object>> getInternDetail(
+//            @RequestParam(name = "page", defaultValue = "0") int page,
+//            @RequestParam(name = "size", defaultValue = "9") int size
+//    ) throws Exception {
+//         return scheduleService.getInternDetail(page, size);
+//
+//    }
 }
 

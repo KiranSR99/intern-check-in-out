@@ -103,12 +103,12 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
 
-    @Transactional
-    public List<Map<String, Object>> getInternDetail(int page, int size) {
-        PageRequest request = PageRequest.of(page, size);
-         return scheduleRepository.getInternDetail(request);
-
-    }
+//    @Transactional
+//    public List<Map<String, Object>> getInternDetail(int page, int size) {
+//        PageRequest request = PageRequest.of(page, size);
+//         return scheduleRepository.getInternDetail(request);
+//
+//    }
 
 
 

@@ -42,7 +42,7 @@ public class ScheduleController extends BaseController {
 
 
     @GetMapping("/details")
-    public List<Map<String, Object>> getInternDetail() {
-        return scheduleService.getInternDetail();
+    public ResponseEntity<?> getInternDetail() {
+        return ResponseEntity.ok(scheduleService.getInternDetail());
     }
 }

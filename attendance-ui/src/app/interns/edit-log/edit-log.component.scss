@@ -1,0 +1,27 @@
+.button-2 {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .title-text {
+        font-size: 18px;
+    }
+
+    .button-1 {
+        display: none;
+    }
+
+    .button-2 {
+        display: block;
+    }
+
+    .heading-items {
+        display: grid;
+        grid-template-columns: 70% 30%;
+    }
+}

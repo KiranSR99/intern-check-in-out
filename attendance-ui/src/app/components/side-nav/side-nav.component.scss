@@ -1,6 +1,7 @@
 .side-navbar {
   width: 280px;
   min-height: 100vh;
+  position: fixed;
   padding: 10px 0 0 20px;
   background-color: #6e3098 !important;
   border-right: 1px solid #ffffff;
@@ -61,5 +62,14 @@ ul.menu-items {
   color: #f8b826;
 }
 
+@media (max-width: 768px) {
+  .side-navbar {
+    width: 200px;
+    padding: 20px;
+    border-right: none;
+  }
 
-
+  .menus {
+    font-size: 16px;
+  }
+}

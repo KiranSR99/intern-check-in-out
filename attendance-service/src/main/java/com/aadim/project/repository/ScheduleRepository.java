@@ -3,6 +3,8 @@ package com.aadim.project.repository;
 import com.aadim.project.dto.response.InternDetailResponse;
 import com.aadim.project.entity.Intern;
 import com.aadim.project.entity.Schedule;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,6 +22,20 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
             SELECT * FROM schedule s WHERE s.intern_id = :internId ORDER BY DESC LIMIT 1
             """)
     Optional<Schedule> findByInternIdAndCheckOutTimeIsNull(Integer internId);
+
+
+//    @Query(
+//            nativeQuery = true,
+//            value = """
+//
+//                    select i.full_name , i.field_type , s.check_in_time, s.check_out_time,
+//                       t.task , t.status ,t.time_taken , t.problem
+//                       from intern i
+//                        join users u on u.id  = i.user_id
+//                        join schedule s on s.intern_id = i.id
+//                       join tasks t on s.id  = t.schedule_id
+//            """)
+//    List<Map<String, Object>> getInternDetail(Pageable pageable);
 
     @Query(value = "select i.id, i.full_name, i.field_type, s.check_in_time, s.check_out_time,\n" +
             "                       t.task, t.status ,t.time_taken , t.problem\n" +
@@ -49,9 +65,11 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     @Query(
             nativeQuery = true,
             value = """
-                    select * from schedule s where intern_id =:intern_id order by created_date desc limit 1;
+                    select * from schedule s where intern_id =:intern_id order by check_in_time desc limit 1;
             """)
     Schedule getLatestScheduleForTasksByInternId(Integer intern_id);
+
+
 }
 
 

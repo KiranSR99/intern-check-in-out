@@ -10,6 +10,8 @@ import com.aadim.project.service.UserService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +36,8 @@ public class UserController extends BaseController {
 
 
     @GetMapping("/getAll")
-    public ResponseEntity<GlobalApiResponse> getAllUser(){
-        return successResponse(userService.getAllUser(), "User fetched successfully");
+    public ResponseEntity<GlobalApiResponse> getAllUser(@PageableDefault Pageable pageable){
+        return successResponse(userService.getAllUser(pageable), "User fetched successfully");
     }
 
     @GetMapping("/getById/{id}")
@@ -44,20 +46,20 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/getAllInterns")
-    public ResponseEntity<GlobalApiResponse> getAllInterns() {
-        return successResponse(userService.getAllUsersByRole(Role.valueOf("INTERN")));
+    public ResponseEntity<GlobalApiResponse> getAllInterns(@PageableDefault Pageable pageable) {
+        return successResponse(userService.getAllUsersByRole(Role.valueOf("INTERN"), pageable));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/getAllAdmins")
-    public ResponseEntity<GlobalApiResponse> getAllAdmins() {
-        return successResponse(userService.getAllUsersByRole(Role.valueOf("ADMIN")));
+    public ResponseEntity<GlobalApiResponse> getAllAdmins(@PageableDefault Pageable pageable) {
+        return successResponse(userService.getAllUsersByRole(Role.valueOf("ADMIN"), pageable));
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
     @GetMapping("/getAllSupervisors")
-    public ResponseEntity<GlobalApiResponse> getAllSupervisors() {
-        return successResponse(userService.getAllUsersByRole(Role.valueOf("SUPERVISOR")));
+    public ResponseEntity<GlobalApiResponse> getAllSupervisors(@PageableDefault Pageable pageable) {
+        return successResponse(userService.getAllUsersByRole(Role.valueOf("SUPERVISOR"), pageable));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -78,7 +80,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/getInternsOfSupervisor")
-    public ResponseEntity<GlobalApiResponse> getInternsOfSupervisor() {
-        return successResponse(userService.getAllInternsOfSupervisor());
+    public ResponseEntity<GlobalApiResponse> getInternsOfSupervisor(@PageableDefault Pageable pageable) {
+        return successResponse(userService.getAllInternsOfSupervisor(pageable));
     }
 }

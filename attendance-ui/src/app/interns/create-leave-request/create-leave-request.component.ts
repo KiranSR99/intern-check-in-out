@@ -33,19 +33,6 @@ export class CreateLeaveRequestComponent implements OnInit {
     });
   }
 
-  dateValidator(control: FormControl): { [key: string]: boolean } | null {
-    const selectedDate: Date = new Date(control.value);
-    const today: Date = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    if (selectedDate >= today) {
-      if (selectedDate.getDay() !== 5 && selectedDate.getDay() !== 6) {
-        return null;
-      }
-    }
-
-    return { invalidDate: true };
-  }
 
   cancel() {
     this.router.navigate(['/']);

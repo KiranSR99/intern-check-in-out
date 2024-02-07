@@ -1,12 +1,10 @@
 <div class="wrapper">
 
-    <div class="d-flex flex-wrap justify-content-center">
-        <a class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
+    <div class="d-flex flex-wrap justify-content-between">
             <h4 class="text-warning">Intern Log History</h4>
-        </a>
 
         <div class="buttons" *ngIf="userRole === 'INTERN'">
-            <button *ngIf="!isCheckedIn" class="btn btn-success mx-2" (click)="onCheckInClick()">Check-in</button>
+            <button *ngIf="!isCheckedIn" class="button-1 btn btn-success mx-2" (click)="onCheckInClick()">Check-in</button>
             <button *ngIf="isCheckedIn" class="btn btn-warning mx-2" (click)="onClickAddTask()"><i
                     class="fa-solid fa-plus"></i> Add Task</button>
             <button *ngIf="isCheckedIn" class="btn btn-danger" (click)="onCheckOutClick()">Check-out</button>

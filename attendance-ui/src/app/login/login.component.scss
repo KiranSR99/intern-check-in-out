@@ -1,7 +1,13 @@
 .body {
-    background: #6E3098;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  background: #6e3098;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .login-from {
+    width: 200px;
   }
+}

@@ -27,6 +27,11 @@ export class HttpHandlerService {
     );
   }
 
+  //To logout by user
+  logout(): Observable<any>{
+    return this.http.post(`${this.apiUrl}/logout`, {});
+  }
+
   //To save tasks by Intern
   saveLog(user: any): Observable<GlobalApiHandler<LogsDetails>> {
     return this.http.post<GlobalApiHandler<LogsDetails>>(

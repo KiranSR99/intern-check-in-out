@@ -1,15 +1,18 @@
 .footer {
-    height: 60px;
+  width: calc(100% - 280px);
+  position: fixed;
+  bottom: 0;
+  right: 0;
 }
 
-.socio-links {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  font-size: 30px;
+@media only screen and (max-width: 768px) {
+  .footer {
+    width: 100%;
+  }
 }
 
-.socio-links li {
-  list-style: none;
-  margin: 0 10px;
+@media only screen and (max-width: 480px) {
+  .footer {
+    width: 100%;
+  }
 }

@@ -29,7 +29,6 @@ export class UpdateUsersComponent implements OnInit {
         this.userDetails = this.fb.group({
             id: null,
             fullName: ['', Validators.required],
-            email: ['', [Validators.required, Validators.email]],
             phone: ['', Validators.required],
             fieldType: [''],
         });

@@ -14,7 +14,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -99,6 +100,15 @@ public class ScheduleServiceImpl implements ScheduleService {
         return schedules.stream().map(ScheduleResponse::new).collect(Collectors.toList());
     }
 
+
+
+//    @Transactional
+//    public List<Map<String, Object>> getInternDetail(int page, int size) {
+//        PageRequest request = PageRequest.of(page, size);
+//         return scheduleRepository.getInternDetail(request);
+//
+//    }
+
     @Transactional
     public List<Object> getInternDetail() {
         List<Map<String, Object>> internDetails = scheduleRepository.getInternDetail();
@@ -135,6 +145,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         task.put("time_taken", detail.get("time_taken"));
         return task;
     }
+
 
 
 

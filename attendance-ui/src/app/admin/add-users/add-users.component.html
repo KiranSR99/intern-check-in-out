@@ -49,7 +49,7 @@
 
             <div class="col-md-6 col-sm-12">
               <label>Role</label>
-              <select formControlName="role" name="role" id="role" class="form-control" (change)="onRoleChange($event)"
+              <select formControlName="role" name="role" id="role" class="form-select" (change)="onRoleChange($event)"
                 required>
                 <option value="" hidden>Select Role</option>
                 <option *ngFor="let getRole of roles" [ngValue]="getRole.id">{{getRole.name}}</option>
@@ -63,7 +63,7 @@
 
             <div class="col-md-6 col-sm-12" *ngIf="showFieldInput()">
               <label>Field</label>
-              <select formControlName="fieldType" name="fieldType" id="fieldType" class="form-control" required>
+              <select formControlName="fieldType" name="fieldType" id="fieldType" class="form-select" required>
                 <option value="" hidden>Select Field</option>
                 <option value="FRONTEND">Frontend</option>
                 <option value="BACKEND">Backend</option>
@@ -76,7 +76,7 @@
 
             <div class="col-md-6 col-sm-12" *ngIf="showPrimarySupervisor()">
               <label>Primary Supervisor</label>
-              <select formControlName="primarySupervisor" class="form-control" required>
+              <select formControlName="primarySupervisor" class="form-select" required>
                 <option value="" hidden>Select Primary Supervisor</option>
                 <option *ngFor="let supervisor of supervisors" [ngValue]="supervisor.userId">{{supervisor.fullName}}
                 </option>
@@ -89,7 +89,7 @@
 
             <div class="col-md-6 col-sm-12" *ngIf="showSecondarySupervisor()">
               <label>Secondary Supervisor</label>
-              <select formControlName="secondarySupervisor" class="form-control" required>
+              <select formControlName="secondarySupervisor" class="form-select" required>
                 <option value="" hidden>Select Secondary Supervisor</option>
                 <option *ngFor="let supervisor of supervisors" [ngValue]="supervisor.userId">{{supervisor.fullName}}
                 </option>

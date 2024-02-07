@@ -39,6 +39,7 @@ import { AccessDeniedComponent } from './common/access-denied/access-denied.comp
 import { CustomDateTimeFormatterPipe } from './pipe/date-time-formatter.pipe';
 import { FieldFormatterPipe } from './pipe/field-formatter.pipe';
 import { MyLogComponent } from './interns/my-log/my-log.component';
+import { DateFilterPipe } from './pipe/date-restriction.pipe';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { MyLogComponent } from './interns/my-log/my-log.component';
     AccessDeniedComponent,
     CustomDateTimeFormatterPipe,
     FieldFormatterPipe,
-    MyLogComponent
+    MyLogComponent,
+    DateFilterPipe
 
   ],
   imports: [

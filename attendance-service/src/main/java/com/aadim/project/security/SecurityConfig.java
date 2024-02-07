@@ -1,10 +1,8 @@
 package com.aadim.project.security;
 
 import com.aadim.project.auditing.ApplicationAuditingAware;
-import com.aadim.project.service.LogoutService;
 import com.aadim.project.service.impl.UserDetailServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -58,29 +56,6 @@ public class SecurityConfig {
 
         return http.build();
     }
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.csrf(AbstractHttpConfigurer::disable)
-//                .sessionManagement(session->{
-//                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//                }).authorizeHttpRequests(auth->{
-//                    auth.requestMatchers("/api/v1/forgot-password/**").permitAll();
-//                    auth.requestMatchers("/api/v1/login").permitAll();
-//                    auth.requestMatchers("/api/v1/**").authenticated();
-//                })
-//                .authenticationProvider(authenticationProvider())
-//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-//                .logout()
-//                .logoutUrl("api/vi/logout")
-//                .addLogoutHandler(logoutHandler)
-//                .logoutSuccessHandler(
-//                        (request, response, authentication) ->
-//                                SecurityContextHolder.clearContext()
-//                );
-//
-//        return http.build();
-//    }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {

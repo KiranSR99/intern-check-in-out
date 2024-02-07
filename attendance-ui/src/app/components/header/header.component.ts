@@ -42,11 +42,16 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     // Remove token from local storage
-    localStorage.clear();
-    this.router.navigate(['/']);
+    this.httpHandler.logout().subscribe({
+      next: (response: any) => {
+        localStorage.clear();
+        console.log('Logout successful.');
+        this.router.navigate(['/']);
+      },
+    });
   }
 
-  onProfileClick(userId: any){
-    this.router.navigate(['/app/user-mgnt/user-profile/', userId])
+  onProfileClick(userId: any) {
+    this.router.navigate(['/app/user-mgnt/user-profile/', userId]);
   }
 }

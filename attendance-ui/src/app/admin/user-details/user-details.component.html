@@ -1,52 +1,52 @@
-<!-- user-details.component.html -->
 <div class="wrapper">
     <!-- User details table -->
     <div class="container">
         <div class="row">
             <div class="col">
-                <div class="d-flex justify-content-between">
-                    <h2 class="text-warning">Users List</h2>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2 class="text-warning fw-bold fs-4 fs-md-5">Users List</h2>
                     <button class="btn btn-outline-success" routerLink="/app/user-mgnt/add-user"><i
                             class="fa-solid fa-plus"></i> Add User</button>
                 </div>
                 <hr>
 
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover text-center">
-                        <thead class="table-primary">
-                            <tr>
-                                <th>S.N</th>
-                                <th>Full Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Role</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of userDetailsData; let per_i = index">
-                                <!-- User details -->
-                                <td>{{ per_i + 1 }}</td>
-                                <td>{{ item.fullName }}</td>
-                                <td>{{ item.email }}</td>
-                                <td>{{ item.phone }}</td>
-                                <td>{{ item.role }}</td>
-                                <td>
-                                    <!-- Update and delete buttons -->
-                                    <div class="d-flex justify-content-center align-items-center">
-                                        <button type="button" class="btn btn-outline-primary mx-2"
-                                            (click)="onUpdateClick(item.userId)">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-outline-danger mx-2"
-                                            (click)="onDeleteUserClick(item.userId)">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="table-container">
+                    <div class="table-responsive overflow-x-auto">
+                        <table class="table table-bordered table-hover text-center">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>S.N</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Role</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of userDetailsData; let per_i = index">
+                                    <!-- User details -->
+                                    <td>{{ per_i + 1 }}</td>
+                                    <td>{{ item.fullName }}</td>
+                                    <td>{{ item.email }}</td>
+                                    <td>{{ item.phone }}</td>
+                                    <td>{{ item.role }}</td>
+                                    <td>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <button type="button" class="btn btn-outline-primary mx-2 fs-6 fs-md-5"
+                                                (click)="onUpdateClick(item.userId)">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-danger mx-2 fs-6 fs-md-5"
+                                                (click)="onDeleteUserClick(item.userId)">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

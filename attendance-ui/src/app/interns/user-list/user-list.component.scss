@@ -1,0 +1,17 @@
+@media (max-width: 768px) {
+    .header-box h3 {
+        font-size: 18px;
+    }
+
+    .header-box .search-field {
+        width: 170px;
+    }
+
+    .header-box button {
+        display: none;
+    }
+
+    .header-box input {
+        border-radius: 5px !important;
+    }
+}

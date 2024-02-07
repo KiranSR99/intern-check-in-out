@@ -6,7 +6,6 @@ import com.aadim.project.dto.request.UserRequest;
 import com.aadim.project.dto.request.UserUpdateRequest;
 import com.aadim.project.dto.response.InternInfoResponse;
 import com.aadim.project.dto.response.SupervisorInfoResponse;
-import com.aadim.project.dto.response.SupervisorResponse;
 import com.aadim.project.dto.response.UserResponse;
 import com.aadim.project.entity.*;
 import com.aadim.project.repository.*;
@@ -303,15 +302,15 @@ public class UserServiceImpl implements UserService {
         }
         user.setActive(false);
         Role role = user.getRole();
-        if (role.toString().equals(ADMIN_ROLE)) {
+        if (role.equals(Role.ADMIN)) {
             Admin admin = adminRepository.findAdminByUserId(user.getId());
             admin.setIsActive(false);
             adminRepository.save(admin);
-        } else if (role.toString().equals(SUPERVISOR_ROLE)) {
+        } else if (role.equals(Role.SUPERVISOR)) {
             Supervisor supervisor = supervisorRepository.findSupervisorByUserId(user.getId());
             supervisor.setIsActive(false);
             supervisorRepository.save(supervisor);
-        } else if (Objects.equals(role.toString(), INTERN_ROLE)) {
+        } else if (role.equals(Role.INTERN)) {
             Intern intern = internRepository.findInternByUserId(user.getId());
             intern.setIsActive(false);
             internRepository.save(intern);
@@ -351,37 +350,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-//    @Override
-//    public List<SupervisorResponse> getAllInternsBySupervisor() {
-//        log.info("Fetching All Interns by Supervisor");
-//        List<SupervisorResponse> supervisorResponses = new ArrayList<>();
-//        List<Supervisor> supervisorList = supervisorRepository.findActiveSupervisors();
-//
-//        for (Supervisor supervisor : supervisorList) {
-//            SupervisorResponse supervisorResponse = new SupervisorResponse();
-//            supervisorResponse.setSupervisorInfoResponse(mapSupervisorInfo(supervisor));
-//
-//            List<Intern> internList = internRepository.findActiveInternsBySupervisor(supervisor);
-//            List<InternInfoResponse> internInfoResponses = new ArrayList<>();
-//
-//            for (Intern intern : internList) {
-//                InternInfoResponse internInfoResponse = new InternInfoResponse();
-//                internInfoResponse.setUserId(intern.getUser().getId());
-//                internInfoResponse.setInternId(intern.getId());
-//                internInfoResponse.setEmail(intern.getUser().getEmail());
-//                internInfoResponse.setPhone(intern.getPhone());
-//                internInfoResponse.setRole(intern.getUser().getRole());
-//                internInfoResponse.setFieldType(intern.getFieldType());
-//                internInfoResponses.add(internInfoResponse);
-//            }
-//
-//            supervisorResponse.setInternInfoResponses(internInfoResponses);
-//            supervisorResponses.add(supervisorResponse);
-//        }
-//
-//        log.info("Fetched All Interns by Supervisor");
-//        return supervisorResponses;
-//    }
 
 
     @Override
@@ -397,14 +365,7 @@ public class UserServiceImpl implements UserService {
             List<InternInfoResponse> internInfoResponses = new ArrayList<>();
 
             for (Intern intern : internList) {
-                InternInfoResponse internInfoResponse = new InternInfoResponse();
-                internInfoResponse.setUserId(intern.getUser().getId());
-                internInfoResponse.setFullName(intern.getFullName());
-                internInfoResponse.setInternId(intern.getId());
-                internInfoResponse.setEmail(intern.getUser().getEmail());
-                internInfoResponse.setPhone(intern.getPhone());
-                internInfoResponse.setRole(intern.getUser().getRole());
-                internInfoResponse.setFieldType(intern.getFieldType());
+                InternInfoResponse internInfoResponse = mapInternInfo(intern);
                 internInfoResponses.add(internInfoResponse);
             }
 
@@ -415,6 +376,8 @@ public class UserServiceImpl implements UserService {
         log.info("Fetched All Interns by Supervisor");
         return supervisorResponses;
     }
+    
+    
 
 
 }

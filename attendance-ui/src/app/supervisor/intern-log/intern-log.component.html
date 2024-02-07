@@ -45,6 +45,7 @@
                     <td>Problem</td>
                   </tr>
                 </thead>
+
                 <tbody *ngFor="let data of apiResponse | searchFilter:searchText; let i = index">
                   <tr>
                     <td [attr.rowspan]="data.assignedTasks.length + 1">{{ i + 1 }}</td>
@@ -61,15 +62,7 @@
                     <td>{{ task.problem }}</td>
                   </tr>
                 </tbody>
-              </table>
-              
+          </table>         
         </div>
-
-
     </div>
 </div>
-
-
-
-
-

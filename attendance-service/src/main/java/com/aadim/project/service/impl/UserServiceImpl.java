@@ -114,14 +114,15 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Page<UserResponse> getAllUser(Pageable pageable) {
-        log.info("Fetching All Users with pagination");
+    public List<UserResponse> getAllUser(Pageable pageable) {
+        log.info("Fetching All Users");
 
         // Fetching users with pagination
         Page<User> usersPage = userRepository.findActiveUsers(pageable);
 
         // Mapping User entities to UserResponse DTOs
-        Page<UserResponse> userResponses = usersPage.map(user -> {
+        List<UserResponse> userResponses = new ArrayList<>();
+        for (User user : usersPage.getContent()) {
             UserResponse userResponse = new UserResponse();
             userResponse.setEmail(user.getEmail());
             userResponse.setRole(user.getRole());
@@ -151,12 +152,13 @@ public class UserServiceImpl implements UserService {
                 }
             }
 
-            return userResponse;
-        });
+            userResponses.add(userResponse);
+        }
 
-        log.info("All users fetched successfully with pagination");
+        log.info("All users fetched successfully");
         return userResponses;
     }
+
 
 
     private SupervisorInfoResponse mapSupervisorInfo(Supervisor supervisor) {
@@ -242,7 +244,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Page<UserResponse> getAllUsersByRole(Role role, Pageable pageable) {
+    public List<UserResponse> getAllUsersByRole(Role role, Pageable pageable) {
         log.info("Fetching all users of " + role);
 
         Page<User> userPage = userRepository.findActiveUsersByRole(role, pageable);
@@ -283,7 +285,7 @@ public class UserServiceImpl implements UserService {
         }
 
         log.info("Fetched all users of " + role);
-        return new PageImpl<>(userResponses, pageable, userPage.getTotalElements());
+        return userResponses;
     }
 
 
@@ -386,7 +388,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Page<SupervisorInfoResponse> getAllInternsOfSupervisor(Pageable pageable) {
+    public List<SupervisorInfoResponse> getAllInternsOfSupervisor(Pageable pageable) {
         log.info("Fetching All Interns by Supervisor");
 
         Page<Supervisor> supervisorPage = supervisorRepository.findActiveSupervisors(pageable);
@@ -408,7 +410,7 @@ public class UserServiceImpl implements UserService {
         }
 
         log.info("Fetched All Interns by Supervisor");
-        return new PageImpl<>(supervisorResponses, pageable, supervisorPage.getTotalElements());
+        return supervisorResponses;
     }
 
 

@@ -22,11 +22,13 @@ export class InternLogComponent implements OnInit {
   combinedData: any[] = [];
   tasks: any[] = [];
 
+  apiResponse: Array<any> = new Array<any>();
+
   constructor(
     private http: HttpHandlerService,
     private route: Router,
     private toast: ToastService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // this.showInternLog();
@@ -46,7 +48,7 @@ export class InternLogComponent implements OnInit {
   showInternLog() {
     this.http.getAllLog().subscribe(
       (result: any) => {
-         this.intern = result;
+        this.apiResponse = result;
         console.log('fetch data successfully', result);
       },
       (error: any) => {
@@ -55,7 +57,7 @@ export class InternLogComponent implements OnInit {
     );
   }
 
-  
+
 
   // //To show intern name
   // showInternDetails() {
@@ -84,7 +86,7 @@ export class InternLogComponent implements OnInit {
         this.internCheckInOut = response.data;
         console.log(this.internCheckInOut);
       },
-      error: (error: any) => {},
+      error: (error: any) => { },
     });
   }
 
@@ -134,10 +136,10 @@ export class InternLogComponent implements OnInit {
   onClickAddTask() {
     this.route.navigate(['app/log-mgnt/add-log']);
 
-    
+
   }
 
-  onViewClick() {}
+  onViewClick() { }
 
   onEditClick(id: number) {
     this.route.navigate(['app/log-mgnt/edit-log/', id]);

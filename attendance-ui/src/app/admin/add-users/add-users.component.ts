@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, FormGroup, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import { HttpHandlerService } from '../../services/http-handler.service';
 import { ToastService } from '../../services/toast.service';
+export function strongPasswordValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const password: string = control.value;
+    const isStrongPassword: boolean = /^(?=.*[@#])(?=.*\d)[A-Za-z\d@#]+$/.test(password);
+    return isStrongPassword ? null : { 'weakPassword': true };
+  };
+}
 
 @Component({
   selector: 'app-add-users',
@@ -18,6 +25,7 @@ export class AddUsersComponent implements OnInit {
     { id: 'SUPERVISOR', name: 'Supervisor' },
     { id: 'INTERN', name: 'Intern' },
   ];
+  
 
   constructor(
     private toast: ToastService,
@@ -29,7 +37,7 @@ export class AddUsersComponent implements OnInit {
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
-      password: ['', Validators.required],
+      password: ['', [Validators.required, strongPasswordValidator()]],
       role: ['', Validators.required],
       fieldType: [''],
       primarySupervisor: [''],
@@ -38,25 +46,31 @@ export class AddUsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //to get all supervisors
+
     this.showAllSupervisors();
   }
+
 
   cancel() {
     this.router.navigate(['/']);
   }
 
   onSubmit() {
-    this.http.addUser(this.userDetails.value).subscribe({
-      next: (response: any) => {
-        this.toast.showSuccess('User added successfully');
-        this.router.navigate(['/app/user-mgnt/user-list']);
-      },
-      error: (err) => {
-        console.error('Error adding user:', err);
-        this.toast.showError('Error adding user');
-      },
-    });
+    if(this.userDetails.valid){
+      this.http.addUser(this.userDetails.value).subscribe({
+        next: (response: any) => {
+          this.toast.showSuccess('User added successfully');
+          this.router.navigate(['/app/user-mgnt/user-list']);
+        },
+        error: (err) => {
+          console.error('Error adding user:', err);
+          this.toast.showError('Error adding user');
+        },
+      });
+    }
+    else{
+      this.userDetails.markAllAsTouched();
+    }
   }
 
   //To get all supervisors
@@ -92,4 +106,6 @@ export class AddUsersComponent implements OnInit {
     const roleId = this.userDetails.get('role')?.value;
     return roleId === 'INTERN';
   }
+
+ 
 }

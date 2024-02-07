@@ -17,6 +17,10 @@ public interface ScheduleService {
     List<ScheduleResponse> fetchAll();
 
 
+
+//    List<Map<String, Object>> getInternDetail(int page, int size);
+
     List<Object> getInternDetail();
+
 }
 

@@ -1,3 +1,14 @@
 .wrapper{
     overflow: hidden;
 }
+
+@media (max-width: 768px){
+    .buttons{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    
+
+    
+}

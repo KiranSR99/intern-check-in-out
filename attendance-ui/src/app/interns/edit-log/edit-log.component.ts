@@ -45,7 +45,8 @@ export class EditLogComponent {
       timeTaken: ['', Validators.required],
       problem: ['', Validators.required],
       userId: this.userId,
-      multiLogDetails: this.formBuilder.array([]),
+     taskId: this.taskId,
+     // multiLogDetails: this.formBuilder.array([]),
     });
   }
 
@@ -53,21 +54,9 @@ export class EditLogComponent {
     return this.logDetails.get('multiLogDetails') as FormArray;
   }
 
-  addmultiLogDetails() {
-    this.multiLogDetails.push(
-      this.formBuilder.group({
-        task: ['', Validators.required],
-        status: ['', Validators.required],
-        timeTaken: ['', Validators.required],
-        problem: ['', Validators.required],
-        userId: this.userId,
-      })
-    );
-    console.log('form details:', this.logDetails.value);
-    this.showDeleteButton = true;
-  }
 
   editLog(id: number) {
+    console.log('Fetching log data for ID:', id);
     this.http.getLogById(id).subscribe(
       (response: any) => {
         console.log('Individual log fetched successfully:', response);
@@ -78,31 +67,34 @@ export class EditLogComponent {
       }
     );
   }
-
+  
+  
   populateForm(data: any) {
     // Set the values for the main form
+    
     this.logDetails.patchValue({
-      id: data.id,
+      taskId: data.taskId,
       task: data.task,
       status: data.status,
       timeTaken: data.timeTaken,
       problem: data.problem,
+      userId: data.userId,
     });
 
     const logDetailsArray = this.logDetails.get('multiLogDetails') as FormArray;
 
     // Add a new group for each another detail
-    data.multiLogDetails.forEach((multiLogDetails: any) => {
-      logDetailsArray.push(
-        this.formBuilder.group({
-          id: multiLogDetails.id,
-          task: multiLogDetails.task,
-          status: multiLogDetails.status,
-          timeTaken: multiLogDetails.timeTaken,
-          problem: multiLogDetails.problem,
-        })
-      );
-    });
+    // data.multiLogDetails.forEach((multiLogDetails: any) => {
+    //   logDetailsArray.push(
+    //     this.formBuilder.group({
+    //       id: multiLogDetails.id,
+    //       task: multiLogDetails.task,
+    //       status: multiLogDetails.status,
+    //       timeTaken: multiLogDetails.timeTaken,
+    //       problem: multiLogDetails.problem,
+    //     })
+    //   );
+    // });
   }
 
   onClickUpdateLog(data: any) {
@@ -111,7 +103,7 @@ export class EditLogComponent {
       (response: any) => {
         console.log('Data is updated successfully');
         this.toastr.showSuccess('Log Update Sucessfully');
-        //this.router.navigate(['/app/event-mgnt/view-event']);
+        this.router.navigate(['/app/log-mgnt/my-log']);
         this.onInitLogDetails();
         this.logDetails.reset();
       },
@@ -121,6 +113,8 @@ export class EditLogComponent {
     );
     this.location.back();
   }
+
+  
 
   onDeleteButtonClick(i: number) {
     if (this.multiLogDetails.length > 0) {

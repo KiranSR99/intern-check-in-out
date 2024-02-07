@@ -2,12 +2,10 @@ package com.aadim.project.repository;
 
 import com.aadim.project.entity.Role;
 import com.aadim.project.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
-
-import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -18,10 +16,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Integer findUserIdByEmail(String email);
 
     @Query("SELECT u FROM User u WHERE u.isActive = true")
-    List<User> findActiveUsers();
+    Page<User> findActiveUsers(Pageable pageable);
 
     @Query("select u from User u WHERE u.isActive = true and u.role =:role")
-    List<User> findActiveUsersByRole(Role role);
+    Page<User> findActiveUsersByRole(Role role, Pageable pageable);
 
     @Query("select u from User u where u.email =:email")
     User getUserByEmail(String email);

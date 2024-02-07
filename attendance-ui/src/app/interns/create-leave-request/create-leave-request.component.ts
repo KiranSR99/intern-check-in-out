@@ -65,4 +65,18 @@ export class CreateLeaveRequestComponent implements OnInit {
       this.leaveDetail.markAllAsTouched();
     }
   }
+
+  dateValidator(control: FormControl): { [key: string]: boolean } | null {
+    const selectedDate: Date = new Date(control.value);
+    const today: Date = new Date();
+    today.setHours(0, 0, 0, 0);
+  
+    // Check if selected date is a future date (excluding weekends)
+    if (selectedDate > today && selectedDate.getDay() !== 0 && selectedDate.getDay() !== 6) {
+      return null; // Valid date
+    }
+  
+    return { invalidDate: true }; // Invalid date
+  }
+  
 }

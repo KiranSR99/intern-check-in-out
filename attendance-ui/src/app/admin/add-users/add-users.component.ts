@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, FormGroup, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, FormGroup, Validators, FormControl } from "@angular/forms";
 import { Router } from '@angular/router';
 import { HttpHandlerService } from '../../services/http-handler.service';
 import { ToastService } from '../../services/toast.service';
+
 export function strongPasswordValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const password: string = control.value;
@@ -25,7 +26,6 @@ export class AddUsersComponent implements OnInit {
     { id: 'SUPERVISOR', name: 'Supervisor' },
     { id: 'INTERN', name: 'Intern' },
   ];
-  
 
   constructor(
     private toast: ToastService,
@@ -35,8 +35,8 @@ export class AddUsersComponent implements OnInit {
   ) {
     this.userDetails = this.fb.group({
       fullName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', Validators.required],
+      phone: ['', [Validators.required, this.phoneNumberValidator]],
+      email: ['', [Validators.required, this.emailPatternValidator]],
       password: ['', [Validators.required, strongPasswordValidator()]],
       role: ['', Validators.required],
       fieldType: [''],
@@ -46,17 +46,15 @@ export class AddUsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.showAllSupervisors();
   }
-
 
   cancel() {
     this.router.navigate(['/']);
   }
 
   onSubmit() {
-    if(this.userDetails.valid){
+    if (this.userDetails.valid) {
       this.http.addUser(this.userDetails.value).subscribe({
         next: (response: any) => {
           this.toast.showSuccess('User added successfully');
@@ -67,8 +65,7 @@ export class AddUsersComponent implements OnInit {
           this.toast.showError('Error adding user');
         },
       });
-    }
-    else{
+    } else {
       this.userDetails.markAllAsTouched();
     }
   }
@@ -107,5 +104,17 @@ export class AddUsersComponent implements OnInit {
     return roleId === 'INTERN';
   }
 
- 
+  emailPatternValidator(control: FormControl): { [key: string]: boolean } | null {
+    const email: string = control.value;
+    const emailPattern: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    return emailPattern.test(email) ? null : { emailPatternError: true };
+  }
+
+  phoneNumberValidator(control: FormControl): { [key: string]: boolean } | null {
+    const phone: string = control.value;
+    const phonePattern: RegExp = /^\d{10}$/;
+
+    return phonePattern.test(phone) ? null : { phonePatternError: true };
+  }
 }

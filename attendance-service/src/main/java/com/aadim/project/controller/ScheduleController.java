@@ -53,9 +53,17 @@ public class ScheduleController extends BaseController {
 
 
     @GetMapping("/details")
-    public ResponseEntity<?> getInternDetail() {
-        return ResponseEntity.ok(scheduleService.getInternDetail());
+    public ResponseEntity<?> getInternDetail(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "9") int size
+    ) throws Exception {
+        return ResponseEntity.ok(scheduleService.getInternDetail( page, size));
     }
+
+//    @GetMapping("/checkStatus")
+//    public ResponseEntity<GlobalApiResponse> getStatus(){
+//        return ResponseEntity.ok(scheduleService.getStatus());
+//    }
 
 }
 

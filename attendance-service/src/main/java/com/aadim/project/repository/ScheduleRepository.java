@@ -42,8 +42,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
             "                       from intern i\n" +
             "                        join users u on u.id  = i.user_id\n" +
             "                        join schedule s on s.intern_id = i.id\n" +
-            "                       join tasks t on s.id  = t.schedule_id", nativeQuery = true)
-    List<Map<String, Object>> getInternDetail();
+            "                       join tasks t on s.id  = t.schedule_id order by s.check_in_time desc", nativeQuery = true)
+    List<Map<String, Object>> getInternDetail(Pageable pageable);
 
     @Query(
             nativeQuery = true,
@@ -68,6 +68,17 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
                     select * from schedule s where intern_id =:intern_id order by check_in_time desc limit 1;
             """)
     Schedule getLatestScheduleForTasksByInternId(Integer intern_id);
+
+
+//    @Query(
+//            nativeQuery = true,
+//           value = """
+//select isActive from schedule s where s.is_active=true
+//"""
+//    )
+//        Boolean getStatus();
+
+    
 
 
 }

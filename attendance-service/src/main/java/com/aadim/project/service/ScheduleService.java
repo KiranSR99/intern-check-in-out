@@ -1,5 +1,6 @@
 package com.aadim.project.service;
 
+import com.aadim.project.dto.GlobalApiResponse;
 import com.aadim.project.dto.request.ScheduleRequest;
 import com.aadim.project.dto.request.ScheduleUpdateRequest;
 import com.aadim.project.dto.response.ScheduleResponse;
@@ -20,7 +21,9 @@ public interface ScheduleService {
 
 //    List<Map<String, Object>> getInternDetail(int page, int size);
 
-    List<Object> getInternDetail();
+    List<Object> getInternDetail( int page, int size);
 
+
+//    GlobalApiResponse getStatus();
 }
 

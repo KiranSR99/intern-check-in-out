@@ -14,7 +14,7 @@ import { DateFilterPipe } from '../../pipe/date-restriction.pipe';
 })
 export class CreateLeaveRequestComponent implements OnInit {
   leaveDetail!: FormGroup;
-  
+  minDate: string | undefined;
   internId: any;
 
   constructor(
@@ -27,6 +27,7 @@ export class CreateLeaveRequestComponent implements OnInit {
 
   ngOnInit(): void {
     this.internId = parseInt(localStorage.getItem('userId') || '0', 10);
+    this.minDate = new Date(). toISOString().split('T')[0];
 
     // Initialization
     this.leaveDetail = this.fb.group({
@@ -67,8 +68,19 @@ export class CreateLeaveRequestComponent implements OnInit {
 
   dateValidator(control: FormControl): { [key: string]: boolean } | null {
     const selectedDate: string = control.value;
-    const today = new Date().toISOString().split('T')[0];
-
-    return selectedDate && selectedDate <= today ? null : { invalidDate: true };
+    const today = new Date();
+    const selected = new Date(selectedDate);
+      if (selected < today) {
+      return { invalidDate: true };
+    }
+  
+    const dayOfWeek = selected.getDay();
+    if (dayOfWeek === 5 || dayOfWeek === 6) {
+      return { invalidDay: true };
+    }
+  
+    return null; 
   }
+  
+  
 }

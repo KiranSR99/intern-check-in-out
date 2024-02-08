@@ -1,13 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  ValidationErrors,
-  ValidatorFn,
-  FormGroup,
-  Validators,
-  FormControl,
-} from '@angular/forms';
+import {AbstractControl, FormBuilder, ValidationErrors,ValidatorFn,FormGroup,Validators,FormControl,} from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from '../../services/http-handler.service';
 import { ToastService } from '../../services/toast.service';

@@ -17,36 +17,28 @@
                             </div>
                         </div>
 
+
                         <div class="col-md-6 col-sm-12">
                             <label>Start Date</label>
                             <input type="date" formControlName="startDate" name="startDate" id="startDate"
-                                class="form-control" placeholder="Enter start date" required />
+                                class="form-control" placeholder="Enter start date" required [min]="minDate"
+                                [disabled]="leaveDetail.get('startDate')?.errors?.['invalidDate'] || leaveDetail.get('startDate')?.errors?.['invalidDay']" />
                             <div class="text-danger"
                                 *ngIf="leaveDetail.get('startDate')?.invalid && leaveDetail.get('startDate')?.touched">
-                                <small>Please enter start date.</small>
+                                <small>Please enter a valid start date.</small>
                             </div>
                         </div>
 
                         <div class="col-md-6 col-sm-12">
                             <label>End Date</label>
                             <input type="date" formControlName="endDate" name="endDate" id="endDate"
-                                class="form-control" placeholder="Enter end date" required />
+                                class="form-control" placeholder="Enter end date" required [min]="minDate"
+                                [disabled]="leaveDetail.get('endDate')?.errors?.['invalidDate'] || leaveDetail.get('endDate')?.errors?.['invalidDay']" />
                             <div class="text-danger"
                                 *ngIf="leaveDetail.get('endDate')?.invalid && leaveDetail.get('endDate')?.touched">
-                                <small>Please enter end date.</small>
+                                <small>Please enter a valid end date.</small>
                             </div>
                         </div>
-
-                        <div class="col-md-6 col-sm-12">
-                            <label>Reason</label>
-                            <input type="text" formControlName="reason" class="form-control" placeholder="Enter reason"
-                                required />
-                            <div class="text-danger"
-                                *ngIf="leaveDetail.get('reason')?.invalid && leaveDetail.get('reason')?.touched">
-                                <small>Please enter reason.</small>
-                            </div>
-                        </div>
-
 
                     </div>
                     <hr class="mt-3 mb-3" />
@@ -61,9 +53,7 @@
                                 (click)="onRequestClick()">Send Request</button>
 
                         </div>
-
                     </div>
-
 
                 </div>
             </form>

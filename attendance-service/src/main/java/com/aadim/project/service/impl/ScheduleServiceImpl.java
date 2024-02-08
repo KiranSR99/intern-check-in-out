@@ -16,7 +16,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -111,10 +114,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 //    }
 
     @Transactional
-    public List<Object> getInternDetail( int page, int size) {
+    public Page<Object> getInternDetail(Pageable pageable) {
 //        LocalDateTime now = LocalDateTime.now();
-    PageRequest request = PageRequest.of(page, size);
-        List<Map<String, Object>> internDetails = scheduleRepository.getInternDetail(request);
+//    PageRequest request = PageRequest.of(page, size);
+        Page<Map<String, Object>> internDetails = scheduleRepository.getInternDetail(pageable);
 
         Map<String, Map<String, Object>> responseMap = new HashMap<>();
 
@@ -127,8 +130,9 @@ public class ScheduleServiceImpl implements ScheduleService {
                     .computeIfAbsent("assignedTasks", k -> new ArrayList<>());
             ((List<Map<String, Object>>) responseMap.get(uniqueKey).get("assignedTasks")).add(createTask(detail));
         });
-
-        return new ArrayList<>(responseMap.values());
+         List<Object> responseList = new ArrayList<>(responseMap.values());
+        return new PageImpl<>(responseList, pageable, responseList.size());
+        // return new ArrayList<>(responseMap.values());
     }
 
     private Map<String, Object> createNewEntry(Map<String, Object> detail) {
@@ -149,10 +153,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         task.put("time_taken", detail.get("time_taken"));
         return task;
     }
-
-
-
-
 
     @Override
     public ScheduleStatusResponse getStatusOfSchedule(Integer userId) {

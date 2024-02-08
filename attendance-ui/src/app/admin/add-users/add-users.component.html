@@ -37,15 +37,17 @@
 
             <div class="col-md-6 col-sm-12">
               <div class="password-wrapper">
-                  <input type="password" formControlName="password" class="form-control" placeholder="Enter password" required />
-                  <i class="fa eye-icon" [ngClass]="passwordVisibility ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePassword()"></i>
+                <input type="{{ passwordVisibility ? 'text' : 'password' }}" formControlName="password" class="form-control" placeholder="Enter password" required />
+                <i class="fa eye-icon" [ngClass]="passwordVisibility ? 'fa-eye' : 'fa-eye-slash'" (click)="togglePasswordVisibility()"></i>
               </div>
               <div class="text-danger" *ngIf="userDetails.get('password')?.invalid && userDetails.get('password')?.touched">
-                  <small *ngIf="userDetails.get('password')?.hasError('weakPassword')">Please enter a stronger password.</small>
-                  <small *ngIf="!userDetails.get('password')?.hasError('weakPassword')">Please enter password.</small>
+                <small *ngIf="userDetails.get('password')?.hasError('weakPassword')">Please enter a stronger password.</small>
+                <small *ngIf="!userDetails.get('password')?.hasError('weakPassword')">Please enter password.</small>
               </div>
-          </div>
-          
+            </div>
+            
+            
+            
 
             <div class="col-md-6 col-sm-12">
               <label>Role</label>

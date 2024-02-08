@@ -139,7 +139,4 @@ export class AddUsersComponent implements OnInit {
     this.passwordVisibility = !this.passwordVisibility;
   }
   
-  
-
-
 }

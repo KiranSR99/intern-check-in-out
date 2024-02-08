@@ -40,8 +40,8 @@ public class TaskController extends BaseController {
     }
 
     @GetMapping("/getTaskOfOneUser/{id}")
-    public ResponseEntity<GlobalApiResponse> getTaskOfOneUser(@PathVariable Integer id){
-        return successResponse(taskService.getTaskOfOneUser(id), "Task of one user fetched successfully");
+    public ResponseEntity<GlobalApiResponse> getTaskOfOneUser(@PageableDefault Pageable pageable,@PathVariable Integer id){
+        return successResponse(taskService.getTaskOfOneUser(pageable,id), "Task of one user fetched successfully");
     }
 
     @PreAuthorize("hasAuthority('INTERN')")

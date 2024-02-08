@@ -9,7 +9,12 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./user-details.component.scss'],
 })
 export class UserDetailsComponent {
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
   userDetailsData: any[] = [];
+  collection: any;
+  p1: string | number | undefined;
+  p2: string | number | undefined;
 
   constructor(
     private httpHandler: HttpHandlerService,

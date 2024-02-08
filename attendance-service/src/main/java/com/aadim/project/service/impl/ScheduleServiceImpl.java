@@ -5,8 +5,10 @@ package com.aadim.project.service.impl;
 import com.aadim.project.dto.request.ScheduleRequest;
 import com.aadim.project.dto.request.ScheduleUpdateRequest;
 import com.aadim.project.dto.response.ScheduleResponse;
+import com.aadim.project.dto.response.ScheduleStatusResponse;
 import com.aadim.project.entity.Intern;
 import com.aadim.project.entity.Schedule;
+import com.aadim.project.entity.User;
 import com.aadim.project.repository.InternRepository;
 import com.aadim.project.repository.ScheduleRepository;
 import com.aadim.project.service.ScheduleService;
@@ -14,7 +16,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -153,7 +154,30 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 
 
+    @Override
+    public ScheduleStatusResponse getStatusOfSchedule(Integer userId) {
+         ScheduleStatusResponse scheduleStatusResponse = new ScheduleStatusResponse();
+        Intern intern = internRepository.findInternByUserId(userId);
+        if (intern == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        Schedule schedule = scheduleRepository.getLatestScheduleByInternId(intern.getId());
+        if (schedule != null) {
+            LocalDate checkinDate = schedule.getCheckInTime().toLocalDate();
 
+            if (checkinDate.equals(LocalDate.now())) {
+                scheduleStatusResponse.setHasCheckedIn(true);
+                scheduleStatusResponse.setHasCheckedOut(schedule.getCheckOutTime() != null);
+            } else {
+                scheduleStatusResponse.setHasCheckedIn(false);
+                scheduleStatusResponse.setHasCheckedOut(false);
+            }
+        } else {
+            scheduleStatusResponse.setHasCheckedIn(false);
+            scheduleStatusResponse.setHasCheckedOut(false);
+        }
+        return scheduleStatusResponse;
+    }
 
 
 }

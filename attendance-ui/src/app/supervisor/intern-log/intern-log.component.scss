@@ -7,8 +7,13 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
     }
+}
 
-    
+.pagination {
+    float: right;
+}
 
-    
+.pagination::ng-deep .ngx-pagination .current {
+    background: #6e3098;
+    border-radius: 4px;
 }

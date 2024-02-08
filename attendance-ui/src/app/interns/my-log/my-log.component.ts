@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
   styleUrl: './my-log.component.scss',
 })
 export class MyLogComponent implements OnInit {
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
   userId: any;
   taskDetails: any;
   checkInOutDetail: any;

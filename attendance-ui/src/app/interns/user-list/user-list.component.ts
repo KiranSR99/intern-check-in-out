@@ -9,8 +9,9 @@ import { ToastService } from '../../services/toast.service';
   styleUrl: './user-list.component.scss',
 })
 export class UserListComponent {
-  currentPage: number = 1;
-  itemsPerPage: number = 5;
+  page: number = 1;
+  size: number = 5;
+  pageDetails: any;
   userDetailsData: any[] = [];
   searchText: any;
   userRole: any;
@@ -25,7 +26,7 @@ export class UserListComponent {
   ) {}
 
   ngOnInit(): void {
-    this.fetchUserDetails();
+    this.fetchUserDetails(this.size, this.page);
     this.showIntersOfSupervisor();
 
     this.userId = localStorage.getItem('userId');
@@ -35,14 +36,16 @@ export class UserListComponent {
     }
   }
 
-  fetchUserDetails() {
-    this.httpHandler.getAllUsers().subscribe(
+  fetchUserDetails(size: number, page: number) {
+    this.httpHandler.getAllUsers(this.size,this.page).subscribe(
       (data: any) => {
-        this.userDetailsData = data.data;
-        console.log('Data fetched successfully: '+ this.userDetailsData);
+        this.userDetailsData = data.data.content;
+        this.pageDetails = data.data;
+        console.log("Hello this is total no of items = "+ this.pageDetails?.totalElements);
+        
       },
       (error: any) => {
-        // console.error('Error fetching user details:', error);
+        this.toast.showError(error.error.message);
       }
     );
   }
@@ -50,7 +53,7 @@ export class UserListComponent {
   showIntersOfSupervisor() {
     this.httpHandler.showInternsOfSupervisor().subscribe({
       next: (response: any) => {
-        this.supervisor = response.data.find(
+        this.supervisor = response.data.content.find(
           (item: any) => item.userId == this.userId
         );
 

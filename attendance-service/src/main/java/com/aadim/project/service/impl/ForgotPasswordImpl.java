@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -35,10 +36,15 @@ public class ForgotPasswordImpl implements ForgotPasswordService {
         User user = userRepository.findByEmail(forgotPasswordRequest.getEmail()).orElseThrow(() -> new RuntimeException("User not found"));
         if(!user.getEmail().equals(forgotPasswordRequest.getEmail())){
             log.error("Email not found");
-            throw new RuntimeException("Email not found");
         }
 
-        int otp = (int) (Math.random() * (1000000 - 100000 + 1) + 100000);
+        // Generate a random UUID
+        UUID uuid = UUID.randomUUID();
+
+        // Extract the least significant 6 digits from the UUID
+        long leastSignificantBits = uuid.getLeastSignificantBits();
+        int otp = (int) Math.abs(leastSignificantBits % 1000000);
+
         log.info("OTP generated successfully");
         Otp otpEntity = new Otp();
         otpEntity.setEmail(forgotPasswordRequest.getEmail());
@@ -51,7 +57,6 @@ public class ForgotPasswordImpl implements ForgotPasswordService {
             mailService.sendMailWithOtp(forgotPasswordRequest.getEmail(), otp);
         } catch (Exception e) {
             log.error("Error while sending mail", e);
-            throw new RuntimeException("Error while sending mail");
         }
         log.info("OTP sent successfully");
         return "OTP sent successfully";

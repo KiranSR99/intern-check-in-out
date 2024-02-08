@@ -8,8 +8,9 @@ import { HttpHandlerService } from '../../services/http-handler.service';
   styleUrl: './leave-request.component.scss',
 })
 export class LeaveRequestComponent implements OnInit {
-  currentPage: number = 1;
-  itemsPerPage: number = 5;
+  page: number = 1;
+  size: number = 5;
+  pageDetails: any;
   userId: any;
   userRole: any;
   responseData: any;

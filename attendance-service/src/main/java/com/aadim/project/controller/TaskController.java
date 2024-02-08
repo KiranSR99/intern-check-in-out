@@ -6,9 +6,13 @@ import com.aadim.project.dto.request.TaskRequest;
 import com.aadim.project.dto.request.TaskUpdateRequest;
 import com.aadim.project.service.TaskService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 
 @RestController
@@ -25,8 +29,8 @@ public class TaskController extends BaseController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN','INTERN','SUPERVISOR')")
     @GetMapping("/getAllTasks")
-    public ResponseEntity<GlobalApiResponse> getAllTasks() {
-        return successResponse(taskService.getAllTasks(), "Tasks fetched successfully");
+    public ResponseEntity<GlobalApiResponse> getAllTasks(@PageableDefault Pageable pageable) {
+        return successResponse(taskService.getAllTasks(pageable), "Tasks fetched successfully");
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN','INTERN','SUPERVISOR')")
@@ -44,5 +48,10 @@ public class TaskController extends BaseController {
     @PutMapping("/updateTask")
     public ResponseEntity<GlobalApiResponse> updateTask(@RequestBody TaskUpdateRequest updateRequest){
         return successResponse(taskService.updateTask(updateRequest), "Task Updated successfully");
+    }
+    @PreAuthorize("hasAnyAuthority('ADMIN','INTERN','SUPERVISOR')")
+    @GetMapping("/searchTaskByDate")
+    public ResponseEntity<GlobalApiResponse> searchTaskByDate(@RequestParam("date") LocalDateTime localDateTime) {
+        return successResponse(taskService.searchTasks(localDateTime), "Tasks searched successfully");
     }
 }

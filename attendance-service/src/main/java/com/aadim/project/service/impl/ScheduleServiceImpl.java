@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 @Service
@@ -114,10 +116,14 @@ public class ScheduleServiceImpl implements ScheduleService {
 //    }
 
     @Transactional
-    public Page<Object> getInternDetail(Pageable pageable) {
+    public Page<Object> getInternDetail(String fullName,String localDateTime,Pageable pageable) {
 //        LocalDateTime now = LocalDateTime.now();
 //    PageRequest request = PageRequest.of(page, size);
-        Page<Map<String, Object>> internDetails = scheduleRepository.getInternDetail(pageable);
+        LocalDate localDate = LocalDate.parse(localDateTime, DateTimeFormatter.ISO_DATE);
+        LocalDateTime startOfToday = LocalDateTime.of(localDate, LocalTime.MIN);
+        LocalDateTime endOfToday = LocalDateTime.of(localDate, LocalTime.MAX);
+
+        Page<Map<String, Object>> internDetails = scheduleRepository.getInternDetail(fullName,startOfToday,endOfToday,pageable);
 
         Map<String, Map<String, Object>> responseMap = new HashMap<>();
 

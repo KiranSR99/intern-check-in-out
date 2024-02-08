@@ -94,9 +94,9 @@ export class HttpHandlerService {
   }
 
   //To show all the details of Intern including tasks, check-in, check-out, etc...
-  getAllLog(): Observable<GlobalApiHandler<internLog>> {
+  getAllLog(size: number, page: number): Observable<GlobalApiHandler<internLog>> {
     return this.http.get<GlobalApiHandler<internLog>>(
-      `${this.apiUrl}/schedule/details`
+      `${this.apiUrl}/schedule/details?size=${size}&page=${page - 1}`
     );
   }
 
@@ -132,8 +132,8 @@ export class HttpHandlerService {
   }
 
   //To show all the leave request for Supervisor
-  showAllLeaveRequests(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/leave/get`);
+  showAllLeaveRequests(size: number, page: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/leave/get?size=${size}&page=${page - 1}`);
   }
 
   //To approve the leave request by Supervisor

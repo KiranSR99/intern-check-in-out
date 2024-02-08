@@ -142,12 +142,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskResponse> getTaskOfOneUser(Integer userId) {
+    public Page<TaskResponse> getTaskOfOneUser(Pageable pageable, Integer userId) {
         List<Task> userTasks = taskRepository.findByUserId(userId);
 
-        return userTasks.stream()
+        List<TaskResponse> taskResponses = userTasks.stream()
                 .map(TaskResponse::new)
                 .toList();
+        return new PageImpl<>(taskResponses, pageable, userTasks.size());
     }
 
     @Override

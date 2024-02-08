@@ -2,6 +2,7 @@ package com.aadim.project.globalException;
 
 import com.aadim.project.controller.Base.BaseController;
 import com.aadim.project.dto.GlobalApiResponse;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -20,7 +21,7 @@ import java.util.Map;
 public class GlobalExceptionHandler extends BaseController {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<GlobalApiResponse> handleDataIntegrityViolationException(DataIntegrityViolationException e){
+    public ResponseEntity<GlobalApiResponse> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
         return errorResponse(HttpStatus.BAD_REQUEST, e.getMessage(), e);
     }
 
@@ -36,26 +37,30 @@ public class GlobalExceptionHandler extends BaseController {
     }
 
     @ExceptionHandler(MessagingException.class)
-    public ResponseEntity<GlobalApiResponse> handleMessagingException(MessagingException e){
+    public ResponseEntity<GlobalApiResponse> handleMessagingException(MessagingException e) {
         return errorResponse(HttpStatus.BAD_REQUEST, e.getMessage(), e);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<GlobalApiResponse> handleEntityNotFoundException(EntityNotFoundException e){
+    public ResponseEntity<GlobalApiResponse> handleEntityNotFoundException(EntityNotFoundException e) {
         return errorResponse(HttpStatus.BAD_REQUEST, e.getMessage(), e);
     }
 
     @ExceptionHandler(NullPointerException.class)
-    public ResponseEntity<GlobalApiResponse> handleNullPointerException(NullPointerException e){
+    public ResponseEntity<GlobalApiResponse> handleNullPointerException(NullPointerException e) {
         return errorResponse(HttpStatus.BAD_REQUEST, e.getMessage(), e);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<GlobalApiResponse> handleException(Exception e){
+    public ResponseEntity<GlobalApiResponse> handleException(Exception e) {
+        if (e instanceof ExpiredJwtException) {
+            return errorResponse(HttpStatus.FORBIDDEN, "Jwt token expired please login again", e);
+        }
         return errorResponse(HttpStatus.BAD_REQUEST, e.getMessage(), e);
     }
+
     @ExceptionHandler(IOException.class)
-    public ResponseEntity<GlobalApiResponse> handleExpiredTokenException(Exception e){
+    public ResponseEntity<GlobalApiResponse> handleExpiredTokenException(Exception e) {
         return errorResponse(HttpStatus.FORBIDDEN, e.getMessage(), e);
     }
 
@@ -64,7 +69,6 @@ public class GlobalExceptionHandler extends BaseController {
     public ResponseEntity<GlobalApiResponse> handleAccessDenied(AccessDeniedException ex) {
         return errorResponse(HttpStatus.FORBIDDEN, "Access denied: " + ex.getMessage(), ex);
     }
-
 
 
 }

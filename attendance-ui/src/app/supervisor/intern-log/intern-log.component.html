@@ -49,9 +49,10 @@
                     </tr>
                 </thead>
 
-                <tbody *ngFor="let data of apiResponse | searchFilter:searchText; let i = index">
+                <tbody
+                    *ngFor="let data of apiResponse | paginate: {itemsPerPage: size, currentPage: page, totalItems: pageDetails?.totalElements} | searchFilter:searchText; let i = index">
                     <tr>
-                        <td [attr.rowspan]="data.assignedTasks.length + 1">{{ i + 1 }}</td>
+                        <td [attr.rowspan]="data.assignedTasks.length + 1">{{ (size * (page - 1) + i) + 1 }}</td>
                         <td [attr.rowspan]="data.assignedTasks.length + 1">{{ data.full_name }}</td>
                         <td [attr.rowspan]="data.assignedTasks.length + 1">{{ data.check_in_time |
                             customDateTimeFormatter }}</td>
@@ -72,14 +73,17 @@
             <div class="pagination d-flex align-items-center mt-4">
                 <div class="items-per-page d-flex align-items-center form-group mb-3">
                     <label for="itemsPerPage">Items Per Page: </label>
-                    <select class="form-select mx-2" style="width: 80px;" id="itemsPerPage" [(ngModel)]="itemsPerPage">
+                    <select class="form-select mx-2" style="width: 80px;" id="itemsPerPage" [(ngModel)]="size" (change)="showInternLog(size, page)">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="20">20</option>
                     </select>
                 </div>
 
-                <pagination-controls (pageChange)=" currentPage=$event"></pagination-controls>
+                <pagination-controls (pageChange)="showInternLog(size, page = $event)"></pagination-controls>
             </div>
         </div>
     </div>

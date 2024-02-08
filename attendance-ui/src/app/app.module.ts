@@ -42,6 +42,7 @@ import { MyLogComponent } from './interns/my-log/my-log.component';
 import { DateFilterPipe } from './pipe/date-restriction.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 
+
 @NgModule({
   declarations: [
     AppComponent,

@@ -189,4 +189,9 @@ export class HttpHandlerService {
   showInternsOfSupervisor(): Observable<any> {
     return this.http.get(`${this.apiUrl}/users/getInternsOfSupervisor`);
   }
+
+  //To get all the interns
+  showAllInterns(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/users/getAllInterns`);
+  }
 }

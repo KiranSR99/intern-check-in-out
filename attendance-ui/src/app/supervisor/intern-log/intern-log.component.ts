@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from '../../services/http-handler.service';
 import { ToastService } from '../../services/toast.service';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-intern-log',
@@ -9,6 +10,9 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./intern-log.component.scss'],
 })
 export class InternLogComponent implements OnInit {
+
+  @ViewChild('datePicker') datePicker!: ElementRef;
+
   page: number = 1;
   size: number = 5;
   pageDetails: any;
@@ -142,5 +146,18 @@ export class InternLogComponent implements OnInit {
 
   onEditClick(id: number) {
     this.route.navigate(['app/log-mgnt/edit-log/', id]);
+  }
+
+
+
+  openDatePicker() {
+    this.datePicker.nativeElement.style.display = 'block';
+  }
+
+  // Function to handle date change
+  handleDateChange(input: any) {
+    const dateValue: string = input.value;
+    console.log('Selected date:', dateValue);
+    // Add your logic to filter data based on the selected date
   }
 }

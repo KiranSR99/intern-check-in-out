@@ -1,9 +1,10 @@
 package com.aadim.project.security;
 
-import com.aadim.project.dto.GlobalErrorResponse;
 import com.aadim.project.repository.TokenRepository;
 import com.aadim.project.service.impl.UserDetailServiceImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,17 +19,20 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
+import java.time.Instant;
+import java.util.Date;
 
 
 @Component
 @RequiredArgsConstructor
-public class JwtAuthFilter extends OncePerRequestFilter {
+public class JwtAuthFilter extends OncePerRequestFilter{
 
     private final JwtService jwtService;
 
     private final UserDetailServiceImpl userDetailServiceImpl;
 
     private final TokenRepository tokenRepository;
+    public static final String SECRET = "357638792F423F4428472B4B6250655368566D597133743677397A2443264629";
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -48,35 +52,31 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             var isTokenValid = tokenRepository.findByToken(token)
                     .map(t -> !t.isExpired() && !t.isRevoked())
                     .orElse(false);
-            if(jwtService.validateToken(token, userDetails) && isTokenValid){
+            if (jwtService.validateToken(token, userDetails) && isTokenValid) {
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
                         userDetails.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            }
-            else {
-                // Token is expired
-                sendExpiredTokenResponse(response);
-                return;
+            } else {
+                // Token is invalid or expired
+                if (isTokenExpired(token)) {
+                    // Handle expired token
+                    throw new RuntimeException("Token Expired. Please login again.");
+                }
             }
         }
         filterChain.doFilter(request, response);
     }
-
-    private void sendExpiredTokenResponse(HttpServletResponse response) throws IOException {
-        // Customize the response for an expired token
-        response.setStatus(HttpStatus.FORBIDDEN.value());
-        response.setContentType("application/json");
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        GlobalErrorResponse errorResponse = new GlobalErrorResponse();
-        errorResponse.setStatus(HttpStatus.FORBIDDEN.toString());
-        errorResponse.setMessage("Please login again. Your token has expired.");
-
-        String jsonResponse = objectMapper.writeValueAsString(errorResponse);
-        response.getWriter().write(jsonResponse);
-        response.getWriter().flush();
+    public boolean isTokenExpired(String token) {
+        try {
+            Claims claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
+            Date expirationDate = claims.getExpiration();
+            return expirationDate.before(Date.from(Instant.now()));
+        } catch (ExpiredJwtException e) {
+            return true; // Token is expired
+        }
     }
+
 }

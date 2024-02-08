@@ -9,8 +9,9 @@ import { ToastService } from '../../services/toast.service';
   styleUrl: './leave-request-list.component.scss',
 })
 export class LeaveRequestListComponent {
-  currentPage: number = 1;
-  itemsPerPage: number = 5;
+  page: number = 1;
+  size: number = 5;
+  pageDetails: any;
   userId: any;
   userRole: any;
   responseData: any;
@@ -29,14 +30,15 @@ export class LeaveRequestListComponent {
       this.userRole = JSON.parse(this.userRole);
     }
 
-    this.showLeaveRequests();
+    this.showLeaveRequests(this.size, this.page);
   }
 
-  showLeaveRequests() {
+  showLeaveRequests(size: number, page: number) {
     // To show leave requests of an intern
-    this.httpHandler.showAllLeaveRequests().subscribe({
+    this.httpHandler.showAllLeaveRequests(size, page).subscribe({
       next: (response: any) => {
-        this.responseData = response.data;
+        this.responseData = response.data.content;
+        this.pageDetails = response.data;
       },
       error: (error: any) => {
         console.error('Error fetching leave requests:', error);
@@ -48,7 +50,7 @@ export class LeaveRequestListComponent {
     this.httpHandler.approveLeaveRequest(id).subscribe({
       next: (response: any) => {
         this.toast.showSuccess('Leave request approved.');
-        this.showLeaveRequests();
+        this.showLeaveRequests(this.size, this.page);
       },
       error: (error: any) => {
         this.toast.showError('Unable to approve leave request');
@@ -60,7 +62,7 @@ export class LeaveRequestListComponent {
     this.httpHandler.declineLeaveRequest(id).subscribe({
       next: (response: any) => {
         this.toast.showSuccess('Leave request declined.');
-        this.showLeaveRequests();
+        this.showLeaveRequests(this.size, this.page);
       },
       error: (error: any) => {
         this.toast.showError('Unable ot decline leave request.');

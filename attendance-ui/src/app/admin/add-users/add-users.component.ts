@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, FormGroup, Validators, FormControl } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  ValidationErrors,
+  ValidatorFn,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from '../../services/http-handler.service';
 import { ToastService } from '../../services/toast.service';
@@ -7,8 +15,10 @@ import { ToastService } from '../../services/toast.service';
 export function strongPasswordValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const password: string = control.value;
-    const isStrongPassword: boolean = /^(?=.*[@#])(?=.*\d)[A-Za-z\d@#]+$/.test(password);
-    return isStrongPassword ? null : { 'weakPassword': true };
+    const isStrongPassword: boolean = /^(?=.*[@#])(?=.*\d)[A-Za-z\d@#]+$/.test(
+      password
+    );
+    return isStrongPassword ? null : { weakPassword: true };
   };
 }
 
@@ -105,14 +115,19 @@ export class AddUsersComponent implements OnInit {
     return roleId === 'INTERN';
   }
 
-  emailPatternValidator(control: FormControl): { [key: string]: boolean } | null {
+  emailPatternValidator(
+    control: FormControl
+  ): { [key: string]: boolean } | null {
     const email: string = control.value;
-    const emailPattern: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const emailPattern: RegExp =
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     return emailPattern.test(email) ? null : { emailPatternError: true };
   }
 
-  phoneNumberValidator(control: FormControl): { [key: string]: boolean } | null {
+  phoneNumberValidator(
+    control: FormControl
+  ): { [key: string]: boolean } | null {
     const phone: string = control.value;
     const phonePattern: RegExp = /^\d{10}$/;
 
@@ -125,6 +140,4 @@ export class AddUsersComponent implements OnInit {
   }
   
   
-
-
 }

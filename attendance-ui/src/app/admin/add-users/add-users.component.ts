@@ -75,7 +75,7 @@ export class AddUsersComponent implements OnInit {
   showAllSupervisors() {
     this.http.getAllSupervisors().subscribe({
       next: (response: any) => {
-        this.supervisors = response.data;
+        this.supervisors = response.data.content;
         console.log(this.supervisors);
       },
     });
@@ -120,9 +120,11 @@ export class AddUsersComponent implements OnInit {
   }
 
 
-  togglePassword(): void {
+  togglePasswordVisibility(): void {
     this.passwordVisibility = !this.passwordVisibility;
   }
+  
+  
 
 
 }

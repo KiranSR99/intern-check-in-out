@@ -1,7 +1,23 @@
-
-@media (max-width: 768px){
-    .buttons{
+@media (max-width: 768px) {
+    .buttons {
         display: grid;
         grid-template-columns: 1fr 1fr;
     }
+}
+
+.password-input-container {
+    position: relative;
+}
+
+.eye-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.eye-icon.cut {
+    transform: translateY(-50%) rotate(-45deg);
 }

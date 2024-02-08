@@ -9,6 +9,8 @@ import { ToastService } from '../../services/toast.service';
   styleUrl: './leave-request-list.component.scss',
 })
 export class LeaveRequestListComponent {
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
   userId: any;
   userRole: any;
   responseData: any;

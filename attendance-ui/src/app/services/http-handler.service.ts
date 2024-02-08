@@ -74,9 +74,12 @@ export class HttpHandlerService {
   }
 
   //To show the list of all the users
-  getAllUsers(): Observable<GlobalApiHandler<UserList>> {
+  getAllUsers(
+    size: number,
+    page: number
+  ): Observable<GlobalApiHandler<UserList>> {
     return this.http.get<GlobalApiHandler<UserList>>(
-      `${this.apiUrl}/users/getAll`
+      `${this.apiUrl}/users/getAll?size=${size}&page=${page - 1}`
     );
   }
 

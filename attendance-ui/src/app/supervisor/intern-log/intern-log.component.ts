@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from '../../services/http-handler.service';
 import { ToastService } from '../../services/toast.service';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-intern-log',
@@ -9,8 +10,12 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./intern-log.component.scss'],
 })
 export class InternLogComponent implements OnInit {
-  currentPage: number = 1;
-  itemsPerPage: number = 5;
+
+  @ViewChild('datePicker') datePicker!: ElementRef;
+
+  page: number = 1;
+  size: number = 5;
+  pageDetails: any;
   userRole: any;
   isCheckedIn: boolean = false;
   intern: any;
@@ -30,7 +35,7 @@ export class InternLogComponent implements OnInit {
     private http: HttpHandlerService,
     private route: Router,
     private toast: ToastService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     // this.showInternLog();
@@ -44,22 +49,20 @@ export class InternLogComponent implements OnInit {
     if (this.userRole) {
       this.userRole = JSON.parse(this.userRole);
     }
-    this.showInternLog();
+    this.showInternLog(this.size, this.page);
   }
 
-  showInternLog() {
-    this.http.getAllLog().subscribe(
+  showInternLog(size: number, page: number) {
+    this.http.getAllLog(size, page).subscribe(
       (result: any) => {
-        this.apiResponse = result;
-        console.log('fetch data successfully', result);
+        this.apiResponse = result.content;
+        this.pageDetails = result;
       },
       (error: any) => {
         console.error('Error fetching data', error);
       }
     );
   }
-
-
 
   // //To show intern name
   // showInternDetails() {
@@ -88,7 +91,7 @@ export class InternLogComponent implements OnInit {
         this.internCheckInOut = response.data;
         console.log(this.internCheckInOut);
       },
-      error: (error: any) => { },
+      error: (error: any) => {},
     });
   }
 
@@ -100,7 +103,7 @@ export class InternLogComponent implements OnInit {
     this.http.checkIn(checkInReqBody).subscribe(
       (result: any) => {
         this.toast.showSuccess('Check-in successful.');
-        this.showInternLog();
+        this.showInternLog(this.size, this.page);
         this.showCheckInOut();
 
         this.isCheckedIn = true;
@@ -125,7 +128,7 @@ export class InternLogComponent implements OnInit {
     this.http.checkOut(checkOutReqBody).subscribe(
       (result: any) => {
         this.toast.showSuccess('Checked out successfully.');
-        this.showInternLog();
+        this.showInternLog(this.size, this.page);
         this;
         this.showCheckInOut();
       },
@@ -137,13 +140,24 @@ export class InternLogComponent implements OnInit {
 
   onClickAddTask() {
     this.route.navigate(['app/log-mgnt/add-log']);
-
-
   }
 
-  onViewClick() { }
+  onViewClick() {}
 
   onEditClick(id: number) {
     this.route.navigate(['app/log-mgnt/edit-log/', id]);
+  }
+
+
+
+  openDatePicker() {
+    this.datePicker.nativeElement.style.display = 'block';
+  }
+
+  // Function to handle date change
+  handleDateChange(input: any) {
+    const dateValue: string = input.value;
+    console.log('Selected date:', dateValue);
+    // Add your logic to filter data based on the selected date
   }
 }

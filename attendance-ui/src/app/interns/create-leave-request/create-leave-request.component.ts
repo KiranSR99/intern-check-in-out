@@ -26,25 +26,12 @@ export class CreateLeaveRequestComponent implements OnInit {
     // Initialization
     this.leaveDetail = this.fb.group({
       noOfDays: ['', Validators.required],
-      startDate: ['', [Validators.required, ]],
-      endDate: ['', [Validators.required, ]],
+      startDate: ['', [Validators.required,]],
+      endDate: ['', [Validators.required,]],
       reason: ['', Validators.required],
       internId: this.internId,
     });
   }
-
-  // dateValidator(control: FormControl): { [key: string]: boolean } | null {
-  //   const selectedDate: Date = new Date(control.value);
-  //   const today: Date = new Date();
-  //   today.setHours(0, 0, 0, 0);
-  
-  //   if (selectedDate >= today && selectedDate.getDay() !== 5 && selectedDate.getDay() !== 6) {
-  //     return null; 
-  //   }
-  
-  //   return { invalidDate: true }; 
-  // }
-  
 
   cancel() {
     this.router.navigate(['/']);
@@ -70,13 +57,13 @@ export class CreateLeaveRequestComponent implements OnInit {
     const selectedDate: Date = new Date(control.value);
     const today: Date = new Date();
     today.setHours(0, 0, 0, 0);
-  
+
     // Check if selected date is a future date (excluding weekends)
     if (selectedDate > today && selectedDate.getDay() !== 0 && selectedDate.getDay() !== 6) {
       return null; // Valid date
     }
-  
+
     return { invalidDate: true }; // Invalid date
   }
-  
+
 }

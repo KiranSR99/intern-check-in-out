@@ -24,9 +24,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of userDetailsData; let per_i = index">
+                                <tr
+                                    *ngFor="let item of userDetailsData |paginate: {itemsPerPage: itemsPerPage, currentPage: currentPage}; let per_i = index">
                                     <!-- User details -->
-                                    <td>{{ per_i + 1 }}</td>
+                                    <td>{{ (itemsPerPage * (currentPage - 1) + per_i) + 1 }}</td>
                                     <td>{{ item.fullName }}</td>
                                     <td>{{ item.email }}</td>
                                     <td>{{ item.phone }}</td>
@@ -34,10 +35,12 @@
                                     <td>
                                         <div class="d-flex justify-content-center align-items-center">
                                             <button type="button" class="btn btn-outline-primary mx-2 fs-6 fs-md-5"
+                                                data-toggle="tooltip" data-placement="bottom" title="Edit"
                                                 (click)="onUpdateClick(item.userId)">
                                                 <i class="fa fa-edit"></i>
                                             </button>
                                             <button type="button" class="btn btn-outline-danger mx-2 fs-6 fs-md-5"
+                                                data-toggle="tooltip" data-placement="bottom" title="Delete"
                                                 (click)="onDeleteUserClick(item.userId)">
                                                 <i class="fa fa-trash"></i>
                                             </button>
@@ -46,6 +49,20 @@
                                 </tr>
                             </tbody>
                         </table>
+
+                        <div class="pagination d-flex align-items-center mt-4">
+                            <div class="items-per-page d-flex align-items-center form-group mb-3">
+                                <label for="itemsPerPage">Items Per Page: </label>
+                                <select class="form-select mx-2" style="width: 80px;" id="itemsPerPage"
+                                    [(ngModel)]="itemsPerPage">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                </select>
+                            </div>
+
+                            <pagination-controls (pageChange)=" currentPage=$event"></pagination-controls>
+                        </div>
                     </div>
                 </div>
             </div>

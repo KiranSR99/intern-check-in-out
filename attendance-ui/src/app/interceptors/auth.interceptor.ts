@@ -36,10 +36,10 @@ export class AuthInterceptor implements HttpInterceptor {
         let errorMessage = 'Handled HTTP error';
 
         if (
-          error.error.status == 403 ||
-          error.error.status == '401 UNAUTHORIZED'
+          error?.status == 403 
         ) {
-          this.route.navigate(['/login']);
+          localStorage.clear();
+          this.route.navigate(['/']);
         }
         return throwError(error);
       })

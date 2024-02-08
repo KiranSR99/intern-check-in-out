@@ -28,7 +28,7 @@ export class HttpHandlerService {
   }
 
   //To logout by user
-  logout(): Observable<any>{
+  logout(): Observable<any> {
     return this.http.post(`${this.apiUrl}/logout`, {});
   }
 
@@ -92,7 +92,9 @@ export class HttpHandlerService {
 
   //To show all the details of Intern including tasks, check-in, check-out, etc...
   getAllLog(): Observable<GlobalApiHandler<internLog>> {
-    return this.http.get<GlobalApiHandler<internLog>>(`${this.apiUrl}/schedule/details`);
+    return this.http.get<GlobalApiHandler<internLog>>(
+      `${this.apiUrl}/schedule/details`
+    );
   }
 
   //To delete user by Id
@@ -178,5 +180,10 @@ export class HttpHandlerService {
   //To get all supervisors
   getAllSupervisors(): Observable<any> {
     return this.http.get(`${this.apiUrl}/users/getAllSupervisors`);
+  }
+
+  //To get interns of supervisor
+  showInternsOfSupervisor(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/users/getInternsOfSupervisor`);
   }
 }

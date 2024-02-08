@@ -18,7 +18,7 @@ public interface TaskService {
 
     TaskResponse getTaskById(Integer id);
 
-    List<TaskResponse> getTaskOfOneUser(Integer userId);
+    Page<TaskResponse> getTaskOfOneUser(Pageable pageable,Integer userId);
 
     TaskResponse updateTask(TaskUpdateRequest updateRequest);
 

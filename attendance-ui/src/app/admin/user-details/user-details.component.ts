@@ -25,7 +25,7 @@ export class UserDetailsComponent {
     this.httpHandler.getAllUsers().subscribe(
       (response: any) => {
         console.log('Data fetched successfully');
-        this.userDetailsData = response.data.content;
+        this.userDetailsData = response.data;
       },
       (error: any) => {
         console.error('Error fetching user details:', error);

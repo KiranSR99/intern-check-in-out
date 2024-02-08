@@ -1,4 +1,18 @@
+.password-wrapper {
+    position: relative;
+}
 
+.password-wrapper input[type="password"] {
+    padding-right: 28px; 
+}
+
+.password-wrapper .eye-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px; 
+    transform: translateY(-50%);
+    cursor: pointer;
+}
 @media (max-width: 768px){
     .buttons{
         display: grid;

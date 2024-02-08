@@ -18,12 +18,12 @@
 .eye-icon {
   position: absolute;
   top: 50%;
-  right: 10px; /* Adjust as needed */
+  right: 10px;
   transform: translateY(-50%);
   cursor: pointer;
-  transition: transform 0.3s ease; /* Transition for smooth transformation */
+  transition: transform 0.3s ease;
 }
 
 .eye-icon.cut {
-  transform: translateY(-50%) rotate(-45deg); /* Rotate the icon to make it look cut */
+  transform: translateY(-50%) rotate(-45deg);
 }

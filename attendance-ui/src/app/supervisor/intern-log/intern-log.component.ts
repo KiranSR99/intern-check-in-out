@@ -9,6 +9,8 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./intern-log.component.scss'],
 })
 export class InternLogComponent implements OnInit {
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
   userRole: any;
   isCheckedIn: boolean = false;
   intern: any;

@@ -40,6 +40,7 @@ import { CustomDateTimeFormatterPipe } from './pipe/date-time-formatter.pipe';
 import { FieldFormatterPipe } from './pipe/field-formatter.pipe';
 import { MyLogComponent } from './interns/my-log/my-log.component';
 import { DateFilterPipe } from './pipe/date-restriction.pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { DateFilterPipe } from './pipe/date-restriction.pipe';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),
+    NgxPaginationModule
   ],
 
   providers: [

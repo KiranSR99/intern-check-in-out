@@ -9,7 +9,12 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./user-details.component.scss'],
 })
 export class UserDetailsComponent {
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
   userDetailsData: any[] = [];
+  collection: any;
+  p1: string | number | undefined;
+  p2: string | number | undefined;
 
   constructor(
     private httpHandler: HttpHandlerService,
@@ -25,7 +30,7 @@ export class UserDetailsComponent {
     this.httpHandler.getAllUsers().subscribe(
       (response: any) => {
         console.log('Data fetched successfully');
-        this.userDetailsData = response.data.content;
+        this.userDetailsData = response.data;
       },
       (error: any) => {
         console.error('Error fetching user details:', error);

@@ -3,3 +3,12 @@
         font-size: 14px;
     }
 }
+
+.pagination {
+    float: right;
+}
+
+.pagination::ng-deep .ngx-pagination .current {
+    background: #6e3098;
+    border-radius: 4px;
+}

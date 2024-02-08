@@ -20,6 +20,8 @@ export function strongPasswordValidator(): ValidatorFn {
 export class AddUsersComponent implements OnInit {
   userDetails: FormGroup;
   supervisors: any;
+  passwordVisibility: boolean = false;
+
 
   roles: any[] = [
     { id: 'ADMIN', name: 'Admin' },
@@ -116,5 +118,9 @@ export class AddUsersComponent implements OnInit {
     const phonePattern: RegExp = /^\d{10}$/;
 
     return phonePattern.test(phone) ? null : { phonePatternError: true };
+  }
+
+  togglePasswordVisibility(): void {
+    this.passwordVisibility = !this.passwordVisibility;
   }
 }

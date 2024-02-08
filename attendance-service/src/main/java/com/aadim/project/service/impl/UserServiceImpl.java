@@ -51,7 +51,6 @@ public class UserServiceImpl implements UserService {
             case ADMIN -> saveAdmin(request, user);
             case SUPERVISOR -> saveSupervisor(request, user);
             case INTERN -> saveIntern(request, user);
-            default -> throw new IllegalArgumentException("Invalid role: " + request.getRole());
         };
     }
 
@@ -114,7 +113,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<UserResponse> getAllUser(Pageable pageable) {
+    public Page<UserResponse> getAllUser(Pageable pageable) {
         log.info("Fetching All Users");
 
         // Fetching users with pagination
@@ -156,7 +155,7 @@ public class UserServiceImpl implements UserService {
         }
 
         log.info("All users fetched successfully");
-        return userResponses;
+        return new PageImpl<>(userResponses, pageable, usersPage.getTotalElements());
     }
 
 
@@ -244,7 +243,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<UserResponse> getAllUsersByRole(Role role, Pageable pageable) {
+    public Page<UserResponse> getAllUsersByRole(Role role, Pageable pageable) {
         log.info("Fetching all users of " + role);
 
         Page<User> userPage = userRepository.findActiveUsersByRole(role, pageable);
@@ -285,7 +284,7 @@ public class UserServiceImpl implements UserService {
         }
 
         log.info("Fetched all users of " + role);
-        return userResponses;
+        return new PageImpl<>(userResponses, pageable, userPage.getTotalElements());
     }
 
 
@@ -314,6 +313,16 @@ public class UserServiceImpl implements UserService {
             intern.setFullName(request.getFullName());
             intern.setPhone(request.getPhone());
             intern.setFieldType(request.getFieldType());
+            Supervisor primarySupervisor = supervisorRepository.findSupervisorByUserId(request.getPrimarySupervisor());
+            Supervisor secondarySupervisor = supervisorRepository.findSupervisorByUserId(request.getPrimarySupervisor());
+            if (primarySupervisor == null) {
+                throw new EntityNotFoundException("Primary Supervisor doesn't exist.");
+            }
+            if (secondarySupervisor == null) {
+                throw new EntityNotFoundException("Secondary Supervisor doesn't exist.");
+            }
+            intern.setPrimarySupervisor(primarySupervisor);
+            intern.setPrimarySupervisor(secondarySupervisor);
             internRepository.save(intern);
             return new UserResponse(intern, user);
         }
@@ -388,7 +397,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<SupervisorInfoResponse> getAllInternsOfSupervisor(Pageable pageable) {
+    public Page<SupervisorInfoResponse> getAllInternsOfSupervisor(Pageable pageable) {
         log.info("Fetching All Interns by Supervisor");
 
         Page<Supervisor> supervisorPage = supervisorRepository.findActiveSupervisors(pageable);
@@ -410,7 +419,7 @@ public class UserServiceImpl implements UserService {
         }
 
         log.info("Fetched All Interns by Supervisor");
-        return supervisorResponses;
+        return new PageImpl<>(supervisorResponses, pageable, supervisorPage.getTotalElements()) ;
     }
 
 

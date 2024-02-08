@@ -11,4 +11,6 @@ public class UserUpdateRequest {
     private String fullName;
     private String phone;
     private FieldType fieldType;
+    private Integer primarySupervisor;
+    private Integer secondarySupervisor;
 }

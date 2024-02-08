@@ -11,7 +11,6 @@ import jakarta.mail.MessagingException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 
 
 public interface UserService {
@@ -20,11 +19,11 @@ public interface UserService {
     UserResponse saveUser(UserRequest request) throws MessagingException;
 
 
-    List<UserResponse> getAllUser(Pageable pageable);
+    Page<UserResponse> getAllUser(Pageable pageable);
 
     UserResponse getUserById(Integer id);
 
-    List<UserResponse> getAllUsersByRole(Role role, Pageable pageable);
+    Page<UserResponse> getAllUsersByRole(Role role, Pageable pageable);
 
     UserResponse updateUser (UserUpdateRequest request);
 
@@ -35,5 +34,5 @@ public interface UserService {
     String changePasswordByEmail (ForgotPasswordRequest request);
 
 
-    List<SupervisorInfoResponse> getAllInternsOfSupervisor(Pageable pageable);
+    Page<SupervisorInfoResponse> getAllInternsOfSupervisor(Pageable pageable);
 }

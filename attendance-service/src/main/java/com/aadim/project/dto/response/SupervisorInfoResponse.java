@@ -26,5 +26,6 @@ public class SupervisorInfoResponse {
         this.email = email;
         this.phone = phone;
         this.role = role;
+        this.supervisorId = id;
     }
 }

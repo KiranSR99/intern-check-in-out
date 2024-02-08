@@ -6,7 +6,7 @@
                 <div class="header-box d-flex flex-wrap justify-content-between align-items-center">
                     <h3 class="text-warning mb-0 col-lg-6 col-md-12">Users List</h3>
 
-                    <div *ngIf="userRole == 'SUPERVISOR'" class="my-interns" style="cursor: pointer;" (click)="loadInterns()">
+                    <div *ngIf="userRole == 'SUPERVISOR'" class="my-interns" style="cursor: pointer;">
                         <ul class="nav nav-pills">
                             <li> <i class="fa-solid fa-users"></i></li>
                             <li class="ms-2"> My Interns</li>
@@ -37,7 +37,7 @@
                             </thead>
                             <tbody>
                                 <ng-container
-                                    *ngFor="let item of userDetailsData | searchFilter:searchText; let per_i = index">
+                                    *ngFor="let item of userDetailsData |paginate: {itemsPerPage: size, currentPage: page, totalItems: pageDetails.totalElements} | searchFilter:searchText; let per_i = index">
                                     <!-- User details -->
                                     <tr *ngIf="item.role !== 'ADMIN'">
                                         <td>{{ per_i + 1 }}</td>
@@ -54,14 +54,14 @@
                             <div class="items-per-page d-flex align-items-center form-group mb-3">
                                 <label for="itemsPerPage">Items Per Page: </label>
                                 <select class="form-select mx-2" style="width: 80px;" id="itemsPerPage"
-                                    [(ngModel)]="itemsPerPage">
+                                    [(ngModel)]="size" (change)="fetchUserDetails(size, page)">
                                     <option value="5">5</option>
                                     <option value="10">10</option>
                                     <option value="20">20</option>
                                 </select>
                             </div>
 
-                            <pagination-controls (pageChange)=" currentPage=$event"></pagination-controls>
+                            <pagination-controls (pageChange)=" fetchUserDetails(size, page = $event)"></pagination-controls>
                         </div>
                     </div>
                 </div>

@@ -9,8 +9,9 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./user-details.component.scss'],
 })
 export class UserDetailsComponent {
-  currentPage: number = 1;
-  itemsPerPage: number = 5;
+  page: number = 1;
+  size: number = 5;
+  pageDetails: any;
   userDetailsData: any[] = [];
   collection: any;
   p1: string | number | undefined;
@@ -23,17 +24,17 @@ export class UserDetailsComponent {
   ) {}
 
   ngOnInit(): void {
-    this.fetchUserDetails();
+    this.fetchUserDetails(this.size, this.page);
   }
 
-  fetchUserDetails() {
-    this.httpHandler.getAllUsers().subscribe(
+  fetchUserDetails(size: number, page: number) {
+    this.httpHandler.getAllUsers(size, page).subscribe(
       (response: any) => {
-        console.log('Data fetched successfully');
-        this.userDetailsData = response.data;
+        this.userDetailsData = response.data.content;
+        this.pageDetails = response.data;
       },
       (error: any) => {
-        console.error('Error fetching user details:', error);
+        this.toast.showError(error.error.message);
       }
     );
   }
@@ -45,7 +46,7 @@ export class UserDetailsComponent {
           this.toast.showSuccess('Data Deleted Successfully');
           console.log('Data Deleted successfully:', response);
 
-          this.fetchUserDetails();
+          this.fetchUserDetails(this.size, this.page);
         },
         error: (error: any) => {
           this.toast.showError(error.error.data);

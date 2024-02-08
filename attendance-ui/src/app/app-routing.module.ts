@@ -22,7 +22,6 @@ import { EnterOtpComponent } from './enter-otp/enter-otp.component';
 import { LeaveRequestListComponent } from './supervisor/leave-request-list/leave-request-list.component';
 import { UserListComponent } from './interns/user-list/user-list.component';
 import { AccessDeniedComponent } from './common/access-denied/access-denied.component';
-import { roleGuard } from './guards/role.guard';
 import { MyLogComponent } from './interns/my-log/my-log.component';
 
 const routes: Routes = [

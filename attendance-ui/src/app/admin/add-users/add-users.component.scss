@@ -1,23 +1,23 @@
-@media (max-width: 768px) {
-    .buttons {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-    }
-}
 
-.password-input-container {
+.password-wrapper {
     position: relative;
 }
 
-.eye-icon {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    cursor: pointer;
-    transition: transform 0.3s ease;
+.password-wrapper input[type="password"] {
+    padding-right: 28px; 
 }
 
-.eye-icon.cut {
-    transform: translateY(-50%) rotate(-45deg);
+.password-wrapper .eye-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px; 
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+@media (max-width: 768px){
+    .buttons{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
 }

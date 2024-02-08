@@ -9,9 +9,13 @@ import com.aadim.project.repository.LeaveRepository;
 import com.aadim.project.service.LeaveService;
 import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,16 +25,16 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class LeaveServiceImpl implements LeaveService {
+
     @Autowired
     private LeaveRepository leaveRepository;
-
     @Autowired
     private InternRepository internRepository;
-
     @Autowired
     private MailServiceImpl mailServiceImpl;
+
     @Override
-    public String createLeave(LeaveRequest leaveRequest) {
+    public String createLeave(LeaveRequest leaveRequest) throws RuntimeException {
         log.info("Creating leave record for intern");
 
         Leave leave = new Leave();
@@ -76,22 +80,22 @@ public class LeaveServiceImpl implements LeaveService {
     }
 
     @Override
-    public List<LeaveResponse> getAllLeaves() {
+    public Page getAllLeaves(Pageable pageable) {
         List<LeaveResponse> leaveResponseList = new ArrayList<>();
-        List<Leave> leaveList = leaveRepository.findAllByIsActive();
+        Page<Leave> leaveList = leaveRepository.findAllByIsActive(pageable);
 
-        for (Leave leave : leaveList) {
+        for (Leave leave : leaveList.toList()) {
             leaveResponseList.add(new LeaveResponse(leave));
         }
         log.info("Returning all leave records");
-        return leaveResponseList;
+        return new PageImpl<>(leaveResponseList, pageable, leaveList.getTotalElements());
     }
 
     @Override
     public LeaveResponse getLeaveById(Integer id) {
         log.info("Returning leave record by id");
         if(!leaveRepository.existsById(id)){
-            log.error("Leave record not found");
+            log.error("Leave record not found!");
             throw new EntityNotFoundException("Leave record not found");
         }
         Leave leave = leaveRepository.findLeaveById(id);

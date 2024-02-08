@@ -25,9 +25,9 @@
                             </thead>
                             <tbody>
                                 <tr
-                                    *ngFor="let item of userDetailsData |paginate: {itemsPerPage: itemsPerPage, currentPage: currentPage}; let per_i = index">
+                                    *ngFor="let item of userDetailsData |paginate: {itemsPerPage: size, currentPage: page, totalItems: pageDetails.totalElements}; let per_i = index">
                                     <!-- User details -->
-                                    <td>{{ (itemsPerPage * (currentPage - 1) + per_i) + 1 }}</td>
+                                    <td>{{ (size * (page - 1) + per_i) + 1 }}</td>
                                     <td>{{ item.fullName }}</td>
                                     <td>{{ item.email }}</td>
                                     <td>{{ item.phone }}</td>
@@ -54,14 +54,17 @@
                             <div class="items-per-page d-flex align-items-center form-group mb-3">
                                 <label for="itemsPerPage">Items Per Page: </label>
                                 <select class="form-select mx-2" style="width: 80px;" id="itemsPerPage"
-                                    [(ngModel)]="itemsPerPage">
+                                    [(ngModel)]="size" (change)="fetchUserDetails(size, page)">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
                                     <option value="5">5</option>
                                     <option value="10">10</option>
                                     <option value="20">20</option>
                                 </select>
                             </div>
 
-                            <pagination-controls (pageChange)=" currentPage=$event"></pagination-controls>
+                            <pagination-controls (pageChange)=" fetchUserDetails(size, page = $event)"></pagination-controls>
                         </div>
                     </div>
                 </div>

@@ -22,7 +22,6 @@ export class AddUsersComponent implements OnInit {
   supervisors: any;
   passwordVisibility: boolean = false;
 
-
   roles: any[] = [
     { id: 'ADMIN', name: 'Admin' },
     { id: 'SUPERVISOR', name: 'Supervisor' },
@@ -120,7 +119,10 @@ export class AddUsersComponent implements OnInit {
     return phonePattern.test(phone) ? null : { phonePatternError: true };
   }
 
-  togglePasswordVisibility(): void {
+
+  togglePassword(): void {
     this.passwordVisibility = !this.passwordVisibility;
   }
+
+
 }

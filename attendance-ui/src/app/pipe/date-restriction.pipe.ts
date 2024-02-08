@@ -4,18 +4,18 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'dateRestriction'
 })
 export class DateFilterPipe implements PipeTransform {
-  transform(dates: Date[]): Date[] {
+  transform(dates: Date | Date[]): Date | Date[] {
+    if (Array.isArray(dates)) {
+      return dates.filter(date => this.isValidDate(date));
+    } else {
+      return this.isValidDate(dates) ? dates : []; 
+    }
+  }
+
+  private isValidDate(date: Date): boolean {
     const today: Date = new Date();
-    const filteredDates: Date[] = [];
+    today.setHours(0, 0, 0, 0);
 
-    dates.forEach(date => {
-      const selectedDate: Date = new Date(date);
-      // Check if selected date is today or in the future, and not Friday or Saturday
-      if (selectedDate >= today && selectedDate.getDay() !== 5 && selectedDate.getDay() !== 6) {
-        filteredDates.push(selectedDate);
-      }
-    });
-
-    return filteredDates;
+    return date >= today && date.getDay() !== 5 && date.getDay() !== 6;
   }
 }

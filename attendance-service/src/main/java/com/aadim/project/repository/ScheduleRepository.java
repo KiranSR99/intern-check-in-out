@@ -43,7 +43,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
             "                        join users u on u.id  = i.user_id\n" +
             "                        join schedule s on s.intern_id = i.id\n" +
             "                       join tasks t on s.id  = t.schedule_id order by s.check_in_time desc", nativeQuery = true)
-    List<Map<String, Object>> getInternDetail(Pageable pageable);
+    Page<Map<String, Object>> getInternDetail(Pageable pageable);
 
     @Query(
             nativeQuery = true,

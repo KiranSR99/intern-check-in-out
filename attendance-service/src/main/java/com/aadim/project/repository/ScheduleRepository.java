@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -37,13 +38,31 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
 //            """)
 //    List<Map<String, Object>> getInternDetail(Pageable pageable);
 
-    @Query(value = "select i.id, i.full_name, i.field_type, s.check_in_time, s.check_out_time,\n" +
-            "                       t.task, t.status ,t.time_taken , t.problem\n" +
-            "                       from intern i\n" +
-            "                        join users u on u.id  = i.user_id\n" +
-            "                        join schedule s on s.intern_id = i.id\n" +
-            "                       join tasks t on s.id  = t.schedule_id order by s.check_in_time desc", nativeQuery = true)
-    Page<Map<String, Object>> getInternDetail(Pageable pageable);
+//    @Query(value = "select i.id, i.full_name, i.field_type, s.check_in_time, s.check_out_time,\n" +
+//            "                       t.task, t.status ,t.time_taken , t.problem\n" +
+//            "                       from intern i\n" +
+//            "                        join users u on u.id  = i.user_id\n" +
+//            "                        join schedule s on s.intern_id = i.id\n" +
+//            "                       join tasks t on s.id  = t.schedule_id order by s.check_in_time desc", nativeQuery = true)
+//    Page<Map<String, Object>> getInternDetail(Pageable pageable);
+
+    @Query(value = "SELECT i.id, i.full_name, i.field_type, s.check_in_time, s.check_out_time, t.task, t.status, t.time_taken, t.problem " +
+            "FROM intern i " +
+            "JOIN users u ON u.id = i.user_id " +
+            "JOIN schedule s ON s.intern_id = i.id " +
+            "JOIN tasks t ON s.id = t.schedule_id " +
+            "WHERE (LOWER(i.full_name) LIKE LOWER(CONCAT('%', :fullName, '%'))) " +
+            "AND s.check_in_time BETWEEN :startOfToday AND :endOfToday " +
+            "ORDER BY s.check_in_time DESC", nativeQuery = true)
+    Page<Map<String, Object>> getInternDetail(@Param("fullName") String fullName,
+                                              @Param("startOfToday") LocalDateTime startOfToday,
+                                              @Param("endOfToday") LocalDateTime endOfToday,
+                                              Pageable pageable);
+
+
+
+
+
 
     @Query(
             nativeQuery = true,
@@ -71,7 +90,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
 
 
 
-    
+
 
 
 }

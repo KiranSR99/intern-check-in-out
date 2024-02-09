@@ -1,6 +1,5 @@
 package com.aadim.project.service.impl;
 
-import com.aadim.project.dto.request.TaskReq;
 import com.aadim.project.dto.request.TaskRequest;
 import com.aadim.project.dto.request.TaskUpdateRequest;
 import com.aadim.project.dto.response.TaskResponse;
@@ -15,12 +14,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.swing.event.ListDataEvent;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -92,11 +93,13 @@ public class TaskServiceImpl implements TaskService {
 
 
     @Override
-    public List<TaskResponse> getAllTasks() {
+    public Page<TaskResponse> getAllTasks(Pageable pageable) {
         log.info("Task fetch request received");
-        List<Task> tasks = taskRepository.findAll();
+        Page<Task> tasks = taskRepository.findAll(pageable);
+        tasks.getContent();
+//Manually mapping each tasks to a taskResponse
         List<TaskResponse> taskResponses = new ArrayList<>();
-        for (Task savedTask : tasks) {
+        for (Task savedTask : tasks.getContent()) {
             TaskResponse taskResponse = new TaskResponse();
             taskResponse.setTaskId(savedTask.getTaskId());
             taskResponse.setProblem(savedTask.getProblem());
@@ -106,13 +109,18 @@ public class TaskServiceImpl implements TaskService {
             taskResponse.setUserId(savedTask.getUser().getId());
 
             taskResponses.add(taskResponse);
-            log.info("Task fetched request successfully");
+            log.info("Task fetched");
         }
-        return taskResponses;
+        return new PageImpl<>(taskResponses, pageable, tasks.getTotalElements());
 
-//        return tasks.stream()
+//Another method using lambda expression
+//        return new PageImpl<>(tasks.stream()
 //                .map(task -> modelMapper.map(task,TaskResponse.class))
-//                .collect(Collectors.toList());
+//                .toList()) ;
+
+//        return new PageImpl<>(tasks.stream()
+//                .map(TaskResponse::new)
+//                .toList()) ;
 
     }
     @Override
@@ -134,14 +142,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskResponse> getTaskOfOneUser(Integer userId) {
+    public Page<TaskResponse> getTaskOfOneUser(Pageable pageable, Integer userId) {
         List<Task> userTasks = taskRepository.findByUserId(userId);
 
         List<TaskResponse> taskResponses = userTasks.stream()
                 .map(TaskResponse::new)
                 .toList();
-
-        return taskResponses;
+        return new PageImpl<>(taskResponses, pageable, userTasks.size());
     }
 
     @Override
@@ -157,6 +164,11 @@ public class TaskServiceImpl implements TaskService {
         Task savedTask = taskRepository.save(task);
         log.info("Task updated successfully");
         return new TaskResponse(savedTask);
+    }
+
+    @Override
+    public List<Task> searchTasks(LocalDateTime localDateTime) {
+        return taskRepository.findByCreatedDate(localDateTime);
     }
 
 }

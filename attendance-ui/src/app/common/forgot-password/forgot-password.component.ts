@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from '../../services/http-handler.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -12,12 +12,12 @@ import { HttpHandlerService } from '../../services/http-handler.service';
 export class ForgotPasswordComponent implements OnInit{
 
   constructor(private http:HttpHandlerService,
-              private formbuilder: FormBuilder,
-              private toast: ToastrService,
+              private formBuilder: FormBuilder,
+              private toast: ToastService,
               private router: Router){}
-  emailDeatil: any;
+  emailDetail: any;
   ngOnInit(): void {
-    this.emailDeatil = this.formbuilder.group({
+    this.emailDetail = this.formBuilder.group({
       email: ['', Validators.required],
     });
   }
@@ -26,8 +26,8 @@ export class ForgotPasswordComponent implements OnInit{
 
     this.http.forgotPassword(email).subscribe(
       (response: any) => {
-        this.emailDeatil.reset();
-        this.toast.success('Otp sent in your email');
+        this.emailDetail.reset();
+        this.toast.showShow('OTP sent in your email');
         this.router.navigate(['/enter-otp']);
         console.log('email: ', email.email);
         console.log('response: ', response);
@@ -35,7 +35,7 @@ export class ForgotPasswordComponent implements OnInit{
       },
       (error: any) => {
         console.log(error);
-        this.toast.error(error.error.message);
+        this.toast.showError(error.error.message);
       }
     );
   }

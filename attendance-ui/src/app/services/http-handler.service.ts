@@ -94,9 +94,13 @@ export class HttpHandlerService {
   }
 
   //To show all the details of Intern including tasks, check-in, check-out, etc...
-  getAllLog(size: number, page: number): Observable<GlobalApiHandler<internLog>> {
+  getAllLog(
+    name: any, date: any,
+    size: number,
+    page: number
+  ): Observable<GlobalApiHandler<internLog>> {
     return this.http.get<GlobalApiHandler<internLog>>(
-      `${this.apiUrl}/schedule/details?size=${size}&page=${page - 1}`
+      `${this.apiUrl}/schedule/details?fullName=${name}&dateParam=${date}&size=${size}&page=${page - 1}`
     );
   }
 
@@ -133,7 +137,9 @@ export class HttpHandlerService {
 
   //To show all the leave request for Supervisor
   showAllLeaveRequests(size: number, page: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/leave/get?size=${size}&page=${page - 1}`);
+    return this.http.get(
+      `${this.apiUrl}/leave/get?size=${size}&page=${page - 1}`
+    );
   }
 
   //To approve the leave request by Supervisor
@@ -193,5 +199,12 @@ export class HttpHandlerService {
   //To get all the interns
   showAllInterns(): Observable<any> {
     return this.http.get(`${this.apiUrl}/users/getAllInterns`);
+  }
+
+  //To get the status of check in of intern
+  showInternCheckInStatus(userId: number): Observable<any> {
+    return this.http.get(
+      `${this.apiUrl}/schedule/getStatusOfCheckin/${userId}`
+    );
   }
 }

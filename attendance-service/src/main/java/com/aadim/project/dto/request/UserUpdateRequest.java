@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data @AllArgsConstructor @NoArgsConstructor
 public class UserUpdateRequest {
-    private Integer id;
+    private Integer userId;
     private String fullName;
     private String phone;
     private FieldType fieldType;

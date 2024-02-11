@@ -255,29 +255,25 @@ public class UserServiceImpl implements UserService {
             userResponse.setEmail(user.getEmail());
             userResponse.setRole(user.getRole());
 
-            if (role.equals(Role.INTERN)) {
-                Intern intern = internRepository.findInternByUserId(user.getId());
-                if (intern != null) {
-                    userResponse.setInternId(intern.getId());
+            switch (role) {
+                case INTERN:
+                    Intern intern = internRepository.findInternByUserId(user.getId());
                     userResponse.setPrimarySupervisor(mapSupervisorInfo(intern.getPrimarySupervisor()));
                     userResponse.setSecondarySupervisor(mapSupervisorInfo(intern.getSecondarySupervisor()));
                     userResponse.setFullName(intern.getFullName());
                     userResponse.setPhone(intern.getPhone());
                     userResponse.setFieldType(intern.getFieldType());
-                }
-            } else if (role.equals(Role.SUPERVISOR)) {
-                Supervisor supervisor = supervisorRepository.findSupervisorByUserId(user.getId());
-                if (supervisor != null) {
-                    userResponse.setUserId(supervisor.getId());
+                    break;
+                case SUPERVISOR:
+                    Supervisor supervisor = supervisorRepository.findSupervisorByUserId(user.getId());
                     userResponse.setFullName(supervisor.getFullName());
                     userResponse.setPhone(supervisor.getPhone());
-                }
-            } else if (role.equals(Role.ADMIN)) {
-                Admin admin = adminRepository.findAdminByUserId(user.getId());
-                if (admin != null) {
+                    break;
+                case ADMIN:
+                    Admin admin = adminRepository.findAdminByUserId(user.getId());
                     userResponse.setFullName(admin.getFullName());
                     userResponse.setPhone(admin.getPhone());
-                }
+                    break;
             }
 
             userResponses.add(userResponse);
@@ -289,77 +285,88 @@ public class UserServiceImpl implements UserService {
 
 
 
+
     @Override
     public UserResponse updateUser(UserUpdateRequest request) {
-        User user = userRepository.getReferenceById(request.getId());
+        User user = userRepository.getReferenceById(request.getUserId());
         if (!user.isActive()) {
             throw new EntityNotFoundException("User not available");
         }
         Role role = user.getRole();
-        if (role.equals(Role.ADMIN)) {
-            Admin admin = adminRepository.findAdminByUserId(request.getId());
-            admin.setFullName(request.getFullName());
-            admin.setPhone(request.getPhone());
-            adminRepository.save(admin);
-            return new UserResponse(admin, user);
-        } else if (role.equals(Role.SUPERVISOR)) {
-            Supervisor supervisor = supervisorRepository.findSupervisorByUserId(request.getId());
-            supervisor.setFullName(request.getFullName());
-            supervisor.setPhone(request.getPhone());
-            supervisorRepository.save(supervisor);
-            return new UserResponse(supervisor, user);
-        } else if (role.equals(Role.INTERN)) {
-            Intern intern = internRepository.findInternByUserId(request.getId());
-            intern.setFullName(request.getFullName());
-            intern.setPhone(request.getPhone());
-            intern.setFieldType(request.getFieldType());
-            Supervisor primarySupervisor = supervisorRepository.findSupervisorByUserId(request.getPrimarySupervisor());
-            Supervisor secondarySupervisor = supervisorRepository.findSupervisorByUserId(request.getPrimarySupervisor());
-            if (primarySupervisor == null) {
-                throw new EntityNotFoundException("Primary Supervisor doesn't exist.");
-            }
-            if (secondarySupervisor == null) {
-                throw new EntityNotFoundException("Secondary Supervisor doesn't exist.");
-            }
-            intern.setPrimarySupervisor(primarySupervisor);
-            intern.setPrimarySupervisor(secondarySupervisor);
-            internRepository.save(intern);
-            return new UserResponse(intern, user);
+        switch (role) {
+            case ADMIN:
+                Admin admin = adminRepository.findAdminByUserId(request.getUserId());
+                admin.setFullName(request.getFullName());
+                admin.setPhone(request.getPhone());
+                adminRepository.save(admin);
+                return new UserResponse(admin, user);
+            case SUPERVISOR:
+                Supervisor supervisor = supervisorRepository.findSupervisorByUserId(request.getUserId());
+                supervisor.setFullName(request.getFullName());
+                supervisor.setPhone(request.getPhone());
+                supervisorRepository.save(supervisor);
+                return new UserResponse(supervisor, user);
+            case INTERN:
+                Intern intern = internRepository.findInternByUserId(request.getUserId());
+                intern.setFullName(request.getFullName());
+                intern.setPhone(request.getPhone());
+                intern.setFieldType(request.getFieldType());
+                Supervisor primarySupervisor = supervisorRepository.findSupervisorByUserId(request.getPrimarySupervisor());
+                Supervisor secondarySupervisor = supervisorRepository.findSupervisorByUserId(request.getSecondarySupervisor());
+                if (primarySupervisor == null) {
+                    throw new EntityNotFoundException("Primary Supervisor with id : " + request.getPrimarySupervisor() + " doesn't exist.");
+                }
+                if (secondarySupervisor == null) {
+                    throw new EntityNotFoundException("Secondary Supervisor with id : " + request.getSecondarySupervisor() + " doesn't exist.");
+                }
+                intern.setPrimarySupervisor(primarySupervisor);
+                intern.setSecondarySupervisor(secondarySupervisor);
+                internRepository.save(intern);
+                return new UserResponse(intern, user);
+            default:
+                throw new IllegalArgumentException("Invalid user role");
         }
-        log.warn("Cannot update user with id : " + request.getId());
-        return null;
     }
 
 
+
+    @Transactional
     @Override
     public String deleteUser(Integer id) {
-        log.info("Deleting user with id :" + id);
-        if (!userRepository.existsById(id)) {
-            log.warn("User with id {} doesn't exist.", id);
-            return "User doesnt exist.";
-        }
-        User user = userRepository.getReferenceById(id);
+        log.info("Deleting user with id: {}", id);
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
+
         if (!user.isActive()) {
             log.warn("User with id {} isn't active.", id);
-            return "User is not active.";
+            throw new IllegalStateException("User with id " + id + " is not active.");
         }
+
         user.setActive(false);
         Role role = user.getRole();
-        if (role.equals(Role.ADMIN)) {
-            Admin admin = adminRepository.findAdminByUserId(user.getId());
-            admin.setIsActive(false);
-            adminRepository.save(admin);
-        } else if (role.equals(Role.SUPERVISOR)) {
-            Supervisor supervisor = supervisorRepository.findSupervisorByUserId(user.getId());
-            supervisor.setIsActive(false);
-            supervisorRepository.save(supervisor);
-        } else if (role.equals(Role.INTERN)) {
-            Intern intern = internRepository.findInternByUserId(user.getId());
-            intern.setIsActive(false);
-            internRepository.save(intern);
+        switch (role) {
+            case ADMIN:
+                Admin admin = adminRepository.findAdminByUserId(id);
+                admin.setIsActive(false);
+                adminRepository.save(admin);
+                break;
+            case SUPERVISOR:
+                Supervisor supervisor = supervisorRepository.findSupervisorByUserId(id);
+                supervisor.setIsActive(false);
+                supervisorRepository.save(supervisor);
+                break;
+            case INTERN:
+                Intern intern = internRepository.findInternByUserId(id);
+                intern.setIsActive(false);
+                internRepository.save(intern);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid user role");
         }
-        log.info("User with id " + id + " deleted successfully.");
-        return "User with id " + id + " deleted successfully.";
+
+        log.info("User with id {} deleted successfully.", id);
+        return ("User with id " + id + " deleted successfully.");
     }
 
 
@@ -368,33 +375,51 @@ public class UserServiceImpl implements UserService {
         log.info("Changing Password");
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
-        if (!PasswordValidator.isValidPassword(user.getPassword())) {
+
+        if (!PasswordValidator.isValidPassword(request.getNewPassword())) {
             throw new IllegalArgumentException("Password strength not matched.");
         }
-        if (new BCryptPasswordEncoder().matches(request.getOldPassword(), user.getPassword())) {
-            user.setPassword(new BCryptPasswordEncoder().encode(request.getNewPassword()));
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            String encodedNewPassword = passwordEncoder.encode(request.getNewPassword());
+            user.setPassword(encodedNewPassword);
+            userRepository.save(user);
+            log.info("Password changed successfully.");
+            return "Password changed successfully.";
         } else {
-            log.warn("Old password didnt match");
+            log.warn("Old password didn't match");
             throw new IllegalArgumentException("Old password doesn't match.");
         }
-        log.info("Password changed.");
-        return "success";
     }
+
 
     @Transactional
     public String changePasswordByEmail(ForgotPasswordRequest request) {
         log.info("Changing Password by Email.");
+
         if (userRepository.existsByEmail(request.getEmail())) {
             User user = userRepository.getUserByEmail(request.getEmail());
             if (user.isActive()) {
-                user.setPassword(new BCryptPasswordEncoder().encode(request.getNewPassword()));
-                log.info("Password updated successfully");
+                if (!PasswordValidator.isValidPassword(request.getNewPassword())) {
+                    return "Invalid password format.";
+                }
+                String encodedNewPassword = new BCryptPasswordEncoder().encode(request.getNewPassword());
+                user.setPassword(encodedNewPassword);
+                userRepository.save(user);
+                log.info("Password updated successfully.");
                 return "Password updated successfully";
-            } else return "User is inActive. Couldn't change password.";
+            } else {
+                log.warn("User with email {} is inactive. Couldn't change password.", request.getEmail());
+                return "User is inactive. Password not changed.";
+            }
+        } else {
+            log.warn("User with email {} doesn't exist.", request.getEmail());
+            return "User doesn't exist.";
         }
-        log.warn("User with email " + request.getEmail() + " doesn't exist.");
-        return "User with email " + request.getEmail() + " doesn't exist.";
     }
+
+
 
 
 

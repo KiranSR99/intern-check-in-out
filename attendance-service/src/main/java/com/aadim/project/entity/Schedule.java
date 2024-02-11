@@ -20,12 +20,6 @@ public class Schedule extends Auditable {
     private LocalDateTime checkInTime;
     private LocalDateTime checkOutTime;
 
-//    private boolean isActive;
-//    @PrePersist
-//    public void prePersist() {
-//        this.checkInTime = LocalDateTime.now();
-//    }
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "intern_id")
     private Intern intern;

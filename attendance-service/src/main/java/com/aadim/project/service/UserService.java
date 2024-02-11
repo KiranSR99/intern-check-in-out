@@ -19,7 +19,7 @@ public interface UserService {
     UserResponse saveUser(UserRequest request) throws MessagingException;
 
 
-    Page<UserResponse> getAllUser(Pageable pageable);
+    Page<UserResponse> getAllUser(String searchTerm, Pageable pageable);
 
     UserResponse getUserById(Integer id);
 

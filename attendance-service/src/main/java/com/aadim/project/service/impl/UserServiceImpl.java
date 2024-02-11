@@ -113,11 +113,11 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Page<UserResponse> getAllUser(Pageable pageable) {
+    public Page<UserResponse> getAllUser(String searchTerm, Pageable pageable) {
         log.info("Fetching All Users");
 
         // Fetching users with pagination
-        Page<User> usersPage = userRepository.findActiveUsers(pageable);
+        Page<User> usersPage = userRepository.findActiveUsers(searchTerm, pageable);
 
         // Mapping User entities to UserResponse DTOs
         List<UserResponse> userResponses = new ArrayList<>();
@@ -368,6 +368,9 @@ public class UserServiceImpl implements UserService {
         log.info("Changing Password");
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        if (!PasswordValidator.isValidPassword(user.getPassword())) {
+            throw new IllegalArgumentException("Password strength not matched.");
+        }
         if (new BCryptPasswordEncoder().matches(request.getOldPassword(), user.getPassword())) {
             user.setPassword(new BCryptPasswordEncoder().encode(request.getNewPassword()));
         } else {

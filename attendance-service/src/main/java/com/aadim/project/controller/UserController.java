@@ -36,8 +36,8 @@ public class UserController extends BaseController {
 
 
     @GetMapping("/getAll")
-    public ResponseEntity<GlobalApiResponse> getAllUser(@PageableDefault Pageable pageable){
-        return successResponse(userService.getAllUser(pageable), "User fetched successfully");
+    public ResponseEntity<GlobalApiResponse> getAllUser(@RequestParam(value = "searchTerm", required = false, defaultValue = "" )String searchTerm, @PageableDefault Pageable pageable){
+        return successResponse(userService.getAllUser(searchTerm, pageable), "User fetched successfully");
     }
 
     @GetMapping("/getById/{id}")

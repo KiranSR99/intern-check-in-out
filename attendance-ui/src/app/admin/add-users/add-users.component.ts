@@ -134,7 +134,10 @@ export class AddUsersComponent implements OnInit {
     return phonePattern.test(phone) ? null : { phonePatternError: true };
   }
 
-  togglePassword(): void {
+
+  togglePasswordVisibility(): void {
     this.passwordVisibility = !this.passwordVisibility;
   }
+  
+  
 }

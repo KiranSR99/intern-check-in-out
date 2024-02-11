@@ -13,9 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/schedule")
@@ -41,25 +38,12 @@ public class ScheduleController extends BaseController {
     }
 
 
-//    @GetMapping("/fetchAll/{userId}")
-//    public ResponseEntity<GlobalApiResponse> fetchAllByUserId(@PathVariable Integer userId){
-//        return successResponse(scheduleService.fetchAllByUserId(userId), "Data fetched successfully");
-//    }
-
-
-//    @PreAuthorize("hasAuthority('INTERN')")
-//    @GetMapping("/details")
-//    public List<Map<String, Object>> getInternDetail(
-//            @RequestParam(name = "page", defaultValue = "0") int page,
-//            @RequestParam(name = "size", defaultValue = "9") int size
-//    ) throws Exception {
-//         return scheduleService.getInternDetail(page, size);
-//
-//    }
-
-
     @GetMapping("/details")
     public ResponseEntity<?> getInternDetail(
+//            @PageableDefault( size = 9) Pageable pageable
+//            ) throws Exception {
+//        return ResponseEntity.ok(scheduleService.getInternDetail(pageable));
+
             @RequestParam(value = "fullName", required = false, defaultValue = "") String fullName,
             @RequestParam(value = "dateParam", required = false, defaultValue = "")String localDateTime,
             @PageableDefault Pageable pageable
@@ -68,6 +52,7 @@ public class ScheduleController extends BaseController {
     }
 
 
+//    To-do
     @GetMapping("/getStatusOfCheckin/{userId}")
     public ResponseEntity<GlobalApiResponse> getStatusOfCheckin(@PathVariable Integer userId) {
         return successResponse(scheduleService.getStatusOfSchedule(userId));

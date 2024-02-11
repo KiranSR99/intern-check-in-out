@@ -3,21 +3,26 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { HttpHandlerService } from '../../services/http-handler.service';
 import { ToastService } from '../../services/toast.service';
+import { CustomDateTimeFormatterPipe } from '../../pipe/date-time-formatter.pipe';
+import { DateFilterPipe } from '../../pipe/date-restriction.pipe';
 
 @Component({
   selector: 'app-create-leave-request',
   templateUrl: './create-leave-request.component.html',
   styleUrls: ['./create-leave-request.component.scss'],
+  providers: [CustomDateTimeFormatterPipe, DateFilterPipe]
 })
 export class CreateLeaveRequestComponent implements OnInit {
   leaveDetail!: FormGroup;
+  
   internId: any;
 
   constructor(
     private toast: ToastService,
     private router: Router,
     private fb: FormBuilder,
-    private http: HttpHandlerService
+    private http: HttpHandlerService,
+    private dateFilterPipe: DateFilterPipe // Inject DateFilterPipe
   ) { }
 
   ngOnInit(): void {
@@ -26,8 +31,8 @@ export class CreateLeaveRequestComponent implements OnInit {
     // Initialization
     this.leaveDetail = this.fb.group({
       noOfDays: ['', Validators.required],
-      startDate: ['', [Validators.required,]],
-      endDate: ['', [Validators.required,]],
+      startDate: ['', [Validators.required, this.dateValidator]],
+      endDate: ['', [Validators.required, this.dateValidator]],
       reason: ['', Validators.required],
       internId: this.internId,
     });
@@ -39,7 +44,14 @@ export class CreateLeaveRequestComponent implements OnInit {
 
   onRequestClick() {
     if (this.leaveDetail.valid) {
-      this.http.sendLeaveRequest(this.leaveDetail.value).subscribe({
+      const startDate = this.dateFilterPipe.transform(this.leaveDetail.get('startDate')?.value);
+      const endDate = this.dateFilterPipe.transform(this.leaveDetail.get('endDate')?.value);
+      
+      this.http.sendLeaveRequest({ 
+        ...this.leaveDetail.value,
+        startDate,
+        endDate
+      }).subscribe({
         next: (response: any) => {
           this.toast.showSuccess('Leave request sent successfully.');
           this.router.navigate(['/app/log-mgnt/leave-request']);
@@ -54,16 +66,9 @@ export class CreateLeaveRequestComponent implements OnInit {
   }
 
   dateValidator(control: FormControl): { [key: string]: boolean } | null {
-    const selectedDate: Date = new Date(control.value);
-    const today: Date = new Date();
-    today.setHours(0, 0, 0, 0);
+    const selectedDate: string = control.value;
+    const today = new Date().toISOString().split('T')[0];
 
-    // Check if selected date is a future date (excluding weekends)
-    if (selectedDate > today && selectedDate.getDay() !== 0 && selectedDate.getDay() !== 6) {
-      return null; // Valid date
-    }
-
-    return { invalidDate: true }; // Invalid date
+    return selectedDate && selectedDate <= today ? null : { invalidDate: true };
   }
-
 }

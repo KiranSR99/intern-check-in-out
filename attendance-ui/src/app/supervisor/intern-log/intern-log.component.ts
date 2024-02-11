@@ -10,7 +10,6 @@ import { ViewChild } from '@angular/core';
   styleUrls: ['./intern-log.component.scss'],
 })
 export class InternLogComponent implements OnInit {
-
   @ViewChild('datePicker') datePicker!: ElementRef;
 
   page: number = 1;
@@ -28,6 +27,10 @@ export class InternLogComponent implements OnInit {
   internCheckInOut: any;
   combinedData: any[] = [];
   tasks: any[] = [];
+  listOfInterns: any;
+  showInternNameDropdown: boolean = false;
+  selectedInternName: string = '';
+  internCheckInStatus: any;
 
   apiResponse: Array<any> = new Array<any>();
 
@@ -42,18 +45,20 @@ export class InternLogComponent implements OnInit {
     this.userId = localStorage.getItem('userId');
     this.userRole = localStorage.getItem('role');
 
-    // Retrieve the isCheckedIn state from localStorage
-    const isCheckedInString = localStorage.getItem('isCheckedIn');
-    this.isCheckedIn = isCheckedInString === 'true';
-
     if (this.userRole) {
       this.userRole = JSON.parse(this.userRole);
     }
-    this.showInternLog(this.size, this.page);
+    this.showInternLog('Kiran', '2024-02-06', this.size, this.page);
+
+    //to get intern list
+    this.showListOfInterns();
+
+    //for intern check-in status
+    this.showInternCheckInStatus();
   }
 
-  showInternLog(size: number, page: number) {
-    this.http.getAllLog(size, page).subscribe(
+  showInternLog(name: any, date: any, size: number, page: number) {
+    this.http.getAllLog('Kiran', '2024-02-06', size, page).subscribe(
       (result: any) => {
         this.apiResponse = result.content;
         this.pageDetails = result;
@@ -62,6 +67,22 @@ export class InternLogComponent implements OnInit {
         console.error('Error fetching data', error);
       }
     );
+  }
+
+  showListOfInterns() {
+    this.http.showAllInterns().subscribe({
+      next: (response: any) => {
+        this.listOfInterns = response.data.content;
+      },
+    });
+  }
+
+  showInternCheckInStatus() {
+    this.http.showInternCheckInStatus(this.userId).subscribe({
+      next: (response: any) => {
+        this.internCheckInStatus = response.data;
+      },
+    });
   }
 
   // //To show intern name
@@ -103,11 +124,9 @@ export class InternLogComponent implements OnInit {
     this.http.checkIn(checkInReqBody).subscribe(
       (result: any) => {
         this.toast.showSuccess('Check-in successful.');
-        this.showInternLog(this.size, this.page);
+        this.showInternLog('Kiran', '2024-02-06', this.size, this.page);
         this.showCheckInOut();
-
-        this.isCheckedIn = true;
-        localStorage.setItem('isCheckedIn', 'true');
+        this.showInternCheckInStatus();
       },
       (error: any) => {
         this.toast.showError(
@@ -118,9 +137,6 @@ export class InternLogComponent implements OnInit {
   }
 
   onCheckOutClick() {
-    this.isCheckedIn = false;
-    localStorage.removeItem('isCheckedIn');
-
     const checkOutReqBody = {
       userId: this.userId,
     };
@@ -128,9 +144,10 @@ export class InternLogComponent implements OnInit {
     this.http.checkOut(checkOutReqBody).subscribe(
       (result: any) => {
         this.toast.showSuccess('Checked out successfully.');
-        this.showInternLog(this.size, this.page);
+        this.showInternLog('Kiran', '2024-02-06', this.size, this.page);
         this;
         this.showCheckInOut();
+        this.showInternCheckInStatus();
       },
       (error: any) => {
         console.error('Error during check-out', error);
@@ -148,8 +165,6 @@ export class InternLogComponent implements OnInit {
     this.route.navigate(['app/log-mgnt/edit-log/', id]);
   }
 
-
-
   openDatePicker() {
     this.datePicker.nativeElement.style.display = 'block';
   }
@@ -159,5 +174,15 @@ export class InternLogComponent implements OnInit {
     const dateValue: string = input.value;
     console.log('Selected date:', dateValue);
     // Add your logic to filter data based on the selected date
+  }
+
+  showInternNames() {
+    this.showInternNameDropdown = true;
+  }
+
+  filterByInternName() {
+    // Implement filtering logic based on selected intern name
+    console.log('Selected Intern Name:', this.selectedInternName);
+    // You can add your filtering logic here
   }
 }

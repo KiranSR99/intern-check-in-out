@@ -6,3 +6,26 @@
   min-height: 100vh;
   background-color: #6e3098;
 }
+
+.otp-boxes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.otp-box {
+  width: 60px;
+  height: 60px;
+  background: #ced4da;
+  text-align: center;
+  justify-content: center;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  outline: none;
+}

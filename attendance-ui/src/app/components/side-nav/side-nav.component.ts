@@ -33,7 +33,7 @@ export class SideNavComponent {
     {
       title: 'Log Management',
       roleAccess: [RoleEnum.ALL],
-      url: '/app/log-mgnt',
+      url: '/app/log-mgnt/intern-log',
       icon: 'fa-solid fa-list-check',
     },
     {

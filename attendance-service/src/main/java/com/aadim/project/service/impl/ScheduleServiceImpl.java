@@ -75,16 +75,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     public ScheduleResponse updateCheckOut(ScheduleUpdateRequest request) {
         Intern intern = internRepository.findInternByUserId(request.getUserId());
         if (intern == null) {
-            throw new RuntimeException("User not found");
+            throw new EntityNotFoundException("User not found");
         }
-//        Optional<Schedule> existingSchedule = scheduleRepository.findByInternIdAndCheckOutTimeIsNull(intern.getId());
-//        if (!existingSchedule.isPresent()) {
-//            throw new RuntimeException("User has not checked in or has already checked out");
-//        }
-
         Schedule schedule = scheduleRepository.getLatestScheduleByInternId(intern.getId());
-
-//        Schedule schedule = existingSchedule.get();
         schedule.setCheckOutTime(LocalDateTime.now());
         Schedule savedSchedule = scheduleRepository.save(schedule);
         return new ScheduleResponse(savedSchedule);

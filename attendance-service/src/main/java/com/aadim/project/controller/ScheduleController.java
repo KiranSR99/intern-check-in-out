@@ -6,6 +6,7 @@ import com.aadim.project.dto.request.ScheduleRequest;
 import com.aadim.project.dto.request.ScheduleUpdateRequest;
 import com.aadim.project.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.internal.LoadingCache;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -18,33 +19,42 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ScheduleController extends BaseController {
     private final ScheduleService scheduleService;
+
     @PreAuthorize("hasAuthority('INTERN')")
     @PostMapping("/checkIn")
-    public ResponseEntity<GlobalApiResponse> saveCheckIn(@RequestBody ScheduleRequest request){
+    public ResponseEntity<GlobalApiResponse> saveCheckIn(@RequestBody ScheduleRequest request) {
         return successResponse(scheduleService.saveCheckIn(request), "Checked in successfully");
     }
+
     @PreAuthorize("hasAuthority('INTERN')")
     @PutMapping("/checkOut")
-    public ResponseEntity<GlobalApiResponse> saveCheckOut(@RequestBody ScheduleUpdateRequest request){
+    public ResponseEntity<GlobalApiResponse> saveCheckOut(@RequestBody ScheduleUpdateRequest request) {
         return successResponse(scheduleService.updateCheckOut(request), "Checked out successfully");
     }
 
     @GetMapping("/fetchAll")
-    public ResponseEntity<GlobalApiResponse> fetchAll(){
+    public ResponseEntity<GlobalApiResponse> fetchAll() {
         return successResponse(scheduleService.fetchAll(), "Data fetched successfully");
     }
 
 
     @GetMapping("/details")
     public ResponseEntity<?> getInternDetail(
-            @PageableDefault( size = 9) Pageable pageable
-            ) throws Exception {
-        return ResponseEntity.ok(scheduleService.getInternDetail(pageable));
+//            @PageableDefault( size = 9) Pageable pageable
+//            ) throws Exception {
+//        return ResponseEntity.ok(scheduleService.getInternDetail(pageable));
+
+            @RequestParam(value = "fullName", required = false, defaultValue = "") String fullName,
+            @RequestParam(value = "dateParam", required = false, defaultValue = "")String localDateTime,
+            @PageableDefault Pageable pageable
+    ) throws Exception {
+        return ResponseEntity.ok(scheduleService.getInternDetail(fullName,localDateTime, pageable));
     }
 
 
+//    To-do
     @GetMapping("/getStatusOfCheckin/{userId}")
-    public ResponseEntity<GlobalApiResponse> getStatusOfCheckin (@PathVariable Integer userId) {
+    public ResponseEntity<GlobalApiResponse> getStatusOfCheckin(@PathVariable Integer userId) {
         return successResponse(scheduleService.getStatusOfSchedule(userId));
     }
 

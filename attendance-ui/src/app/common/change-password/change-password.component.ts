@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
-
-import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from '../../services/http-handler.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-change-password',
@@ -19,14 +18,14 @@ export class ChangePasswordComponent implements OnInit {
   confirmPasswordVisibility: boolean = false;
 
 
-  constructor(private formbuilder: FormBuilder,
+  constructor(private formBuilder: FormBuilder,
               private http: HttpHandlerService,
-              private toast: ToastrService,
+              private toast: ToastService,
               private router: Router) {
   }
 
   ngOnInit(): void {
-    this.passwordDetails = this.formbuilder.group({
+    this.passwordDetails = this.formBuilder.group({
       email: [localStorage.getItem("email")],
       newPassword: ['', Validators.required],
       confirmPassword: ['', Validators.required, [this.confirmPasswordValidator.bind(this)]]
@@ -64,13 +63,13 @@ export class ChangePasswordComponent implements OnInit {
     this.http.updatePassword(passwordDetails).subscribe({
       next: (response: any) => {
         console.log(response);
-        this.toast.success('Password changed successfully');
+        this.toast.showSuccess('Password changed successfully');
         localStorage.removeItem('email');
         this.router.navigate(['/login']);
       },
       error: (err: any) => {
         console.log(err);
-        this.toast.error(err.error.message);
+        this.toast.showError(err.error.message);
       }
     });
   }
@@ -116,7 +115,6 @@ export class ChangePasswordComponent implements OnInit {
       return false;
     }
 
-    // If all conditions are met, enable the change password button
     return true;
   }
 }

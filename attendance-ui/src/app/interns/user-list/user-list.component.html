@@ -40,7 +40,7 @@
                                     *ngFor="let item of userDetailsData |paginate: {itemsPerPage: size, currentPage: page, totalItems: pageDetails.totalElements} | searchFilter:searchText; let per_i = index">
                                     <!-- User details -->
                                     <tr *ngIf="item.role !== 'ADMIN'">
-                                        <td>{{ per_i + 1 }}</td>
+                                        <td>{{ (size * (page - 1) + per_i) + 1 }}</td>
                                         <td>{{ item.fullName }}</td>
                                         <td>{{ item.email }}</td>
                                         <td>{{ item.phone }}</td>

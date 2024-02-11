@@ -21,7 +21,7 @@ export class SideNavComponent {
     {
       title: 'User Management',
       roleAccess: [RoleEnum.ADMIN],
-      url: '/app/user-mgnt',
+      url: '/app/user-mgnt/user-list',
       icon: 'fa-solid fa-user',
     },
     {

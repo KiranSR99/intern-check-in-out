@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface LeaveRepository extends JpaRepository<Leave, Integer> {
     @Query(nativeQuery = true,
-            value = "SELECT * FROM leaves WHERE  is_active= true ORDER BY DESC")
+            value = "SELECT * FROM leaves WHERE is_active = true ORDER BY created_date DESC;")
     Page<Leave> findAllByIsActive(Pageable pageable);
 
     @Query(nativeQuery = true,
@@ -18,6 +18,6 @@ public interface LeaveRepository extends JpaRepository<Leave, Integer> {
     Leave findLeaveById(Integer id);
 
     @Query(nativeQuery = true,
-            value = "SELECT * FROM leaves WHERE  is_active= true AND intern_id = :id ORDER BY DESC")
+            value = "SELECT * FROM leaves WHERE  is_active= true AND intern_id = :id ORDER BY created_date DESC")
     List<Leave> findLeaveByInternId(Integer id);
 }

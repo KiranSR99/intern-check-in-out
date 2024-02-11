@@ -12,6 +12,7 @@ import com.aadim.project.entity.User;
 import com.aadim.project.repository.InternRepository;
 import com.aadim.project.repository.ScheduleRepository;
 import com.aadim.project.service.ScheduleService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 @Service
@@ -41,41 +44,30 @@ public class ScheduleServiceImpl implements ScheduleService {
     public ScheduleResponse saveCheckIn(ScheduleRequest request) {
         Intern intern = internRepository.findInternByUserId(request.getUserId());
         if (intern == null) {
-            throw new RuntimeException("User not found");
+            throw new EntityNotFoundException("Intern with user ID " + request.getUserId() + " not found");
         }
 
-        Optional<LocalDateTime> lastScheduleOpt = scheduleRepository.findTopByInternOrderByCheckOutTimeDesc(request.getUserId());
-        if (lastScheduleOpt.isPresent()) {
-            LocalDateTime lastCheckOutTime = lastScheduleOpt.get();
-            if (lastCheckOutTime.toLocalDate().equals(LocalDate.now())) {
-                throw new RuntimeException("You can't check in again on the same day you have checked out.");
-            }
+        // Check if the intern has already checked in today
+        boolean hasCheckedInToday = scheduleRepository.existsByInternAndCheckInTimeAfter(intern, LocalDate.now().atStartOfDay());
+        if (hasCheckedInToday) {
+            throw new IllegalStateException("Intern has already checked in today");
         }
 
-//        Optional<Schedule> existingSchedule = scheduleRepository.findByInternIdAndCheckOutTimeIsNull(intern.getId());
-//        if (existingSchedule.isPresent()) {
-//            throw new RuntimeException("User has already checked in");
-//        }
-        if (scheduleRepository.existsById(intern.getId())) {
-            Schedule schedule = scheduleRepository.getLatestScheduleByInternId(intern.getId());
-            if (schedule.getCheckOutTime() == null) {
-                throw new RuntimeException("User has already checked in");
-            }
-            Schedule schedule1 = new Schedule();
-            schedule1.setCheckInTime(LocalDateTime.now());
-            schedule1.setCheckOutTime(null);
-            schedule1.setIntern(intern);
-            Schedule savedSchedule = scheduleRepository.save(schedule1);
-            return new ScheduleResponse(savedSchedule);
-        } else {
-            Schedule schedule1 = new Schedule();
-            schedule1.setCheckInTime(LocalDateTime.now());
-            schedule1.setCheckOutTime(null);
-            schedule1.setIntern(intern);
-            Schedule savedSchedule = scheduleRepository.save(schedule1);
-            return new ScheduleResponse(savedSchedule);
+        // Check if the intern has checked out today
+        boolean hasCheckedOutToday = scheduleRepository.existsByInternIdAndCheckOutTimeAfter(intern.getId(), LocalDate.now().atStartOfDay());
+        if (hasCheckedOutToday) {
+            throw new IllegalStateException("Intern has already checked out today");
         }
+
+        // Save the check-in record
+        Schedule schedule = new Schedule();
+        schedule.setCheckInTime(LocalDateTime.now());
+        schedule.setIntern(intern);
+        Schedule savedSchedule = scheduleRepository.save(schedule);
+
+        return new ScheduleResponse(savedSchedule);
     }
+
 
 
 
@@ -114,10 +106,14 @@ public class ScheduleServiceImpl implements ScheduleService {
 //    }
 
     @Transactional
-    public Page<Object> getInternDetail(Pageable pageable) {
+    public Page<Object> getInternDetail(String fullName,String localDateTime,Pageable pageable) {
 //        LocalDateTime now = LocalDateTime.now();
 //    PageRequest request = PageRequest.of(page, size);
-        Page<Map<String, Object>> internDetails = scheduleRepository.getInternDetail(pageable);
+        LocalDate localDate = LocalDate.parse(localDateTime, DateTimeFormatter.ISO_DATE);
+        LocalDateTime startOfToday = LocalDateTime.of(localDate, LocalTime.MIN);
+        LocalDateTime endOfToday = LocalDateTime.of(localDate, LocalTime.MAX);
+
+        Page<Map<String, Object>> internDetails = scheduleRepository.getInternDetail(fullName,startOfToday,endOfToday,pageable);
 
         Map<String, Map<String, Object>> responseMap = new HashMap<>();
 
@@ -156,26 +152,16 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public ScheduleStatusResponse getStatusOfSchedule(Integer userId) {
-         ScheduleStatusResponse scheduleStatusResponse = new ScheduleStatusResponse();
         Intern intern = internRepository.findInternByUserId(userId);
         if (intern == null) {
-            throw new IllegalArgumentException("User not found");
+            throw new EntityNotFoundException("Intern with user ID " + userId + " does not exist.");
         }
-        Schedule schedule = scheduleRepository.getLatestScheduleByInternId(intern.getId());
-        if (schedule != null) {
-            LocalDate checkinDate = schedule.getCheckInTime().toLocalDate();
 
-            if (checkinDate.equals(LocalDate.now())) {
-                scheduleStatusResponse.setHasCheckedIn(true);
-                scheduleStatusResponse.setHasCheckedOut(schedule.getCheckOutTime() != null);
-            } else {
-                scheduleStatusResponse.setHasCheckedIn(false);
-                scheduleStatusResponse.setHasCheckedOut(false);
-            }
-        } else {
-            scheduleStatusResponse.setHasCheckedIn(false);
-            scheduleStatusResponse.setHasCheckedOut(false);
-        }
+        Integer internId = intern.getId();
+        ScheduleStatusResponse scheduleStatusResponse = new ScheduleStatusResponse();
+        scheduleStatusResponse.setHasCheckedIn(scheduleRepository.findLatestCheckInByInternIdAndDate(internId, LocalDate.now()).isPresent());
+        scheduleStatusResponse.setHasCheckedOut(scheduleRepository.findLatestCheckOutByInternIdAndDate(internId, LocalDate.now()).isPresent());
+
         return scheduleStatusResponse;
     }
 

@@ -21,7 +21,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let data of responseData; let i = index">
-                    <td>{{ i + 1 }}</td>
+                    <td>{{ (size * (page - 1) + i) + 1 }}</td>
                     <td>{{ data.reason }}</td>
                     <td>{{ data.noOfDays }}</td>
                     <td>{{ data.startDate }}</td>
@@ -31,18 +31,18 @@
             </tbody>
         </table>
 
-        <div class="pagination d-flex align-items-center mt-4">
+        <!-- <div class="pagination d-flex align-items-center mt-4">
             <div class="items-per-page d-flex align-items-center form-group mb-3">
                 <label for="itemsPerPage">Items Per Page: </label>
                 <select class="form-select mx-2" style="width: 80px;" id="itemsPerPage"
-                    [(ngModel)]="itemsPerPage">
+                    [(ngModel)]="size">
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="20">20</option>
                 </select>
             </div>
 
-            <pagination-controls (pageChange)=" currentPage=$event"></pagination-controls>
-        </div>
+            <pagination-controls (pageChange)=" page=$event"></pagination-controls>
+        </div> -->
     </div>
 </div>

@@ -41,6 +41,12 @@ import { FieldFormatterPipe } from './pipe/field-formatter.pipe';
 import { MyLogComponent } from './interns/my-log/my-log.component';
 import { DateFilterPipe } from './pipe/date-restriction.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatMenuModule } from '@angular/material/menu';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [
@@ -74,8 +80,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     CustomDateTimeFormatterPipe,
     FieldFormatterPipe,
     MyLogComponent,
-    DateFilterPipe
-
+    DateFilterPipe,
   ],
   imports: [
     BrowserModule,
@@ -87,7 +92,12 @@ import { NgxPaginationModule } from 'ngx-pagination';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatMenuModule
   ],
 
   providers: [
@@ -96,7 +106,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
       useClass: AuthInterceptor,
       multi: true,
     },
+    provideAnimationsAsync(),
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

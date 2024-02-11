@@ -68,6 +68,7 @@ public class ScheduleController extends BaseController {
     }
 
 
+//    To-do
     @GetMapping("/getStatusOfCheckin/{userId}")
     public ResponseEntity<GlobalApiResponse> getStatusOfCheckin(@PathVariable Integer userId) {
         return successResponse(scheduleService.getStatusOfSchedule(userId));

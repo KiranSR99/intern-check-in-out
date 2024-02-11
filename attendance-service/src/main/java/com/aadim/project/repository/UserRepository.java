@@ -15,8 +15,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT id FROM User WHERE email = :email")
     Integer findUserIdByEmail(String email);
 
-    @Query("SELECT u FROM User u WHERE u.isActive = true")
-    Page<User> findActiveUsers(Pageable pageable);
+    @Query("SELECT u FROM User u WHERE u.email like %:searchTerm% and u.isActive = true")
+    Page<User> findActiveUsers(String searchTerm, Pageable pageable);
 
     @Query("select u from User u WHERE u.isActive = true and u.role =:role")
     Page<User> findActiveUsersByRole(Role role, Pageable pageable);

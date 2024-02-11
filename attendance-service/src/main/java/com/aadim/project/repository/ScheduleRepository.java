@@ -89,10 +89,16 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     Schedule getLatestScheduleForTasksByInternId(Integer intern_id);
 
 
+    @Query("SELECT s.checkInTime FROM Schedule s WHERE s.intern.id = :internId AND DATE(s.checkInTime) = :date ORDER BY s.checkInTime DESC")
+    Optional<LocalDateTime> findLatestCheckInByInternIdAndDate(@Param("internId") Integer internId, @Param("date") LocalDate date);
+
+    @Query("SELECT s.checkOutTime FROM Schedule s WHERE s.intern.id = :internId AND DATE(s.checkOutTime) = :date ORDER BY s.checkOutTime DESC")
+    Optional<LocalDateTime> findLatestCheckOutByInternIdAndDate(@Param("internId") Integer internId, @Param("date") LocalDate date);
 
 
+    boolean existsByInternAndCheckInTimeAfter(Intern intern, LocalDateTime localDateTime);
 
-
+    boolean existsByInternIdAndCheckOutTimeAfter(Integer internId, LocalDateTime checkOutTime);
 }
 
 

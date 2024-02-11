@@ -48,7 +48,7 @@ export class InternLogComponent implements OnInit {
     if (this.userRole) {
       this.userRole = JSON.parse(this.userRole);
     }
-    this.showInternLog('Kiran', '2024-02-06', this.size, this.page);
+    this.showInternLog('', '', this.size, this.page);
 
     //to get intern list
     this.showListOfInterns();
@@ -58,7 +58,7 @@ export class InternLogComponent implements OnInit {
   }
 
   showInternLog(name: any, date: any, size: number, page: number) {
-    this.http.getAllLog('Kiran', '2024-02-06', size, page).subscribe(
+    this.http.getAllLog(name, date, size, page).subscribe(
       (result: any) => {
         this.apiResponse = result.content;
         this.pageDetails = result;
@@ -124,7 +124,7 @@ export class InternLogComponent implements OnInit {
     this.http.checkIn(checkInReqBody).subscribe(
       (result: any) => {
         this.toast.showSuccess('Check-in successful.');
-        this.showInternLog('Kiran', '2024-02-06', this.size, this.page);
+        this.showInternLog('', '', this.size, this.page);
         this.showCheckInOut();
         this.showInternCheckInStatus();
       },
@@ -144,7 +144,7 @@ export class InternLogComponent implements OnInit {
     this.http.checkOut(checkOutReqBody).subscribe(
       (result: any) => {
         this.toast.showSuccess('Checked out successfully.');
-        this.showInternLog('Kiran', '2024-02-06', this.size, this.page);
+        this.showInternLog('', '', this.size, this.page);
         this;
         this.showCheckInOut();
         this.showInternCheckInStatus();

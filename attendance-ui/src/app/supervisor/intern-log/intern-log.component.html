@@ -3,7 +3,8 @@
     <div class="d-flex flex-wrap justify-content-between">
         <h4 class="text-warning">Intern Log History</h4>
         <div class="buttons" *ngIf="userRole === 'INTERN'">
-            <button *ngIf="(!internCheckInStatus?.hasCheckedIn && !internCheckInStatus?.hasCheckedOut) || (internCheckInStatus?.hasCheckedIn && internCheckInStatus?.hasCheckedOut)"
+            <button
+                *ngIf="(!internCheckInStatus?.hasCheckedIn && !internCheckInStatus?.hasCheckedOut) || (internCheckInStatus?.hasCheckedIn && internCheckInStatus?.hasCheckedOut)"
                 class="button-1 btn btn-success mx-2" (click)="onCheckInClick()">Check-in</button>
             <button *ngIf="internCheckInStatus?.hasCheckedIn && !internCheckInStatus?.hasCheckedOut"
                 class="btn btn-warning mx-2" (click)="onClickAddTask()"><i class="fa-solid fa-plus"></i> Add
@@ -30,7 +31,7 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li style="cursor: pointer;" *ngFor="let item of listOfInterns"><a class="dropdown-item"
-                                (click)="showInternLog(item.name, '2024-02-10', size, page)">{{item.fullName}}</a></li>
+                                (click)="showInternLog(item.fullName, '', size, page)">{{item.fullName}}</a></li>
                     </ul>
                 </div>
 

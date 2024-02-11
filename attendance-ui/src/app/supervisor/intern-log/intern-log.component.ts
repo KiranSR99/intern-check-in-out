@@ -165,17 +165,6 @@ export class InternLogComponent implements OnInit {
     this.route.navigate(['app/log-mgnt/edit-log/', id]);
   }
 
-  openDatePicker() {
-    this.datePicker.nativeElement.style.display = 'block';
-  }
-
-  // Function to handle date change
-  handleDateChange(input: any) {
-    const dateValue: string = input.value;
-    console.log('Selected date:', dateValue);
-    // Add your logic to filter data based on the selected date
-  }
-
   showInternNames() {
     this.showInternNameDropdown = true;
   }
@@ -185,4 +174,5 @@ export class InternLogComponent implements OnInit {
     console.log('Selected Intern Name:', this.selectedInternName);
     // You can add your filtering logic here
   }
+
 }

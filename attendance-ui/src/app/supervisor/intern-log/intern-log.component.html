@@ -22,44 +22,24 @@
             </button>
         </div> -->
         <div class="col-auto mx-2">
-            <!-- <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-bs-toggle="dropdown">
-                    <img src="../../../assets/images/filter.svg" alt="">
-                    Filter
-                </button>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" href="#">By Name</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Submenu item 1</a></li>
-                            <li><a class="dropdown-item" href="#">Submenu item 2</a></li>
-                            <li><a class="dropdown-item" href="#">Submenu item 3</a></li>
-                        </ul>
-                    </li>
-                    <li><a class="dropdown-item" href="#" (click)="openDatePicker()">By Date</a></li>
-                </ul>
-            </div> -->
+            <div class="filters d-flex">
+                <div class="dropdown me-2">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown">
+                        Filter By Name
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li style="cursor: pointer;" *ngFor="let item of listOfInterns"><a class="dropdown-item"
+                                (click)="showInternLog(item.name, '2024-02-10', size, page)">{{item.fullName}}</a></li>
+                    </ul>
+                </div>
 
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-bs-toggle="dropdown">
-                    Filter By Name
-                </button>
-                <ul class="dropdown-menu">
-                    <li style="cursor: pointer;" *ngFor="let item of listOfInterns"><a class="dropdown-item" (click)="showInternLog(item.name, '2024-02-10', size, page)">{{item.fullName}}</a></li>
-                </ul>
+                <!-- <div>
+                    <button class="btn btn-secondary">Filter By Date</button>
+                    <input type="date" class="btn btn-secondary" placeholder="Filter By Date">
+                </div> -->
             </div>
-
-            <!-- Dropdown for Intern Names -->
-            <!-- <div *ngIf="showInternNameDropdown" class="mt-2">
-                <select class="form-select" [(ngModel)]="selectedInternName" (change)="filterByInternName()">
-                    <option value="" disabled selected>Select Intern Name</option>
-                    <option *ngFor="let name of listOfInterns" [value]="name">{{ name.fullName }}</option>
-                </select>
-            </div> -->
         </div>
-        <!-- <input type="date" id="datePicker" style="display: none;" (change)="handleDateChange($event.target)"> -->
     </div>
 
 
@@ -118,7 +98,8 @@
                     </select>
                 </div>
 
-                <pagination-controls (pageChange)="showInternLog('Kiran', '2024-02-06', size, page = $event)"></pagination-controls>
+                <pagination-controls
+                    (pageChange)="showInternLog('Kiran', '2024-02-06', size, page = $event)"></pagination-controls>
             </div>
         </div>
     </div>

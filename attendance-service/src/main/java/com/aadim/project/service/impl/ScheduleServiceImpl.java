@@ -117,11 +117,19 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Transactional
     public Page<Object> getInternDetail(String fullName,String localDateTime,Pageable pageable) {
-//        LocalDateTime now = LocalDateTime.now();
-//    PageRequest request = PageRequest.of(page, size);
-        LocalDate localDate = LocalDate.parse(localDateTime, DateTimeFormatter.ISO_DATE);
-        LocalDateTime startOfToday = LocalDateTime.of(localDate, LocalTime.MIN);
-        LocalDateTime endOfToday = LocalDateTime.of(localDate, LocalTime.MAX);
+        LocalDate localDate;
+        LocalDateTime startOfToday;
+        LocalDateTime endOfToday;
+
+        if (localDateTime == null || localDateTime.isEmpty()) {
+            // If localDateTime is null or empty, set startOfToday to 7 days before and endOfToday to today's maximum value
+            startOfToday = LocalDateTime.now().minusDays(7).with(LocalTime.MIN);
+            endOfToday = LocalDateTime.now().with(LocalTime.MAX);
+        } else {
+            localDate = LocalDate.parse(localDateTime, DateTimeFormatter.ISO_DATE);
+            startOfToday = LocalDateTime.of(localDate, LocalTime.MIN);
+            endOfToday = LocalDateTime.of(localDate, LocalTime.MAX);
+        }
 
         Page<Map<String, Object>> internDetails = scheduleRepository.getInternDetail(fullName,startOfToday,endOfToday,pageable);
 

@@ -48,9 +48,9 @@ export class HttpHandlerService {
   }
 
   //To get tasks of a single Intern
-  getLogOfOneUser(id: number): Observable<GlobalApiHandler<LogsDetails>> {
+  getLogOfOneUser(id: number, page: number, size: number): Observable<GlobalApiHandler<LogsDetails>> {
     return this.http.get<GlobalApiHandler<LogsDetails>>(
-      `${this.apiUrl}/task/getTaskOfOneUser/` + id
+      `${this.apiUrl}/task/getTaskOfOneUser/${id}?page=${page - 1}&size=${size}`
     );
   }
 

@@ -77,12 +77,11 @@ export class SideNavComponent {
   onClickMenu(menu: any) {
     if (menu.title === 'Leave Request' && this.role === RoleEnum.INTERN) {
       this.router.navigate(['/app/log-mgnt/leave-request']);
-    } else if (
-      menu.title === 'Leave Request' &&
-      this.role === RoleEnum.SUPERVISOR
-    ) {
+    } 
+    else if (menu.title === 'Leave Request' && (this.role === RoleEnum.SUPERVISOR || this.role === RoleEnum.ADMIN)) {
       this.router.navigate(['/app/log-mgnt/leave-request-list']);
-    } else {
+    } 
+    else {
       this.router.navigate([menu.url]);
     }
   }

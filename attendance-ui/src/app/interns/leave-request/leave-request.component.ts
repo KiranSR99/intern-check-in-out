@@ -9,7 +9,7 @@ import { HttpHandlerService } from '../../services/http-handler.service';
 })
 export class LeaveRequestComponent implements OnInit {
   page: number = 1;
-  size: number = 5;
+  size: number = 10;
   pageDetails: any;
   userId: any;
   userRole: any;

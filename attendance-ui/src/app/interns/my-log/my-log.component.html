@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper mt-2">
 
     <div class="d-flex flex-wrap justify-content-center">
         <a class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
@@ -9,8 +9,8 @@
 
     <div>
         <div class="table-responsive">
-            <table class="table table-striped table-bordered text-center">
-                <thead class="table-primary">
+            <table class="table table-bordered text-center">
+                <thead>
                     <tr>
                         <th>S.N</th>
                         <th>Task</th>
@@ -20,39 +20,38 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <ng-container>
-                    <ng-container>
-                        <tbody *ngFor="let data of taskDetails; let i = index;">
-                            <tr>
-                                <td>{{i + 1}}</td>
-                                <td>{{data.task}}</td>
-                                <td>{{data.status}}</td>
-                                <td>{{data.timeTaken}}</td>
-                                <td>{{data.problem}}</td>
-                                <td>
-                                    <!-- <button class="btn btn-outline-warning" style="margin:8px"><i class="fa fa-eye"></i></button> -->
-                                    <button type="edit" class="btn btn-outline-primary" style="margin:8px"
-                                        (click)="onEditClick(data.taskId)"><i class="fa fa-edit"></i></button>
+                <tbody
+                    *ngFor="let data of taskDetails |paginate: {itemsPerPage: size, currentPage: page, totalItems: pageDetails?.totalElements}; let i = index;">
+                    <tr>
+                        <td>{{ (size * (page - 1) + i) + 1 }}</td>
+                        <td>{{data.task}}</td>
+                        <td>{{data.status}}</td>
+                        <td>{{data.timeTaken}}</td>
+                        <td>{{data.problem}}</td>
+                        <td>
+                            <!-- <button class="btn btn-outline-warning" style="margin:8px"><i class="fa fa-eye"></i></button> -->
+                            <button type="edit" class="btn btn-outline-primary" style="margin:8px"
+                                (click)="onEditClick(data.taskId)"><i class="fa fa-edit"></i></button>
 
-                                </td>
-                            </tr>
-                        </tbody>
-                    </ng-container>
-                </ng-container>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
 
             <div class="pagination d-flex align-items-center mt-4">
                 <div class="items-per-page d-flex align-items-center form-group mb-3">
                     <label for="itemsPerPage">Items Per Page: </label>
-                    <select class="form-select mx-2" style="width: 80px;" id="itemsPerPage"
-                        [(ngModel)]="itemsPerPage">
+                    <select class="form-select mx-2" style="width: 80px;" id="itemsPerPage" [(ngModel)]="size"
+                        (change)="showLogOfOneUser(page, size)">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="20">20</option>
                     </select>
                 </div>
 
-                <pagination-controls (pageChange)=" currentPage=$event"></pagination-controls>
+                <pagination-controls (pageChange)="showLogOfOneUser(page = $event, size)"></pagination-controls>
             </div>
         </div>
 

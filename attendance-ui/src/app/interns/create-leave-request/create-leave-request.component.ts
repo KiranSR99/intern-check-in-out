@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpHandlerService } from '../../services/http-handler.service';
 import { ToastService } from '../../services/toast.service';
@@ -10,11 +15,11 @@ import { DateFilterPipe } from '../../pipe/date-restriction.pipe';
   selector: 'app-create-leave-request',
   templateUrl: './create-leave-request.component.html',
   styleUrls: ['./create-leave-request.component.scss'],
-  providers: [CustomDateTimeFormatterPipe, DateFilterPipe]
+  providers: [CustomDateTimeFormatterPipe, DateFilterPipe],
 })
 export class CreateLeaveRequestComponent implements OnInit {
   leaveDetail!: FormGroup;
-  
+
   internId: any;
 
   constructor(
@@ -22,8 +27,8 @@ export class CreateLeaveRequestComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private http: HttpHandlerService,
-    private dateFilterPipe: DateFilterPipe // Inject DateFilterPipe
-  ) { }
+    private dateFilterPipe: DateFilterPipe
+  ) {}
 
   ngOnInit(): void {
     this.internId = parseInt(localStorage.getItem('userId') || '0', 10);
@@ -31,8 +36,8 @@ export class CreateLeaveRequestComponent implements OnInit {
     // Initialization
     this.leaveDetail = this.fb.group({
       noOfDays: ['', Validators.required],
-      startDate: ['', [Validators.required, this.dateValidator]],
-      endDate: ['', [Validators.required, this.dateValidator]],
+      startDate: ['', [Validators.required]],
+      endDate: ['', [Validators.required]],
       reason: ['', Validators.required],
       internId: this.internId,
     });
@@ -44,22 +49,28 @@ export class CreateLeaveRequestComponent implements OnInit {
 
   onRequestClick() {
     if (this.leaveDetail.valid) {
-      const startDate = this.dateFilterPipe.transform(this.leaveDetail.get('startDate')?.value);
-      const endDate = this.dateFilterPipe.transform(this.leaveDetail.get('endDate')?.value);
-      
-      this.http.sendLeaveRequest({ 
-        ...this.leaveDetail.value,
-        startDate,
-        endDate
-      }).subscribe({
-        next: (response: any) => {
-          this.toast.showSuccess('Leave request sent successfully.');
-          this.router.navigate(['/app/log-mgnt/leave-request']);
-        },
-        error: (err) => {
-          this.toast.showError('Failed to send leave request.');
-        },
-      });
+      const startDate = this.dateFilterPipe.transform(
+        this.leaveDetail.get('startDate')?.value
+      );
+      const endDate = this.dateFilterPipe.transform(
+        this.leaveDetail.get('endDate')?.value
+      );
+
+      this.http
+        .sendLeaveRequest({
+          ...this.leaveDetail.value,
+          startDate,
+          endDate,
+        })
+        .subscribe({
+          next: (response: any) => {
+            this.toast.showSuccess('Leave request sent successfully.');
+            this.router.navigate(['/app/log-mgnt/leave-request']);
+          },
+          error: (err) => {
+            this.toast.showError('Failed to send leave request.');
+          },
+        });
     } else {
       this.leaveDetail.markAllAsTouched();
     }

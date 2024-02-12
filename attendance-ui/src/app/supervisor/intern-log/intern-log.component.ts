@@ -13,7 +13,7 @@ export class InternLogComponent implements OnInit {
   @ViewChild('datePicker') datePicker!: ElementRef;
 
   page: number = 1;
-  size: number = 5;
+  size: number = 10;
   pageDetails: any;
   userRole: any;
   isCheckedIn: boolean = false;

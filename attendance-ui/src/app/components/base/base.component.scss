@@ -4,8 +4,10 @@
   position: relative;
   top: 54px;
   left: 280px;
-  margin-bottom: 110px;
+  margin-bottom: 30px;
   padding: 20px;
+  overflow-y: auto;
+  min-height: 200px;
 }
 
 @media only screen and (max-width: 768px) {

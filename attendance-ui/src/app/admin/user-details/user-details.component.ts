@@ -10,7 +10,7 @@ import { ToastService } from '../../services/toast.service';
 })
 export class UserDetailsComponent {
   page: number = 1;
-  size: number = 5;
+  size: number = 10;
   pageDetails: any;
   userDetailsData: any[] = [];
   collection: any;

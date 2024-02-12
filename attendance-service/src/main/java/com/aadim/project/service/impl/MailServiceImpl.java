@@ -91,6 +91,7 @@ public class MailServiceImpl implements MailService {
         context.setVariable("endDate", leave.getEndDate());
         context.setVariable("internName", leave.getInternId().getFullName());
         context.setVariable("supervisorEmail", leave.getUpdatedBy());
+        context.setVariable("status", leave.getStatus());
         String htmlContent = templateEngine.process("email-leave-approval-template.html",
                 context);
         helper.setText(htmlContent,true);

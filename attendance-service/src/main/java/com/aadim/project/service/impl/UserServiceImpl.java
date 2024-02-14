@@ -118,45 +118,50 @@ public class UserServiceImpl implements UserService {
 
         // Fetching users with pagination
         Page<User> usersPage = userRepository.findActiveUsers(searchTerm, pageable);
+        List<UserResponse> userResponses = new ArrayList<>();
 
         // Mapping User entities to UserResponse DTOs
-        List<UserResponse> userResponses = new ArrayList<>();
         for (User user : usersPage.getContent()) {
             UserResponse userResponse = new UserResponse();
             userResponse.setEmail(user.getEmail());
             userResponse.setRole(user.getRole());
             userResponse.setUserId(user.getId());
 
-            if (user.getRole().equals(Role.INTERN)) {
-                Intern intern = internRepository.findInternByUserId(user.getId());
-                if (intern != null) {
-                    userResponse.setInternId(intern.getId());
-                    userResponse.setFullName(intern.getFullName());
-                    userResponse.setPhone(intern.getPhone());
-                    userResponse.setPrimarySupervisor(mapSupervisorInfo(intern.getPrimarySupervisor()));
-                    userResponse.setSecondarySupervisor(mapSupervisorInfo(intern.getPrimarySupervisor()));
-                    userResponse.setFieldType(intern.getFieldType());
+            switch (user.getRole()) {
+                case ADMIN -> {
+                    Admin admin = adminRepository.findAdminByUserId(user.getId());
+                    if (admin != null) {
+                        userResponse.setFullName(admin.getFullName());
+                        userResponse.setPhone(admin.getPhone());
+                    }
                 }
-            } else if (user.getRole().equals(Role.SUPERVISOR)) {
-                Supervisor supervisor = supervisorRepository.findSupervisorByUserId(user.getId());
-                if (supervisor != null) {
-                    userResponse.setFullName(supervisor.getFullName());
-                    userResponse.setPhone(supervisor.getPhone());
+                case SUPERVISOR -> {
+                    Supervisor supervisor = supervisorRepository.findSupervisorByUserId(user.getId());
+                    if (supervisor != null) {
+                        userResponse.setFullName(supervisor.getFullName());
+                        userResponse.setPhone(supervisor.getPhone());
+                    }
                 }
-            } else if (user.getRole().equals(Role.ADMIN)) {
-                Admin admin = adminRepository.findAdminByUserId(user.getId());
-                if (admin != null) {
-                    userResponse.setFullName(admin.getFullName());
-                    userResponse.setPhone(admin.getPhone());
+                case INTERN ->  {
+                    Intern intern = internRepository.findInternByUserId(user.getId());
+                    if (intern != null) {
+                        userResponse.setInternId(intern.getId());
+                        userResponse.setFullName(intern.getFullName());
+                        userResponse.setPhone(intern.getPhone());
+                        userResponse.setPrimarySupervisor(mapSupervisorInfo(intern.getPrimarySupervisor()));
+                        userResponse.setSecondarySupervisor(mapSupervisorInfo(intern.getPrimarySupervisor()));
+                        userResponse.setFieldType(intern.getFieldType());
+                    }
                 }
+                default -> throw new EntityNotFoundException("Role not found");
             }
-
             userResponses.add(userResponse);
         }
 
         log.info("All users fetched successfully");
         return new PageImpl<>(userResponses, pageable, usersPage.getTotalElements());
     }
+
 
 
 

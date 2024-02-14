@@ -77,7 +77,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     @Query(
             nativeQuery = true,
             value = """
-                    select * from schedule s where s.intern_id = :internId order by s.check_out_time desc limit 1;
+                    select * from schedule s where s.intern_id = :internId order by s.check_in_time desc limit 1;
             """)
     Schedule getLatestScheduleByInternId(@Param("internId") Integer internId);
 

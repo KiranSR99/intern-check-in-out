@@ -56,13 +56,12 @@ public class UserController extends BaseController {
         return successResponse(userService.getAllUsersByRole(Role.valueOf("ADMIN"), pageable));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+
     @GetMapping("/getAllSupervisors")
     public ResponseEntity<GlobalApiResponse> getAllSupervisors(@PageableDefault Pageable pageable) {
         return successResponse(userService.getAllUsersByRole(Role.valueOf("SUPERVISOR"), pageable));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/update")
     public ResponseEntity<GlobalApiResponse> updateUser (@RequestBody UserUpdateRequest request) {
         return successResponse(userService.updateUser(request) , "User Updated Successfully.");
